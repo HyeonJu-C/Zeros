@@ -1,0 +1,39 @@
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  padding: 32px;
+  margin: 0 auto;
+  min-width: 375px;
+  max-width: 560px;
+}
+
+.loginForm h1 {
+  margin: 0 auto 36px;
+}
+
+.login,
+.logout {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  padding: 12px 24px;
+}
+
+.login:not(:last-child) {
+  margin-bottom: 12px;
+}
+
+.login.google {
+  background: #f5554a;
+  color: #fcfcfc;
+}
+
+.login.github {
+  background: #817f7f;
+  color: #fcfcfc;
+}
+
+.icon {
+  margin-right: 4px;
+}
