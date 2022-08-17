@@ -4,7 +4,7 @@ import LoginForm from "../components/LoginForm/LoginForm";
 function Landing() {
   return (
     <section>
-      landing page
+      application explanation
       <LoginForm />
     </section>
   );

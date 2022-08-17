@@ -25,8 +25,6 @@ export const firebaseLogin = async (providerName: ProviderName) => {
 
     try {
         await signInWithPopup(auth, authProvider as AuthProvider);
-        localStorage.setItem("uid", JSON.stringify((auth.currentUser?.uid)));
-        // localStorage.setItem("expiresIn", '');
     } catch (error) {
         console.log(error);
     }
@@ -40,5 +38,4 @@ export const firebaseLogout = async () => {
     } catch (error) {
         console.log(error);
     }
-
 };
