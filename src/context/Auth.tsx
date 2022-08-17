@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   firebaseLogin,
@@ -35,18 +35,28 @@ export function AuthContextProvider({ children }: Props) {
     setIsLoggedin(true);
   }, []);
 
-  const logout = async () => {
-    await firebaseLogout();
+  const logout = useCallback(async () => {
+    await firebaseLogout(); //
     localStorage.removeItem("uid");
     setIsLoggedin(false);
-  };
-  const login = async (providerName: ProviderName) => {
-    await firebaseLogin(providerName);
-    setIsLoggedin(true);
-    navigate("/goals");
-  };
+    navigate("/");
+  }, [navigate]);
 
-  const value = useMemo(() => ({ isLoggedin, login, logout }), [isLoggedin]);
+  const login = useCallback(
+    async (providerName: ProviderName) => {
+      await firebaseLogin(providerName); //
+      const storedUid = localStorage.getItem("uid");
+      if (!storedUid) return;
+      setIsLoggedin(true);
+      navigate("/goals");
+    },
+    [navigate]
+  );
+
+  const value = useMemo(
+    () => ({ isLoggedin, login, logout }),
+    [isLoggedin, login, logout]
+  );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
