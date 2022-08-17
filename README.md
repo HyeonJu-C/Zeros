@@ -7,9 +7,9 @@ $ npm install
 ```
 - `firebase, react-router-dom, react-icons` will be installed.
 - `eslint` will follow airbnb rules.
-- you  can configure `.prettierrc`.
+- you can configure `.prettierrc`.
 - you should install `@firebase/[service]-types`, if you want add other services.
-    - except app, firestore, auth types. they will be  installed with `npm start`. 
+    - except app, firestore and auth types. they will be installed with `$ npm install`. 
 
 ## 2. start development server
 
