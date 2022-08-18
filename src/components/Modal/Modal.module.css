@@ -15,5 +15,36 @@
   width: 90%;
   z-index: 20;
   padding: 1rem;
-  background: green;
+  background: #fcfcfc;
+  text-align: center;
+  border-radius: 8px;
+}
+
+.message {
+  margin-bottom: 32px;
+}
+
+.button {
+  padding: 6px 12px;
+  border-radius: 4px;
+  color: #fcfcfc;
+}
+
+.button.confirm {
+  background: #42dc99;
+}
+
+.button.cancel {
+  background: #f5554a;
+}
+
+.button:not(:last-child) {
+  margin-right: 8px;
+}
+
+@media screen and (min-width: 768px) {
+  .modal {
+    width: 600px;
+    left: calc(50% - 300px);
+  }
 }

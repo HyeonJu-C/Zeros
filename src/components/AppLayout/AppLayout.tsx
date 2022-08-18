@@ -29,6 +29,7 @@ function AppLayout() {
     <>
       {isModalVisible && (
         <Modal
+          title="Logout"
           message="로그아웃 하시겠습니까?"
           setModalVisible={setModalVisible}
           onConfirmClick={onConfirmClick}
