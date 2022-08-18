@@ -1,0 +1,31 @@
+.ulContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.ul {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.li:not(:last-child) {
+  margin-right: 8px;
+}
+
+.activeLink {
+  border-bottom: 1px solid black;
+  padding-bottom: 8px;
+}
+
+.logout {
+  background: transparent;
+}
