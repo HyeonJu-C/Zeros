@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
-import Landing from "../pages/Landing";
+import Landing from "../pages/Landing/Landing";
 import Goals from "../pages/Goals/Goals";
 import AuthContext from "../context/Auth";
 import AppLayout from "../components/AppLayout/AppLayout";
-import NewGoals from "../pages/NewGoals";
+import NewGoals from "../pages/NewGoals/NewGoals";
 
 function Routing() {
   const { isLoggedin } = useContext(AuthContext);

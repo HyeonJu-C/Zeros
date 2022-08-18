@@ -1,0 +1,23 @@
+.goals {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 16px;
+}
+
+.newGoalLink {
+  padding: 8px 32px;
+  border-radius: 8px;
+  background: #1da1f2;
+  color: #fcfcfc;
+  margin-bottom: 32px;
+}
+
+.cardContainer {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 100%;
+}

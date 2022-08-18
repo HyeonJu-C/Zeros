@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { FcGoogle as GoogleIcon } from "react-icons/fc";
 import { FaGithub as GithubIcon } from "react-icons/fa";
-import AuthContext from "../../context/Auth";
+import AuthContext from "../../../context/Auth";
 import styles from "./LoginForm.module.css";
 
 function LoginForm() {
