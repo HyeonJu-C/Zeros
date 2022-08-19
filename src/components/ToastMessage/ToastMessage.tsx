@@ -7,6 +7,7 @@ interface Props {
   isMessageVisible: boolean;
   setMessageVisible: Dispatch<SetStateAction<boolean>>;
   visibleDuration?: number;
+  callback?: () => void; // do something after the message disappear
 }
 
 function ToastMessage({
@@ -15,9 +16,13 @@ function ToastMessage({
   isMessageVisible,
   setMessageVisible,
   visibleDuration,
+  callback,
 }: Props) {
   isMessageVisible &&
-    setTimeout(() => setMessageVisible(false), visibleDuration || 2000);
+    setTimeout(() => {
+      setMessageVisible(false);
+      callback && callback();
+    }, visibleDuration || 2000);
 
   return isMessageVisible ? (
     <>
