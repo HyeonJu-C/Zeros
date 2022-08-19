@@ -9,6 +9,10 @@
   margin-bottom: 32px;
 }
 
+.hilight {
+  color: #1da1f2;
+}
+
 .author,
 .goal,
 .date {
@@ -63,14 +67,19 @@
 .barContainer {
   border: 2px solid #f1f1f1;
   border-radius: 4px;
-  padding: 16px 8px;
+  padding: 16px;
   margin-bottom: 8px;
-  text-align: center;
+}
+
+.barContainer h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 8px;
 }
 
 .currentGoal {
-  display: block;
-  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
   font-weight: 500;
 }
 
@@ -79,6 +88,7 @@
   height: 12px;
   border-radius: 8px;
   background: #e4e7ee;
+  margin-bottom: 8px;
 }
 
 .childBar {
@@ -91,6 +101,6 @@
 
 @media screen and (min-width: 768px) {
   .card {
-    width: 45%;
+    width: 47.5%;
   }
 }
