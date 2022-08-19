@@ -7,6 +7,7 @@
 body {
   margin: 0;
   font-family: sans-serif;
+  background: #fcfcfc;
 }
 
 a {
@@ -41,4 +42,13 @@ li {
   list-style-type: none;
   padding-left: 0;
   margin-left: 0;
+}
+
+.sr-only {
+  position: absolute;
+  z-index: -100;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  opacity: 0;
 }
