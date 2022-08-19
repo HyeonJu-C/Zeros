@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { addSeconds, isAfter, parseJSON } from "date-fns";
+import { addDays, isAfter, parseJSON } from "date-fns";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -62,7 +62,7 @@ export function AuthContextProvider({ children }: Props) {
       if (!auth.currentUser) return;
 
       const now = new Date();
-      const expiresIn = addSeconds(now, 3600); // tokens expire after one hour
+      const expiresIn = addDays(now, 1); // auto-logout in 24 Hours
       const remainingTime = getRemainigTime(expiresIn, now);
 
       localStorage.setItem("uid", JSON.stringify(auth.currentUser.uid));
