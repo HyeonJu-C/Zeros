@@ -33,6 +33,7 @@ function GoalForm({ onSubmit, setInputValues, inputValues }: Props) {
     onSubmit(event);
     setInputValues((prev) => ({
       ...prev,
+      currentSavings: 0,
       userName: userNameInputRef.current?.value as string,
       goalSavings: userGoalInputRef.current?.value as string,
     }));
