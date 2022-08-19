@@ -1,0 +1,96 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 16px;
+  border-radius: 8px;
+  background: white;
+  box-shadow: 5px 5px 15px 4px rgba(0, 0, 0, 0.2);
+  margin-bottom: 32px;
+}
+
+.author,
+.goal,
+.date {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.author {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.iconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 75px;
+  height: 75px;
+  background: #edfaf0;
+  border-radius: 8px;
+}
+
+.goalContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid #f1f1f1;
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 8px;
+}
+
+.goal {
+  display: flex;
+  flex-direction: column;
+}
+
+.goal h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.goal p {
+  margin: 0;
+}
+
+.goal p:not(:last-child) {
+  margin: 0 0 8px;
+}
+
+.barContainer {
+  border: 2px solid #f1f1f1;
+  border-radius: 4px;
+  padding: 16px 8px;
+  margin-bottom: 8px;
+  text-align: center;
+}
+
+.currentGoal {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.parentBar {
+  width: 100%;
+  height: 12px;
+  border-radius: 8px;
+  background: #e4e7ee;
+}
+
+.childBar {
+  max-width: 100%;
+  height: 12px;
+  border-radius: 8px;
+  background: #1da1f2;
+  overflow-x: hidden;
+}
+
+@media screen and (min-width: 768px) {
+  .card {
+    width: 45%;
+  }
+}
