@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useState } from "react";
+import React, { MouseEventHandler } from "react";
 import {
   TiArrowSortedDown as DownArrowIcon,
   TiArrowSortedUp as UpArrowIcon,
@@ -10,52 +10,46 @@ interface Props {
   id: string;
   title: string;
   options: string[] | number[];
-  selectedOption: string | number | null;
-  onSelectOption: (option: string | number) => void;
+  isSelectBoxClicked: boolean;
+  selectedOption: number | string;
+  onSelectOption: MouseEventHandler<HTMLLIElement>;
+  toggleSelectBox: () => void;
 }
 
 function SelectBox({
   id,
   title,
   options,
+  isSelectBoxClicked,
   selectedOption,
   onSelectOption,
+  toggleSelectBox,
 }: Props) {
-  const [isSelectBoxClicked, setSelectBoxClick] = useState(false);
-
-  const onSelectBoxClick: React.MouseEventHandler<HTMLLabelElement> = (
-    event
-  ) => {
-    if (event.target !== event.currentTarget) return;
-    setSelectBoxClick((prev) => !prev);
-  };
-
-  const onOptionClick: React.MouseEventHandler<HTMLLIElement> = (event) => {
-    setSelectBoxClick(false);
-    const currentValue = event.currentTarget.innerText;
-    if (selectedOption === currentValue) return;
-    onSelectOption(currentValue);
-  };
-
   return (
     <>
       <label
         htmlFor={id}
-        onClick={onSelectBoxClick}
-        id={`${id}-select-box`}
+        onClick={toggleSelectBox}
         className={`${styles.selectBox} ${
           isSelectBoxClicked ? styles.activeSelectBox : ""
         }`}
       >
-        {selectedOption || title}
+        <input
+          readOnly
+          id={id}
+          type="text"
+          placeholder={title}
+          className={styles.input}
+          value={(selectedOption as string) || ""}
+        />
         {!isSelectBoxClicked && <DownArrowIcon size={20} />}
         {isSelectBoxClicked && <UpArrowIcon size={20} />}
       </label>
       {isSelectBoxClicked && (
-        <ul id={id} className={styles.optionList}>
+        <ul className={styles.optionList}>
           {options.map((option) => (
             <li
-              onClick={onOptionClick}
+              onClick={onSelectOption}
               key={option}
               value={option}
               className={styles.optionItem}
