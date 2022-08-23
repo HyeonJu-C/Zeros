@@ -1,31 +1,15 @@
-import { GoalData } from "../../../services/firebase/database";
+export const validateUserName = (value: string) => {
+  let isValid = false;
+  if (!value) return isValid;
 
-const checkFormValid = (inputValues: GoalData | null) => {
-  let isFormValid = false;
-  const feedback: string[] = [];
-
-  if (inputValues === null) return { isFormValid, feedback };
-  const { userName, targetDate, goalSavings } = inputValues;
-
-  if (!userName || !targetDate || !goalSavings) {
-    isFormValid = false;
-    feedback.push("양식을 모두 입력해 주세요.");
-    return { isFormValid, feedback };
-  }
-
-  const isUserNameValid = userName.length >= 2 && userName.length <= 10;
-  const isTargetDateValid = !!targetDate;
-  const isGoalSavingsValid = goalSavings >= 100000;
-
-  if (!isUserNameValid)
-    feedback.push("이름은 2글자 이상, 10글자 이하로 작성해 주세요.");
-  if (!isTargetDateValid) feedback.push("목표 기한을 선택해 주세요.");
-  if (!isGoalSavingsValid)
-    feedback.push("목표 금액은 최소 10 만원 이상으로 입력해 주세요.");
-
-  isFormValid = isUserNameValid && isTargetDateValid && isGoalSavingsValid;
-
-  return { isFormValid, feedback };
+  isValid = value.length >= 2 && value.length <= 10;
+  return isValid;
 };
 
-export default checkFormValid;
+export const validateGoalSaving = (value: string) => {
+  let isValid = false;
+  if (!value) return isValid;
+
+  isValid = +value >= 100000;
+  return isValid;
+};

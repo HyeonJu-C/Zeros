@@ -14,6 +14,7 @@ interface Props {
   selectedOption: number | string;
   onSelectOption: MouseEventHandler<HTMLLIElement>;
   toggleSelectBox: () => void;
+  isError: boolean;
 }
 
 function SelectBox({
@@ -21,6 +22,7 @@ function SelectBox({
   title,
   options,
   isSelectBoxClicked,
+  isError,
   selectedOption,
   onSelectOption,
   toggleSelectBox,
@@ -30,7 +32,7 @@ function SelectBox({
       <label
         htmlFor={id}
         onClick={toggleSelectBox}
-        className={`${styles.selectBox} ${
+        className={`${styles.selectBox} ${isError ? styles.invalid : ""} ${
           isSelectBoxClicked ? styles.activeSelectBox : ""
         }`}
       >
@@ -42,8 +44,20 @@ function SelectBox({
           className={styles.input}
           value={(selectedOption as string) || ""}
         />
-        {!isSelectBoxClicked && <DownArrowIcon size={20} />}
-        {isSelectBoxClicked && <UpArrowIcon size={20} />}
+        {!isSelectBoxClicked && (
+          <DownArrowIcon
+            size={30}
+            onClick={(event) => event.preventDefault()}
+            className={styles.icon}
+          />
+        )}
+        {isSelectBoxClicked && (
+          <UpArrowIcon
+            size={30}
+            onClick={(event) => event.preventDefault()}
+            className={styles.icon}
+          />
+        )}
       </label>
       {isSelectBoxClicked && (
         <ul className={styles.optionList}>
