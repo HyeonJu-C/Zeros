@@ -14,6 +14,9 @@
 # API_KEYS
 .env
 
+# editor
+/.vscode
+
 # misc
 .DS_Store
 .env.local

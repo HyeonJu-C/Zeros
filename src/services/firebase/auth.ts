@@ -1,41 +1,39 @@
-/* eslint-disable prettier/prettier */
 import {
-    AuthProvider,
-    GithubAuthProvider,
-    GoogleAuthProvider,
-    signInWithPopup,
+  AuthProvider,
+  GithubAuthProvider,
+  GoogleAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import { auth } from "./config";
 
 export type ProviderName = "Google" | "Github";
 
 export const firebaseLogin = async (providerName: ProviderName) => {
-    let authProvider;
+  let authProvider;
 
-    switch (providerName) {
-        case "Google":
-            authProvider = new GoogleAuthProvider();
-            break;
-        case "Github":
-            authProvider = new GithubAuthProvider();
-            break;
-        default:
-            break;
-    }
+  switch (providerName) {
+    case "Google":
+      authProvider = new GoogleAuthProvider();
+      break;
+    case "Github":
+      authProvider = new GithubAuthProvider();
+      break;
+    default:
+      break;
+  }
 
-    try {
-        await signInWithPopup(auth, authProvider as AuthProvider);
-    } catch (error) {
-        console.log(error);
-    }
+  try {
+    await signInWithPopup(auth, authProvider as AuthProvider);
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const firebaseLogout = async () => {
-    try {
-        if (!auth.currentUser) return;
-        await auth.signOut();
-
-    } catch (error) {
-        console.log(error);
-    }
+  try {
+    if (!auth.currentUser) return;
+    await auth.signOut();
+  } catch (error) {
+    console.log(error);
+  }
 };
