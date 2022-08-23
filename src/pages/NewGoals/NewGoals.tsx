@@ -1,69 +1,94 @@
-import React, { FormEventHandler, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Modal from "../../components/Modal/Modal";
-import ToastMessage from "../../components/ToastMessage/ToastMessage";
+import Modal, { ModalState } from "../../components/Modal/Modal";
+import ToastMessage, {
+  ToastMessageState,
+} from "../../components/ToastMessage/ToastMessage";
 import { auth } from "../../services/firebase/config";
 import { GoalData, postGoal } from "../../services/firebase/database";
 import GoalForm from "./GoalForm/GoalForm";
 import styles from "./NewGoals.module.css";
-import checkFormValid from "./utils/validate";
 
 function NewGoals() {
-  const [isModalVisible, setModalVisible] = useState(false);
-  const [isMessageVisible, setMessageVisible] = useState(false);
-  const [inputValues, setInputValues] = useState<GoalData>({
-    uid: auth.currentUser?.uid as string,
+  const [modal, setModal] = useState<ModalState>({
+    isVisible: false,
   });
+  const {
+    isVisible: isModalVisible,
+    title: modalTitle,
+    message: modalMessage,
+  } = modal;
+
+  const [toastMessage, setToastMessage] = useState<ToastMessageState>({
+    isVisible: false,
+  });
+  const {
+    isVisible: isToastMessageVisible,
+    title: toastMessageTitle,
+    message: toastMessageContents,
+  } = toastMessage;
+  const inputValues = useRef<GoalData | null>(null);
+
   const navigate = useNavigate();
 
-  const { isFormValid, feedback } = checkFormValid(inputValues);
-  const concatedFeedback = feedback.join("\n");
+  const onSubmit = (userInputs: GoalData) => {
+    inputValues.current = userInputs;
 
-  const onSubmit: FormEventHandler<HTMLFormElement> = (event) => {
-    event.preventDefault();
-    setModalVisible(true);
+    setModal({
+      isVisible: true,
+      title: "Post",
+      message: "제출하시겠습니까?",
+    });
+  };
+
+  const onSubmitError = () => {
+    setModal({
+      isVisible: true,
+      title: "Fail",
+      message: "양식이 유효하지 않습니다.",
+    });
   };
 
   const onCancelSubmit = () => {
-    setModalVisible(false);
+    setModal({ isVisible: false });
   };
 
   const onConfirmSubmit = async () => {
-    setModalVisible(false);
+    setModal({ isVisible: false });
     if (!auth.currentUser) return;
-    if (!isFormValid) return;
-    await postGoal(inputValues);
-    setMessageVisible(true);
+
+    await postGoal(inputValues.current as GoalData);
+    setToastMessage({
+      isVisible: true,
+      title: "Success",
+      message: "제출되었습니다.",
+    });
   };
 
   return (
     <>
+      <section className={styles.newGoals}>
+        <GoalForm onSubmit={onSubmit} onSubmitError={onSubmitError} />
+      </section>
       {isModalVisible && (
         <Modal
-          title={isFormValid ? "Post" : "Fail To Post"}
-          message={isFormValid ? "제출하시겠습니까?" : concatedFeedback}
-          setModalVisible={setModalVisible}
+          title={modalTitle}
+          message={modalMessage}
+          setModal={setModal}
           onCancelClick={onCancelSubmit}
           onConfirmClick={onConfirmSubmit}
         />
       )}
-      {isMessageVisible && (
+      {isToastMessageVisible && (
         <ToastMessage
-          title="Success"
-          message="제출되었습니다."
-          isMessageVisible={isMessageVisible}
-          setMessageVisible={setMessageVisible}
+          title={toastMessageTitle as string}
+          message={toastMessageContents as string}
+          isMessageVisible={isToastMessageVisible}
+          setToastMessage={setToastMessage}
           visibleDuration={1000}
-          callback={() => navigate("/goals")}
+          onDisappearMessage={() => navigate("/goals")}
         />
       )}
-      <section className={styles.newGoals}>
-        <GoalForm
-          onSubmit={onSubmit}
-          setInputValues={setInputValues}
-          inputValues={inputValues}
-        />
-      </section>
     </>
   );
 }
