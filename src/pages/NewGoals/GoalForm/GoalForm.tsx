@@ -1,42 +1,70 @@
-import { format, parseJSON } from "date-fns";
+/* eslint-disable jsx-a11y/click-events-have-key-events */
+import { format, parse } from "date-fns";
 import React, {
-  Dispatch,
+  ChangeEventHandler,
+  FocusEventHandler,
   FormEventHandler,
-  SetStateAction,
-  useRef,
+  MouseEventHandler,
 } from "react";
 import SelectBox from "../../../components/SelectBox/SelectBox";
+import useInput from "../../../hooks/useInput";
+import useSelectBox from "../../../hooks/useSelectBox";
+import { auth } from "../../../services/firebase/config";
 import { GoalData } from "../../../services/firebase/database";
 import calculateTargetDate from "../utils/calculate-target-date";
+import { validateGoalSaving, validateUserName } from "../utils/validate";
 import styles from "./GoalForm.module.css";
 
 interface Props {
-  onSubmit: FormEventHandler<HTMLFormElement>;
-  setInputValues: Dispatch<SetStateAction<GoalData>>;
-  inputValues: null | GoalData;
+  onSubmit: (value: GoalData) => void;
+  onSubmitError: () => void;
 }
 
-function GoalForm({ onSubmit, setInputValues, inputValues }: Props) {
-  const userNameInputRef = useRef<HTMLInputElement>(null);
-  const userGoalInputRef = useRef<HTMLInputElement>(null);
+function GoalForm({ onSubmitError, onSubmit }: Props) {
+  const [userNameValue, onChangeUserName, onBlurUserName, isUserNameError] =
+    useInput(validateUserName);
 
-  const onSelectTargetDate = (selectedDate: string | number) => {
-    const calculatedTargetDate = calculateTargetDate(selectedDate as string);
+  const [
+    goalSavingValue,
+    onChangeGoalSaving,
+    onBlurGoalSaving,
+    isGoalSavingError,
+  ] = useInput(validateGoalSaving);
 
-    setInputValues((prev) => ({
-      ...prev,
-      targetDate: JSON.stringify(calculatedTargetDate),
-    }));
-  };
+  const [
+    isSelectBoxClicked,
+    selectedDate,
+    onSelectDate,
+    isTargetDateError,
+    toggleSelectBox,
+  ] = useSelectBox((optionDate) =>
+    format(
+      calculateTargetDate(optionDate as string) as Date,
+      "yyyy년 MM월 dd일"
+    )
+  );
+
+  const isFormValid =
+    userNameValue &&
+    goalSavingValue &&
+    selectedDate &&
+    !isUserNameError &&
+    !isGoalSavingError;
 
   const onSubmitGoal: FormEventHandler<HTMLFormElement> = (event) => {
-    onSubmit(event);
-    setInputValues((prev) => ({
-      ...prev,
-      currentSavings: 0,
-      userName: userNameInputRef.current?.value as string,
-      goalSavings: userGoalInputRef.current?.value as string,
-    }));
+    event.preventDefault();
+
+    isFormValid &&
+      onSubmit({
+        currentSavings: 0,
+        userName: userNameValue as string,
+        goalSavings: goalSavingValue as string,
+        targetDate: JSON.stringify(
+          parse(selectedDate as string, "yyyy년 MM월 dd일", new Date())
+        ),
+        uid: auth.currentUser?.uid,
+      });
+    !isFormValid && onSubmitError();
   };
 
   return (
@@ -50,9 +78,15 @@ function GoalForm({ onSubmit, setInputValues, inputValues }: Props) {
           maxLength={10}
           placeholder="이름 또는 별명을 입력해 주세요(2글자 이상 10글자 이하)."
           className={styles.input}
-          ref={userNameInputRef}
+          onChange={onChangeUserName as ChangeEventHandler}
+          onBlur={onBlurUserName as FocusEventHandler<HTMLInputElement>}
         />
       </label>
+      {isUserNameError && (
+        <p className={styles.invalid}>
+          사용자 이름은 2글자 이상 10글자 이하로 입력해 주세요.
+        </p>
+      )}
       <label htmlFor="savings-goal">
         <input
           type="text"
@@ -61,9 +95,15 @@ function GoalForm({ onSubmit, setInputValues, inputValues }: Props) {
           min={100000}
           placeholder="목표 금액을 입력해 주세요(10만원 이상)."
           className={styles.input}
-          ref={userGoalInputRef}
+          onChange={onChangeGoalSaving as ChangeEventHandler}
+          onBlur={onBlurGoalSaving as FocusEventHandler<HTMLInputElement>}
         />
       </label>
+      {isGoalSavingError && (
+        <p className={styles.invalid}>
+          목표 금액은 10 만원 이상으로 입력해 주세요.
+        </p>
+      )}
       <SelectBox
         id="target-date"
         title="목표 기한을 선택해 주세요"
@@ -76,13 +116,14 @@ function GoalForm({ onSubmit, setInputValues, inputValues }: Props) {
           "6 개월",
           "1 년",
         ]}
-        selectedOption={
-          inputValues?.targetDate
-            ? format(parseJSON(inputValues.targetDate), "yyyy년 MM월 dd일")
-            : null
-        }
-        onSelectOption={onSelectTargetDate}
+        isSelectBoxClicked={isSelectBoxClicked as boolean}
+        toggleSelectBox={toggleSelectBox as () => void}
+        selectedOption={selectedDate as string}
+        onSelectOption={onSelectDate as MouseEventHandler<HTMLLIElement>}
       />
+      {isTargetDateError && (
+        <p className={styles.invalid}>목표 기한을 선택해 주세요.</p>
+      )}
       <button type="submit" className={styles.button}>
         제출하기
       </button>

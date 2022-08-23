@@ -4,7 +4,6 @@ import Modal, { ModalState } from "../../components/Modal/Modal";
 import ToastMessage, {
   ToastMessageState,
 } from "../../components/ToastMessage/ToastMessage";
-import { auth } from "../../services/firebase/config";
 import { GoalData, postGoal } from "../../services/firebase/database";
 import GoalForm from "./GoalForm/GoalForm";
 import styles from "./NewGoals.module.css";
@@ -27,6 +26,7 @@ function NewGoals() {
     title: toastMessageTitle,
     message: toastMessageContents,
   } = toastMessage;
+
   const inputValues = useRef<GoalData | null>(null);
 
   const navigate = useNavigate();
@@ -55,14 +55,23 @@ function NewGoals() {
 
   const onConfirmSubmit = async () => {
     setModal({ isVisible: false });
-    if (!auth.currentUser) return;
 
-    await postGoal(inputValues.current as GoalData);
-    setToastMessage({
-      isVisible: true,
-      title: "Success",
-      message: "제출되었습니다.",
-    });
+    switch (modalTitle) {
+      case "Fail":
+        break;
+
+      case "Post":
+        await postGoal(inputValues.current as GoalData);
+        setToastMessage({
+          isVisible: true,
+          title: "Success",
+          message: "제출되었습니다.",
+        });
+        break;
+
+      default:
+        break;
+    }
   };
 
   return (

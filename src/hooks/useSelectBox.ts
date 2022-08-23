@@ -29,10 +29,12 @@ function useSelectBox(processOption?: (value: string | number) => string) {
   };
 
   return [
-    { isSelectBoxClicked },
-    { selectedOption, onSelectOption },
-    { isError },
-    { hideSelectBox, showSelectBox, toggleSelectBox },
+    isSelectBoxClicked,
+    selectedOption,
+    onSelectOption,
+    isError,
+    toggleSelectBox,
+    { hideSelectBox, showSelectBox },
   ];
 }
 

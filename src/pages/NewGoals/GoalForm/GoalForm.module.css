@@ -18,6 +18,13 @@
   background: #f5f5f5;
 }
 
+.invalid {
+  margin: 0 0 16px;
+  color: #f5554a;
+  font-size: 0.8rem;
+  text-align: right;
+}
+
 .button {
   background: #42dc99;
   color: #fcfcfc;
