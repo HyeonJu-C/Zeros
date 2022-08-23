@@ -4,8 +4,14 @@ import React, { Dispatch, SetStateAction } from "react";
 import ReactDOM from "react-dom";
 import styles from "./Modal.module.css";
 
+export interface ModalState {
+  isVisible: boolean;
+  title?: string;
+  message?: string;
+}
+
 interface Props {
-  setModalVisible: Dispatch<SetStateAction<boolean>>;
+  setModal: Dispatch<SetStateAction<ModalState>>;
   title?: string | React.ReactNode;
   message?: string | React.ReactNode;
   onConfirmClick?: () => void;
@@ -15,12 +21,12 @@ interface Props {
 function Modal({
   title,
   message,
-  setModalVisible,
+  setModal,
   onConfirmClick,
   onCancelClick,
 }: Props) {
   const onBackgroundClick = () => {
-    setModalVisible(false);
+    setModal((prev) => ({ ...prev, isVisible: false }));
   };
 
   return ReactDOM.createPortal(

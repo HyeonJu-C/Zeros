@@ -1,28 +1,27 @@
 import React, { useContext, useState } from "react";
-import { Outlet, Link, NavLink, useLocation } from "react-router-dom";
+import { Outlet, Link, NavLink } from "react-router-dom";
 import AuthContext from "../../context/Auth";
-import Modal from "../Modal/Modal";
+import Modal, { ModalState } from "../Modal/Modal";
 import styles from "./AppLayout.module.css";
 
 function AppLayout() {
   const { logout, isLoggedin } = useContext(AuthContext);
-  const { pathname: currentLocation } = useLocation();
-  const [isModalVisible, setModalVisible] = useState(false);
-
-  const isLandingPage = currentLocation === "/";
-  const isGoalsPage = currentLocation.includes("goals");
+  const [modal, setModal] = useState<ModalState>({
+    isVisible: false,
+  });
+  const { isVisible: isModalVisible } = modal;
 
   const onClickLogout = () => {
-    setModalVisible(true);
+    setModal({ isVisible: true });
   };
 
-  const onConfirmClick = () => {
-    setModalVisible(false);
+  const onConfirmLogout = () => {
+    setModal({ isVisible: false });
     logout();
   };
 
-  const onCancelClick = () => {
-    setModalVisible(false);
+  const onCancelLogout = () => {
+    setModal({ isVisible: false });
   };
 
   return (
@@ -31,9 +30,9 @@ function AppLayout() {
         <Modal
           title="Logout"
           message="로그아웃 하시겠습니까?"
-          setModalVisible={setModalVisible}
-          onConfirmClick={onConfirmClick}
-          onCancelClick={onCancelClick}
+          setModal={setModal}
+          onConfirmClick={onConfirmLogout}
+          onCancelClick={onCancelLogout}
         />
       )}
       <nav className={styles.nav}>
@@ -47,7 +46,9 @@ function AppLayout() {
                 <li className={styles.li}>
                   <NavLink
                     to="/"
-                    className={isLandingPage ? styles.activeLink : ""}
+                    className={({ isActive }) =>
+                      isActive ? styles.activeLink : ""
+                    }
                   >
                     Home
                   </NavLink>
@@ -55,7 +56,9 @@ function AppLayout() {
                 <li className={styles.li}>
                   <NavLink
                     to="/goals"
-                    className={isGoalsPage ? styles.activeLink : ""}
+                    className={({ isActive }) =>
+                      isActive ? styles.activeLink : ""
+                    }
                   >
                     Goals
                   </NavLink>
