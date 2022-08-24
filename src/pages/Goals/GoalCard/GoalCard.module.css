@@ -1,6 +1,7 @@
 .card {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   width: 100%;
   padding: 16px;
   border-radius: 8px;
@@ -42,6 +43,7 @@
 .goal {
   display: flex;
   flex-direction: column;
+  width: 70%;
 }
 
 .goal h2 {

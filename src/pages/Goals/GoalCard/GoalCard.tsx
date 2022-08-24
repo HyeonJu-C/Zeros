@@ -1,24 +1,42 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import { differenceInDays, format, isAfter } from "date-fns";
-import React, { MouseEventHandler, useState } from "react";
+import { differenceInDays, isAfter } from "date-fns";
+import React, { useState } from "react";
 import { GiMoneyStack as MoneyIcon } from "react-icons/gi";
 import { TbConfetti as ConfettiIcon } from "react-icons/tb";
 import { HiPencilAlt as PencilIcon } from "react-icons/hi";
 import { Link } from "react-router-dom";
 import Modal, { ModalState } from "../../../components/Modal/Modal";
 import { auth } from "../../../services/firebase/config";
-import { deleteGoal, GoalData } from "../../../services/firebase/database";
+import {
+  deleteGoal,
+  GoalData,
+  SavedMoney,
+} from "../../../services/firebase/database";
 import styles from "./GoalCard.module.css";
 import ToastMessage, {
   ToastMessageState,
 } from "../../../components/ToastMessage/ToastMessage";
+import PatchGoalForm from "../PatchGoalForm/PatchGoalForm";
+import {
+  calculateAcheiveRate,
+  formatGoalDate,
+  formatGoalMoney,
+  parseGoalDate,
+} from "./utils/format-goal-data";
 
 interface Props {
   data: GoalData;
 }
 
+export interface PatchedGoalData {
+  goalDate: string;
+  goalMoney: string;
+}
+
 function GoalCard({ data }: Props) {
   const [isDeleted, setIsDeleted] = useState(false);
+  const [patchedData, setPatchedData] = useState<null | PatchedGoalData>(null);
+  const [writeMode, setWriteMode] = useState(false);
 
   const [modal, setModal] = useState<ModalState>({
     isVisible: false,
@@ -39,13 +57,18 @@ function GoalCard({ data }: Props) {
   } = toastMessage;
 
   const now = new Date();
-  const { userName, processedGoalSavings, acheiveRate, targetDate, uid, id } =
-    data;
+  const { id, userName, userId, goalDate, goalMoney, currentMoney } = data;
 
-  const isAuthorized = auth.currentUser?.uid === uid;
-  const isOutdated = isAfter(now, targetDate as Date);
-  const leftDays = differenceInDays(targetDate as Date, now);
-  const formattedTargetDate = format(targetDate as Date, "yyyy년 MM월 dd일");
+  const parsedGoalDate = parseGoalDate(goalDate as string);
+  const isAuthorized = auth.currentUser?.uid === userId;
+  const isOutdated = isAfter(now, parsedGoalDate);
+  const leftDays = differenceInDays(parsedGoalDate, now);
+  const formattedGoalDate = formatGoalDate(parsedGoalDate);
+  const formattedGoalMoney = formatGoalMoney(goalMoney as string);
+  const acheiveRate = calculateAcheiveRate(
+    currentMoney as SavedMoney[],
+    goalMoney as string
+  );
 
   const onClickDelete = () => {
     setModal({
@@ -70,7 +93,7 @@ function GoalCard({ data }: Props) {
     setModal({ isVisible: false });
   };
 
-  const onClickSave: MouseEventHandler<HTMLElement> = (event) => {
+  const onClickSave: React.MouseEventHandler<HTMLElement> = (event) => {
     if (!isOutdated) return;
 
     event.preventDefault();
@@ -93,11 +116,34 @@ function GoalCard({ data }: Props) {
             </div>
             <div className={styles.goal}>
               <h2>Goals</h2>
-              <p>{`목표금액은 ${processedGoalSavings} 만원 입니다.`}</p>
-              <p>{`목표 기한은 ${formattedTargetDate} 입니다.`}</p>
+              {writeMode && (
+                <PatchGoalForm
+                  targetGoalId={id as string}
+                  setWriteMode={setWriteMode}
+                  setPatchedData={setPatchedData}
+                  originalInputs={{
+                    goalMoney: formattedGoalMoney as string,
+                    goalDate: formattedGoalDate as string,
+                  }}
+                />
+              )}
+              {!writeMode && (
+                <>
+                  <p>{`목표금액은 ${
+                    patchedData?.goalMoney || formattedGoalMoney
+                  } 만원 입니다.`}</p>
+                  <p>{`목표 기한은 ${
+                    patchedData?.goalDate || formattedGoalDate
+                  } 입니다.`}</p>
+                </>
+              )}
             </div>
-            {isAuthorized && (
-              <button type="button" className={styles.patch}>
+            {isAuthorized && !writeMode && (
+              <button
+                type="button"
+                className={styles.patch}
+                onClick={() => setWriteMode((prev) => !prev)}
+              >
                 <span className="sr-only">수정하기</span>
                 <PencilIcon size={20} />
               </button>

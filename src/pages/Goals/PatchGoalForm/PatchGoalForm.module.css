@@ -1,0 +1,22 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+}
+
+.feedback {
+  font-size: 0.8rem;
+  color: #f5554a;
+  text-align: right;
+}
+
+.button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: transparent;
+}
+
+.button.submit {
+  right: 38px;
+}

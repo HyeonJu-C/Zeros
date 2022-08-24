@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { HTMLInputTypeAttribute, MouseEventHandler } from "react";
+import React from "react";
 import {
   TiArrowSortedDown as DownArrowIcon,
   TiArrowSortedUp as UpArrowIcon,
@@ -8,14 +8,15 @@ import styles from "./SelectBox.module.css";
 
 interface Props {
   id: string;
-  type: HTMLInputTypeAttribute;
+  type: React.HTMLInputTypeAttribute;
   options: string[] | number[];
   isError: boolean;
   placeholder: string;
   isSelectBoxClicked: boolean;
   selectedOption: number | string;
-  onClick: MouseEventHandler;
-  onClickOption: MouseEventHandler<HTMLLIElement>;
+  onClick: React.MouseEventHandler;
+  onClickOption: React.MouseEventHandler<HTMLLIElement>;
+  scrollWithHeight?: string;
 }
 
 function SelectBox({
@@ -28,6 +29,7 @@ function SelectBox({
   selectedOption,
   onClick,
   onClickOption,
+  scrollWithHeight,
 }: Props) {
   return (
     <>
@@ -63,7 +65,12 @@ function SelectBox({
         )}
       </label>
       {isSelectBoxClicked && (
-        <ul className={styles.optionList}>
+        <ul
+          className={`${styles.optionList} ${
+            scrollWithHeight ? styles.scrollable : ""
+          }`}
+          style={{ height: scrollWithHeight }}
+        >
           {options.map((option) => (
             <li
               onClick={onClickOption}
