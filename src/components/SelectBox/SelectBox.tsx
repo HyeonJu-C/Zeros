@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { MouseEventHandler } from "react";
+import React, { HTMLInputTypeAttribute, MouseEventHandler } from "react";
 import {
   TiArrowSortedDown as DownArrowIcon,
   TiArrowSortedUp as UpArrowIcon,
@@ -8,48 +8,65 @@ import styles from "./SelectBox.module.css";
 
 interface Props {
   id: string;
-  title: string;
+  type: HTMLInputTypeAttribute;
   options: string[] | number[];
+  isError: boolean;
+  placeholder: string;
   isSelectBoxClicked: boolean;
   selectedOption: number | string;
-  onSelectOption: MouseEventHandler<HTMLLIElement>;
-  toggleSelectBox: () => void;
+  onClick: MouseEventHandler;
+  onClickOption: MouseEventHandler<HTMLLIElement>;
 }
 
 function SelectBox({
   id,
-  title,
+  type,
+  placeholder,
   options,
+  isError,
   isSelectBoxClicked,
   selectedOption,
-  onSelectOption,
-  toggleSelectBox,
+  onClick,
+  onClickOption,
 }: Props) {
   return (
     <>
       <label
         htmlFor={id}
-        onClick={toggleSelectBox}
-        className={`${styles.selectBox} ${
+        onClick={onClick}
+        className={`${styles.selectBox} ${isError ? styles.invalid : ""} ${
           isSelectBoxClicked ? styles.activeSelectBox : ""
         }`}
       >
         <input
           readOnly
           id={id}
-          type="text"
-          placeholder={title}
-          className={styles.input}
+          name={id}
+          type={type}
           value={(selectedOption as string) || ""}
+          className={styles.input}
+          placeholder={placeholder}
         />
-        {!isSelectBoxClicked && <DownArrowIcon size={20} />}
-        {isSelectBoxClicked && <UpArrowIcon size={20} />}
+        {!isSelectBoxClicked && (
+          <DownArrowIcon
+            size={30}
+            onClick={(event) => event.preventDefault()}
+            className={styles.icon}
+          />
+        )}
+        {isSelectBoxClicked && (
+          <UpArrowIcon
+            size={30}
+            onClick={(event) => event.preventDefault()}
+            className={styles.icon}
+          />
+        )}
       </label>
       {isSelectBoxClicked && (
         <ul className={styles.optionList}>
           {options.map((option) => (
             <li
-              onClick={onSelectOption}
+              onClick={onClickOption}
               key={option}
               value={option}
               className={styles.optionItem}

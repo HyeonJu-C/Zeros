@@ -6,6 +6,7 @@ import React, {
   FormEventHandler,
   MouseEventHandler,
 } from "react";
+import Input from "../../../components/Input/Input";
 import SelectBox from "../../../components/SelectBox/SelectBox";
 import useInput from "../../../hooks/useInput";
 import useSelectBox from "../../../hooks/useSelectBox";
@@ -69,44 +70,39 @@ function GoalForm({ onSubmitError, onSubmit }: Props) {
 
   return (
     <form onSubmit={onSubmitGoal} className={styles.form}>
-      <label htmlFor="user-name">
-        <input
-          type="text"
-          name="user-name"
-          id="user-name"
-          minLength={2}
-          maxLength={10}
-          placeholder="이름 또는 별명을 입력해 주세요(2글자 이상 10글자 이하)."
-          className={styles.input}
-          onChange={onChangeUserName as ChangeEventHandler}
-          onBlur={onBlurUserName as FocusEventHandler<HTMLInputElement>}
-        />
-      </label>
+      <Input
+        id="user-name"
+        type="text"
+        isError={isUserNameError as boolean}
+        placeholder="이름 또는 별명을 입력해 주세요(2글자 이상 10글자 이하)."
+        minLength={2}
+        maxLength={10}
+        onChange={onChangeUserName as ChangeEventHandler}
+        onBlur={onBlurUserName as FocusEventHandler<HTMLInputElement>}
+      />
       {isUserNameError && (
-        <p className={styles.invalid}>
+        <p className={styles.feedback}>
           사용자 이름은 2글자 이상 10글자 이하로 입력해 주세요.
         </p>
       )}
-      <label htmlFor="savings-goal">
-        <input
-          type="text"
-          name="savings-goal"
-          id="savings-goal"
-          min={100000}
-          placeholder="목표 금액을 입력해 주세요(10만원 이상)."
-          className={styles.input}
-          onChange={onChangeGoalSaving as ChangeEventHandler}
-          onBlur={onBlurGoalSaving as FocusEventHandler<HTMLInputElement>}
-        />
-      </label>
+      <Input
+        id="goal-savings"
+        type="text"
+        isError={isGoalSavingError as boolean}
+        min={100000}
+        placeholder="목표 금액을 입력해 주세요(10만원 이상)."
+        onChange={onChangeGoalSaving as ChangeEventHandler}
+        onBlur={onBlurGoalSaving as FocusEventHandler<HTMLInputElement>}
+      />
       {isGoalSavingError && (
-        <p className={styles.invalid}>
+        <p className={styles.feedback}>
           목표 금액은 10 만원 이상으로 입력해 주세요.
         </p>
       )}
       <SelectBox
         id="target-date"
-        title="목표 기한을 선택해 주세요"
+        type="text"
+        placeholder="목표 기한을 선택해 주세요"
         options={[
           "1 개월",
           "2 개월",
@@ -116,13 +112,14 @@ function GoalForm({ onSubmitError, onSubmit }: Props) {
           "6 개월",
           "1 년",
         ]}
+        isError={isTargetDateError as boolean}
         isSelectBoxClicked={isSelectBoxClicked as boolean}
-        toggleSelectBox={toggleSelectBox as () => void}
+        onClick={toggleSelectBox as MouseEventHandler}
+        onClickOption={onSelectDate as MouseEventHandler<HTMLLIElement>}
         selectedOption={selectedDate as string}
-        onSelectOption={onSelectDate as MouseEventHandler<HTMLLIElement>}
       />
       {isTargetDateError && (
-        <p className={styles.invalid}>목표 기한을 선택해 주세요.</p>
+        <p className={styles.feedback}>목표 기한을 선택해 주세요.</p>
       )}
       <button type="submit" className={styles.button}>
         제출하기

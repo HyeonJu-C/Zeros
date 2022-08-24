@@ -2,16 +2,16 @@ import { MouseEventHandler, useState } from "react";
 
 function useSelectBox(processOption?: (value: string | number) => string) {
   const [isSelectBoxClicked, setSelectBoxClick] = useState(false);
+  const [isFocused, setFocus] = useState(false);
   const [selectedOption, setSelectOption] = useState<null | string | number>(
     null
   );
-  const [isFocused, setFocus] = useState(false);
 
   const isError = isFocused && !isSelectBoxClicked && !selectedOption;
 
   const hideSelectBox = () => setSelectBoxClick(false);
   const showSelectBox = () => setSelectBoxClick(true);
-  const toggleSelectBox = () => {
+  const toggleSelectBox: MouseEventHandler<HTMLLabelElement> = (event) => {
     if (!isFocused) setFocus(true);
     setSelectBoxClick((prev) => !prev);
   };
