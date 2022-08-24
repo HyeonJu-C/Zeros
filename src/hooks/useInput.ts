@@ -1,4 +1,4 @@
-import { ChangeEventHandler, FocusEventHandler, useState } from "react";
+import { useState } from "react";
 
 function useInput(
   validate: (value: string) => boolean = (value: string) => !!value
@@ -6,8 +6,10 @@ function useInput(
   const [value, setValue] = useState<string>("");
   const [isFocused, setFocus] = useState(false);
 
-  const onBlur: FocusEventHandler<HTMLInputElement> = () => setFocus(true);
-  const onChangeValue: ChangeEventHandler<HTMLInputElement> = (event) => {
+  const onBlur: React.FocusEventHandler<HTMLInputElement> = () => {
+    setFocus(true);
+  };
+  const onChangeValue: React.ChangeEventHandler<HTMLInputElement> = (event) => {
     setValue(event.target.value);
   };
   const isError = isFocused && !validate(value);

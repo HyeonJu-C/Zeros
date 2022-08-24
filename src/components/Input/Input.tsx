@@ -1,25 +1,20 @@
-import React, {
-  ChangeEventHandler,
-  FocusEventHandler,
-  HTMLInputTypeAttribute,
-  ReactNode,
-} from "react";
+import React from "react";
 import styles from "./Input.module.css";
 
 interface Props {
   id: string;
-  type: HTMLInputTypeAttribute;
+  type: React.HTMLInputTypeAttribute;
   isError: boolean;
-  value?: string | number;
+  value: string | number;
   placeholder?: string;
   min?: number;
   max?: number;
   minLength?: number;
   maxLength?: number;
-  children?: ReactNode;
+  children?: React.ReactNode;
   readOnly?: boolean;
-  onChange?: ChangeEventHandler<HTMLInputElement>;
-  onBlur?: FocusEventHandler<HTMLInputElement>;
+  onChange?: React.ChangeEventHandler<HTMLInputElement>;
+  onBlur?: React.FocusEventHandler<HTMLInputElement>;
 }
 
 function Input({
