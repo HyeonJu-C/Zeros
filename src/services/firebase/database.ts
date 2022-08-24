@@ -1,56 +1,68 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import { parseJSON } from "date-fns";
 import {
   addDoc,
   collection,
   deleteDoc,
   doc,
+  getDoc,
   getDocs,
-  Query,
+  updateDoc,
 } from "firebase/firestore";
 import { firestore } from "./config";
 
 const goalsCollection = collection(firestore, "goals");
 
-export interface GoalData {
-  uid?: string;
+interface regularObject {
+  [key: string]: any;
+}
+
+export interface SavedMoney {
+  date: string;
+  money: number;
+}
+
+export interface GoalData extends regularObject {
   id?: string;
+  userId?: string;
   userName?: string;
-  targetDate?: string | Date;
-  goalSavings?: string | number;
-  currentSavings?: string | number;
-  processedGoalSavings?: string | number;
+  goalDate?: string | Date;
+  goalMoney?: string;
+  currentMoney?: SavedMoney[];
+  formattedGoalMoney?: string | number;
   acheiveRate?: number;
 }
 
 export const postGoal = async (data: GoalData) => {
-  try {
-    await addDoc(goalsCollection, data);
-  } catch (error) {
-    console.log(error);
-  }
+  await addDoc(goalsCollection, data);
 };
 
-export const getGoals = async (query: Query<object> = goalsCollection) => {
-  const data = await getDocs(query);
+export const getGoals = async () => {
+  const data = await getDocs(goalsCollection);
+
   const goals: GoalData[] = data.docs.map((doc) => ({
     ...doc.data(),
     id: doc.id,
   }));
 
-  const processedGoals = goals.map((goal) => ({
-    ...goal,
-    targetDate: parseJSON(goal.targetDate as string),
-    processedGoalSavings: (
-      +(goal.goalSavings as string) / 10000
-    ).toLocaleString("en-US"),
-    acheiveRate:
-      (+(goal.currentSavings as string) / +(goal.goalSavings as string)) * 100,
-  }));
-  return processedGoals;
+  return goals;
+};
+
+export const getGoal = async (id: string) => {
+  const targetGoal = doc(firestore, "goals", id);
+
+  const data = await getDoc(targetGoal);
+  const goal: GoalData = { ...data.data(), id: data.id };
+  return goal;
 };
 
 export const deleteGoal = async (id: string) => {
   const targetGoal = doc(firestore, "goals", id);
+
   await deleteDoc(targetGoal);
+};
+
+export const patchGoal = async (id: string, data: GoalData) => {
+  const targetGoal = doc(firestore, "goals", id);
+
+  await updateDoc(targetGoal, data);
 };
