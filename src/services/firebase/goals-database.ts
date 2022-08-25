@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import {
   addDoc,
+  arrayUnion,
   collection,
   deleteDoc,
   doc,
@@ -27,6 +28,7 @@ export interface GoalData extends regularObject {
   userName?: string;
   goalDate?: string | Date;
   goalMoney?: string;
+  goalTitle?: string;
   currentMoney?: SavedMoney[];
   formattedGoalMoney?: string | number;
   acheiveRate?: number;
@@ -65,4 +67,12 @@ export const patchGoal = async (id: string, data: GoalData) => {
   const targetGoal = doc(firestore, "goals", id);
 
   await updateDoc(targetGoal, data);
+};
+
+export const addSavedMoney = async (id: string, money: SavedMoney) => {
+  const targetGoal = doc(firestore, "goals", id);
+
+  await updateDoc(targetGoal, {
+    currentMoney: arrayUnion(money),
+  });
 };

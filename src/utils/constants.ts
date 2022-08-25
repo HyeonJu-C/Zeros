@@ -1,4 +1,4 @@
-export const DATE_OPTIONS = [
+export const GOAL_DATE_OPTIONS = [
   "1개월",
   "2개월",
   "3개월",
