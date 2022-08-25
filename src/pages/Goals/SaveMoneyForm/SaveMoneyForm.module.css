@@ -1,0 +1,30 @@
+.formContainer {
+  border: 2px solid #f1f1f1;
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 8px;
+}
+
+.form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.button {
+  width: 15%;
+  background: transparent;
+  transition: all 250ms ease-in;
+}
+
+.button:hover {
+  color: #e1b530;
+}
+
+.feedback {
+  font-size: 0.8rem;
+  color: #f5554a;
+  text-align: right;
+  margin: 0 0 8px;
+}
