@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { format, parse } from "date-fns";
+import { parse } from "date-fns";
 import React, { useState } from "react";
 import { ImCancelCircle as CancelIcon } from "react-icons/im";
 import { BsCheckCircle as CheckIcon } from "react-icons/bs";
@@ -10,28 +10,37 @@ import ToastMessage, {
 } from "../../../components/ToastMessage/ToastMessage";
 import useInput from "../../../hooks/useInput";
 import useSelectBox from "../../../hooks/useSelectBox";
-import { patchGoal } from "../../../services/firebase/database";
-import calculateGoalDate from "../../NewGoals/utils/calculate-goal-date";
+import {
+  patchGoal,
+  SavedMoney,
+} from "../../../services/firebase/goals-database";
+import calculateGoalDate from "../../../utils/calculate-goal-date";
 import { validateGoalSaving } from "../../NewGoals/utils/validate";
-import { PatchedGoalData } from "../GoalCard/GoalCard";
+import { Mode, PatchedGoalData } from "../GoalCard/GoalCard";
 import styles from "./PatchGoalForm.module.css";
-import { DATE_OPTIONS } from "../../NewGoals/utils/constants";
-import { formatGoalDate } from "../GoalCard/utils/format-goal-data";
+import { GOAL_DATE_OPTIONS } from "../../../utils/constants";
+import {
+  calculateAcheiveRate,
+  formatAcheiveRate,
+  formatGoalDate,
+  formatGoalMoney,
+} from "../../../utils/format-goal-data";
 
 interface Props {
   targetGoalId: string;
   originalInputs: {
     goalMoney: string;
     goalDate: string;
+    currentMoney: SavedMoney[];
   };
-  setWriteMode: React.Dispatch<React.SetStateAction<boolean>>;
+  setMode: React.Dispatch<React.SetStateAction<Mode>>;
   setPatchedData: React.Dispatch<React.SetStateAction<PatchedGoalData | null>>;
 }
 
 function PatchGoalForm({
   targetGoalId,
   originalInputs,
-  setWriteMode,
+  setMode,
   setPatchedData,
 }: Props) {
   const [goalMoney, onChangeGoalMoney, onBlurGoalMoney, isGoalMoneyError] =
@@ -77,21 +86,27 @@ function PatchGoalForm({
       "yyyy년 MM월 dd일",
       new Date()
     );
+    const acheiveRate = calculateAcheiveRate(
+      originalInputs.currentMoney,
+      goalMoney as string
+    );
     patchGoal(targetGoalId, {
       goalMoney: goalMoney as string,
       goalDate: JSON.stringify(parsedSelectedDate),
     }) //
       .then(() => {
-        setWriteMode(false);
-        setPatchedData({
-          goalMoney: (+(goalMoney as string) / 10000).toLocaleString(),
-          goalDate: format(parsedSelectedDate, "yyyy년 MM월 dd일"),
-        });
+        setMode(Mode.DEFAULT);
+        setPatchedData((prev) => ({
+          ...prev,
+          goalMoney: formatGoalMoney(goalMoney as string) as string,
+          goalDate: formatGoalDate(parsedSelectedDate),
+          achieveRate: +formatAcheiveRate(acheiveRate),
+        }));
       });
   };
 
   const onClickCancel = () => {
-    setWriteMode(false);
+    setMode(Mode.DEFAULT);
   };
 
   return (
@@ -103,7 +118,7 @@ function PatchGoalForm({
           value={+(goalMoney as string) || ""}
           isError={isGoalMoneyError as boolean}
           min={100000}
-          placeholder={`목표금액은 ${originalInputs.goalMoney} 만원 입니다.`}
+          placeholder={`목표금액은 ${originalInputs.goalMoney} 입니다.`}
           onChange={onChangeGoalMoney as React.ChangeEventHandler}
           onBlur={onBlurGoalMoney as React.FocusEventHandler<HTMLInputElement>}
         />
@@ -115,7 +130,7 @@ function PatchGoalForm({
         <SelectBox
           id="patch-target-date"
           type="text"
-          options={DATE_OPTIONS}
+          options={GOAL_DATE_OPTIONS}
           isError={isGoalDateError as boolean}
           placeholder={`목표기한은 ${originalInputs.goalDate} 입니다.`}
           isSelectBoxClicked={isSelectBoxClicked as boolean}

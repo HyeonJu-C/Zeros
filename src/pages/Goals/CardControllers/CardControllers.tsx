@@ -1,27 +1,41 @@
 import { isAfter } from "date-fns";
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import { ModalState } from "../../../components/Modal/Modal";
 import { ToastMessageState } from "../../../components/ToastMessage/ToastMessage";
 import { GoalData } from "../../../services/firebase/goals-database";
 import { parseGoalDate } from "../../../utils/format-goal-data";
+import { Mode, PatchedGoalData } from "../GoalCard/GoalCard";
 import styles from "./CardControllers.module.css";
 
 interface Props {
   data: GoalData;
+  patchedData: PatchedGoalData | null;
+  mode: Mode;
+  setMode: React.Dispatch<React.SetStateAction<Mode>>;
   setModal: React.Dispatch<React.SetStateAction<ModalState>>;
   setToastMessage: React.Dispatch<React.SetStateAction<ToastMessageState>>;
 }
 
-function CardControllers({ data, setModal, setToastMessage }: Props) {
-  const navigate = useNavigate();
+function CardControllers({
+  data,
+  patchedData,
+  mode,
+  setMode,
+  setModal,
+  setToastMessage,
+}: Props) {
   const { id, goalDate } = data;
 
   const now = new Date();
-  const parsedGoalDate = parseGoalDate(goalDate as string);
+  const parsedGoalDate =
+    parseGoalDate(patchedData?.goalDate as string) ||
+    parseGoalDate(goalDate as string);
+
   const isOutdated = isAfter(now, parsedGoalDate);
 
-  const onClickDelete = () => {
+  const onClickDelete: React.MouseEventHandler = (event) => {
+    event.stopPropagation();
+
     setModal({
       isVisible: true,
       title: "Delete",
@@ -29,13 +43,12 @@ function CardControllers({ data, setModal, setToastMessage }: Props) {
     });
   };
 
-  const onClickSave: React.MouseEventHandler = () => {
+  const onClickSave: React.MouseEventHandler = (event) => {
+    event.stopPropagation();
+
     if (!isOutdated) {
-      navigate(`${id}`, {
-        state: {
-          ...data,
-        },
-      });
+      mode !== Mode.SAVE && setMode(Mode.SAVE);
+      mode === Mode.SAVE && setMode(Mode.DEFAULT);
       return;
     }
 
@@ -54,7 +67,7 @@ function CardControllers({ data, setModal, setToastMessage }: Props) {
         onClick={onClickSave}
         className={`${styles.save} ${isOutdated ? styles.outdated : ""}`}
       >
-        저축하기
+        {mode === Mode.SAVE ? "취소하기" : "저축하기"}
       </button>
       <button type="button" onClick={onClickDelete} className={styles.delete}>
         삭제하기
