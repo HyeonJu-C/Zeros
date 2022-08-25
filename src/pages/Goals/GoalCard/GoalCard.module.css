@@ -3,15 +3,12 @@
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  padding: 16px;
+  padding: 12px;
   border-radius: 8px;
   background: white;
   box-shadow: 5px 5px 15px 4px rgba(0, 0, 0, 0.2);
   margin-bottom: 32px;
-}
-
-.hilight {
-  color: #1da1f2;
+  font-size: 0.85rem;
 }
 
 .author {
@@ -19,118 +16,10 @@
   font-weight: 700;
 }
 
-.iconContainer {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 75px;
-  height: 75px;
-  background: #edfaf0;
-  border-radius: 8px;
-}
-
-.goalContainer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 2px solid #f1f1f1;
-  border-radius: 4px;
-  padding: 16px;
-  margin-bottom: 8px;
-  position: relative;
-}
-
-.goal {
-  display: flex;
-  flex-direction: column;
-  width: 70%;
-}
-
-.goal h2 {
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin: 0 0 8px;
-}
-
-.goal p {
-  margin: 0;
-}
-
-.goal p:not(:last-child) {
-  margin: 0 0 8px;
-}
-
-.barContainer {
-  border: 2px solid #f1f1f1;
-  border-radius: 4px;
-  padding: 16px;
-  margin-bottom: 8px;
-}
-
-.barContainer h2 {
-  font-size: 1.1rem;
-  font-weight: 700;
-  margin: 0 0 8px;
-}
-
-.currentGoal {
-  display: flex;
-  justify-content: space-between;
-  font-weight: 500;
-}
-
-.parentBar {
-  width: 100%;
-  height: 12px;
-  border-radius: 8px;
-  background: #e4e7ee;
-  margin-bottom: 8px;
-}
-
-.childBar {
-  max-width: 100%;
-  height: 12px;
-  border-radius: 8px;
-  background: #1da1f2;
-  overflow-x: hidden;
-}
-
-.buttonContainer {
-  display: flex;
-  justify-content: space-between;
-}
-
-.save,
-.delete {
-  width: 47.5%;
-  padding: 8px;
-  border-radius: 8px;
-  color: #fafafa;
-  line-height: 100%;
-}
-
-.save {
-  background: #1da1f2;
-  text-align: center;
-}
-
-.save.outdated {
-  pointer-events: none;
-}
-
-.delete {
-  background: #f5554a;
-}
-
-.patch {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background: transparent;
-}
-
 @media screen and (min-width: 768px) {
   .card {
     width: 45%;
+    padding: 16px;
+    font-size: 1rem;
   }
 }

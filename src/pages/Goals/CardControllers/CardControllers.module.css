@@ -1,0 +1,26 @@
+.buttonContainer {
+  display: flex;
+  justify-content: space-between;
+}
+
+.save,
+.delete {
+  width: 47.5%;
+  padding: 8px;
+  border-radius: 8px;
+  color: #fafafa;
+  line-height: 100%;
+}
+
+.save {
+  background: #1da1f2;
+  text-align: center;
+}
+
+.save.outdated {
+  pointer-events: none;
+}
+
+.delete {
+  background: #f5554a;
+}

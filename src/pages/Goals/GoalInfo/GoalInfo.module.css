@@ -1,0 +1,56 @@
+.iconContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 75px;
+  height: 75px;
+  background: #edfaf0;
+  border-radius: 8px;
+}
+
+.goalContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border: 2px solid #f1f1f1;
+  border-radius: 4px;
+  padding: 16px;
+  margin-bottom: 8px;
+  position: relative;
+}
+
+.goal {
+  display: flex;
+  flex-direction: column;
+  width: 80%;
+}
+
+.goal h2 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.goal p {
+  margin: 0;
+}
+
+.goal p:not(:last-child) {
+  margin: 0 0 8px;
+}
+
+.patch {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: transparent;
+}
+
+@media screen and (min-width: 768px) {
+  .iconContainer {
+    display: none;
+  }
+  .goal {
+    width: 100%;
+  }
+}
