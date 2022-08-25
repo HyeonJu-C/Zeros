@@ -6,10 +6,10 @@ import SelectBox from "../../../components/SelectBox/SelectBox";
 import useInput from "../../../hooks/useInput";
 import useSelectBox from "../../../hooks/useSelectBox";
 import { auth } from "../../../services/firebase/config";
-import { GoalData } from "../../../services/firebase/database";
-import { formatGoalDate } from "../../Goals/GoalCard/utils/format-goal-data";
-import calculateGoalDate from "../utils/calculate-goal-date";
-import { DATE_OPTIONS } from "../utils/constants";
+import { GoalData } from "../../../services/firebase/goals-database";
+import { formatGoalDate } from "../../../utils/format-goal-data";
+import calculateGoalDate from "../../../utils/calculate-goal-date";
+import { GOAL_DATE_OPTIONS } from "../../../utils/constants";
 import { validateGoalSaving, validateUserName } from "../utils/validate";
 import styles from "./GoalForm.module.css";
 
@@ -25,6 +25,9 @@ function GoalForm({ onSubmitError, onSubmit }: Props) {
   const [goalMoney, onChangeGoalMoney, onBlurGoalMoney, isGoalMoneyError] =
     useInput(validateGoalSaving);
 
+  const [goalTitle, onChangeGoalTitle, onBlurGoalTitle, isGoalTitleError] =
+    useInput();
+
   const [
     isSelectBoxClicked,
     selectedGoalDate,
@@ -38,9 +41,11 @@ function GoalForm({ onSubmitError, onSubmit }: Props) {
   const isFormValid =
     userName &&
     goalMoney &&
+    goalTitle &&
     selectedGoalDate &&
     !isUserNameError &&
     !isGoalMoneyError &&
+    !isGoalTitleError &&
     !isGoalDateError;
 
   const onSubmitGoal: React.FormEventHandler<HTMLFormElement> = (event) => {
@@ -56,6 +61,7 @@ function GoalForm({ onSubmitError, onSubmit }: Props) {
         ],
         userName: userName as string,
         goalMoney: goalMoney as string,
+        goalTitle: goalTitle as string,
         goalDate: JSON.stringify(
           parse(selectedGoalDate as string, "yyyy년 MM월 dd일", new Date())
         ),
@@ -97,11 +103,24 @@ function GoalForm({ onSubmitError, onSubmit }: Props) {
           목표 금액은 10 만원 이상으로 입력해 주세요.
         </p>
       )}
+      <Input
+        id="goal-title"
+        type="text"
+        isError={isGoalTitleError as boolean}
+        placeholder="저축 용도를 입력해 주세요."
+        minLength={1}
+        onChange={onChangeGoalTitle as React.ChangeEventHandler}
+        onBlur={onBlurGoalTitle as React.FocusEventHandler<HTMLInputElement>}
+        value={(goalTitle as string) || ""}
+      />
+      {isGoalTitleError && (
+        <p className={styles.feedback}>저축 용도를 입력해 주세요.</p>
+      )}
       <SelectBox
         id="goal-date"
         type="text"
         placeholder="목표 기한을 선택해 주세요"
-        options={DATE_OPTIONS}
+        options={GOAL_DATE_OPTIONS}
         isError={isGoalDateError as boolean}
         isSelectBoxClicked={isSelectBoxClicked as boolean}
         onClick={toggleSelectBox as React.MouseEventHandler}
