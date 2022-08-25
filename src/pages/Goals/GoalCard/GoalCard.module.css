@@ -9,6 +9,14 @@
   box-shadow: 5px 5px 15px 4px rgba(0, 0, 0, 0.2);
   margin-bottom: 32px;
   font-size: 0.85rem;
+  top: 0;
+  transition: all 250ms ease-in;
+}
+
+.card:hover {
+  position: relative;
+  top: -12px;
+  cursor: pointer;
 }
 
 .author {

@@ -46,6 +46,14 @@
   background: transparent;
 }
 
+.icon {
+  transition: color 250ms ease-in;
+}
+
+.icon:hover {
+  color: #42dc99;
+}
+
 @media screen and (min-width: 768px) {
   .iconContainer {
     display: none;
