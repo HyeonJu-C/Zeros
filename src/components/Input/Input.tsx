@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React from "react";
 import styles from "./Input.module.css";
 
@@ -13,8 +14,12 @@ interface Props {
   maxLength?: number;
   children?: React.ReactNode;
   readOnly?: boolean;
+  style?: {
+    [key: string]: string | number | boolean;
+  };
   onChange?: React.ChangeEventHandler<HTMLInputElement>;
   onBlur?: React.FocusEventHandler<HTMLInputElement>;
+  onClick?: React.MouseEventHandler;
 }
 
 function Input({
@@ -29,11 +34,18 @@ function Input({
   maxLength,
   children,
   readOnly,
+  style,
   onChange,
   onBlur,
+  onClick,
 }: Props) {
   return (
-    <label htmlFor={id}>
+    <label
+      className={styles.label}
+      htmlFor={id}
+      onClick={onClick}
+      style={{ ...style }}
+    >
       <input
         readOnly={readOnly || false}
         id={id}

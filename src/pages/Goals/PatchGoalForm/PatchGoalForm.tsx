@@ -1,8 +1,8 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
-import { parse } from "date-fns";
 import React, { useState } from "react";
 import { ImCancelCircle as CancelIcon } from "react-icons/im";
 import { BsCheckCircle as CheckIcon } from "react-icons/bs";
+import { parse } from "date-fns";
 import Input from "../../../components/Input/Input";
 import SelectBox from "../../../components/SelectBox/SelectBox";
 import ToastMessage, {
@@ -21,9 +21,7 @@ import styles from "./PatchGoalForm.module.css";
 import { GOAL_DATE_OPTIONS } from "../../../utils/constants";
 import {
   calculateAcheiveRate,
-  formatAcheiveRate,
   formatGoalDate,
-  formatGoalMoney,
 } from "../../../utils/format-goal-data";
 
 interface Props {
@@ -34,7 +32,7 @@ interface Props {
     currentMoney: SavedMoney[];
   };
   setMode: React.Dispatch<React.SetStateAction<Mode>>;
-  setPatchedData: React.Dispatch<React.SetStateAction<PatchedGoalData | null>>;
+  setPatchedData: React.Dispatch<React.SetStateAction<PatchedGoalData>>;
 }
 
 function PatchGoalForm({
@@ -61,12 +59,6 @@ function PatchGoalForm({
     isVisible: false,
   });
 
-  const {
-    isVisible: isToastMessageVisible,
-    title: toastMessageTitle,
-    message: toastMessageContents,
-  } = toastMessage;
-
   const isFormValid =
     goalMoney && selectedGoalDate && !isGoalMoneyError && !isGoalDateError;
 
@@ -86,10 +78,11 @@ function PatchGoalForm({
       "yyyy년 MM월 dd일",
       new Date()
     );
-    const acheiveRate = calculateAcheiveRate(
+    const achieveRate = calculateAcheiveRate(
       originalInputs.currentMoney,
       goalMoney as string
     );
+
     patchGoal(targetGoalId, {
       goalMoney: goalMoney as string,
       goalDate: JSON.stringify(parsedSelectedDate),
@@ -98,14 +91,19 @@ function PatchGoalForm({
         setMode(Mode.DEFAULT);
         setPatchedData((prev) => ({
           ...prev,
-          goalMoney: formatGoalMoney(goalMoney as string) as string,
-          goalDate: formatGoalDate(parsedSelectedDate),
-          achieveRate: +formatAcheiveRate(acheiveRate),
+          achieveRate,
+          goalMoney: goalMoney as string,
+          goalDate: JSON.stringify(parsedSelectedDate),
         }));
       });
   };
 
-  const onClickCancel = () => {
+  const onClickCheck: React.MouseEventHandler = (event) => {
+    event.stopPropagation();
+  };
+
+  const onClickCancel: React.MouseEventHandler = (event) => {
+    event.stopPropagation();
     setMode(Mode.DEFAULT);
   };
 
@@ -119,6 +117,7 @@ function PatchGoalForm({
           isError={isGoalMoneyError as boolean}
           min={100000}
           placeholder={`목표금액은 ${originalInputs.goalMoney} 입니다.`}
+          onClick={(event) => event.stopPropagation()}
           onChange={onChangeGoalMoney as React.ChangeEventHandler}
           onBlur={onBlurGoalMoney as React.FocusEventHandler<HTMLInputElement>}
         />
@@ -135,14 +134,24 @@ function PatchGoalForm({
           placeholder={`목표기한은 ${originalInputs.goalDate} 입니다.`}
           isSelectBoxClicked={isSelectBoxClicked as boolean}
           selectedOption={selectedGoalDate as string}
-          onClick={toggleSelectBox as React.MouseEventHandler}
-          onClickOption={onSelectGoalDate as React.MouseEventHandler}
+          onClick={(event) => {
+            event.stopPropagation();
+            (toggleSelectBox as React.MouseEventHandler)(event);
+          }}
+          onClickOption={(event) => {
+            event.stopPropagation();
+            (onSelectGoalDate as React.MouseEventHandler)(event);
+          }}
           scrollWithHeight="70px"
         />
         {isGoalDateError && (
           <p className={styles.feedback}>목표 기한을 선택해 주세요.</p>
         )}
-        <button type="submit" className={`${styles.button} ${styles.submit} `}>
+        <button
+          type="submit"
+          className={`${styles.button} ${styles.submit}`}
+          onClick={onClickCheck}
+        >
           <span className="sr-only">수정</span>
           <CheckIcon size={20} color="#42dc99" />
         </button>
@@ -155,11 +164,11 @@ function PatchGoalForm({
           <CancelIcon size={20} color="#f5554a" />
         </button>
       </form>
-      {isToastMessageVisible && (
+      {toastMessage.isVisible && (
         <ToastMessage
-          title={toastMessageTitle as string}
-          message={toastMessageContents as string}
-          isMessageVisible={isToastMessageVisible}
+          title={toastMessage.title as string}
+          message={toastMessage.message as string}
+          isMessageVisible={toastMessage.isVisible}
           setToastMessage={setToastMessage}
           visibleDuration={1000}
         />
