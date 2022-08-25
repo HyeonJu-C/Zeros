@@ -2,12 +2,30 @@ import { format, parseJSON } from "date-fns";
 import { SavedMoney } from "../services/firebase/goals-database";
 
 export const formatGoalMoney = (goalMoney: string) => {
-  const isGoalMoneyInteger = Number.isInteger(+goalMoney / 10000);
-  const formattedGoalMoney = isGoalMoneyInteger
-    ? (+goalMoney / 10000).toLocaleString()
-    : (+goalMoney / 10000).toFixed(1).toLocaleString();
+  let isGoalInteger;
+  let formattedGoal;
+  const isGoalLargerThanHundredMillion = +goalMoney > 100000000; // 1 억 이상
 
-  return formattedGoalMoney;
+  switch (isGoalLargerThanHundredMillion) {
+    case false:
+      isGoalInteger = Number.isInteger(+goalMoney / 10000);
+      formattedGoal = isGoalInteger
+        ? `${(+goalMoney / 10000).toLocaleString()} 만원`
+        : `${Math.round(+goalMoney / 10000).toLocaleString()} 만원`;
+      break;
+
+    case true:
+      isGoalInteger = Number.isInteger(+goalMoney / 100000000);
+      formattedGoal = isGoalInteger
+        ? `${(+goalMoney / 100000000).toLocaleString()} 억원`
+        : `${Math.round(+goalMoney / 100000000).toLocaleString()} 억원`;
+      break;
+
+    default:
+      break;
+  }
+
+  return formattedGoal;
 };
 
 export const parseGoalDate = (goalDate: string) => {
