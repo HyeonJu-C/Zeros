@@ -24,15 +24,15 @@ function AchieveRate({ data, patchedData }: Props) {
   const parsedGoalDate = parseGoalDate(goalDate as string);
   const leftDays = differenceInDays(parsedGoalDate, now);
 
-  const formattedAcheiveRate =
-    patchedData?.achieveRate ||
-    formatAcheiveRate(
-      calculateAcheiveRate(currentMoney as SavedMoney[], goalMoney as string)
-    );
+  const formattedAcheiveRate = patchedData?.achieveRate
+    ? formatAcheiveRate(patchedData?.achieveRate as number)
+    : formatAcheiveRate(
+        calculateAcheiveRate(currentMoney as SavedMoney[], goalMoney as string)
+      );
 
   return (
     <section className={styles.barContainer}>
-      <h2>Acheive Rate</h2>
+      <h2>Achieve Rate</h2>
       <div className={styles.parentBar}>
         <div
           className={styles.childBar}

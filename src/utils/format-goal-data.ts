@@ -4,7 +4,7 @@ import { SavedMoney } from "../services/firebase/goals-database";
 export const formatGoalMoney = (goalMoney: string) => {
   let isGoalInteger;
   let formattedGoal;
-  const isGoalLargerThanHundredMillion = +goalMoney > 100000000; // 1 억 이상
+  const isGoalLargerThanHundredMillion = +goalMoney >= 100000000; // 1 억 이상
 
   switch (isGoalLargerThanHundredMillion) {
     case false:
@@ -18,7 +18,11 @@ export const formatGoalMoney = (goalMoney: string) => {
       isGoalInteger = Number.isInteger(+goalMoney / 100000000);
       formattedGoal = isGoalInteger
         ? `${(+goalMoney / 100000000).toLocaleString()} 억원`
-        : `${Math.round(+goalMoney / 100000000).toLocaleString()} 억원`;
+        : `${Math.floor(
+            +goalMoney / 100000000
+          ).toLocaleString()} 억 ${Math.round(
+            +goalMoney.slice(-8, goalMoney.length) / 10000
+          )} 만원`;
       break;
 
     default:
@@ -38,7 +42,7 @@ export const formatGoalDate = (goalDate: Date) => {
 
 export const calculateAcheiveRate = (
   currentMoney: SavedMoney[],
-  goalMoney: string
+  goalMoney: string | number
 ) => {
   const totalSavedMoney = currentMoney //
     ?.map(({ money }) => money)

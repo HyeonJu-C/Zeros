@@ -20,8 +20,8 @@ interface Props {
   data: GoalData;
   mode: Mode;
   setMode: React.Dispatch<React.SetStateAction<Mode>>;
-  patchedData: PatchedGoalData | null;
-  setPatchedData: React.Dispatch<React.SetStateAction<PatchedGoalData | null>>;
+  patchedData: PatchedGoalData;
+  setPatchedData: React.Dispatch<React.SetStateAction<PatchedGoalData>>;
 }
 
 function GoalInfo({ data, mode, setMode, patchedData, setPatchedData }: Props) {
@@ -31,11 +31,18 @@ function GoalInfo({ data, mode, setMode, patchedData, setPatchedData }: Props) {
   const parsedGoalDate = parseGoalDate(goalDate as string);
   const formattedGoalTitle = formatGoalTitle(goalTitle as string);
 
-  const formattedGoalDate =
-    patchedData?.goalDate || formatGoalDate(parsedGoalDate);
+  const formattedGoalDate = patchedData?.goalDate
+    ? formatGoalDate(parseGoalDate(patchedData?.goalDate))
+    : formatGoalDate(parsedGoalDate);
 
-  const formattedGoalMoney =
-    patchedData?.goalMoney || formatGoalMoney(goalMoney as string);
+  const formattedGoalMoney = patchedData?.goalMoney
+    ? formatGoalMoney(patchedData?.goalMoney)
+    : formatGoalMoney(goalMoney as string);
+
+  const onClickEdit: React.MouseEventHandler = (event) => {
+    event.stopPropagation();
+    setMode(Mode.EDIT);
+  };
 
   return (
     <section className={styles.goalContainer}>
@@ -56,21 +63,17 @@ function GoalInfo({ data, mode, setMode, patchedData, setPatchedData }: Props) {
             }}
           />
         )}
-        {mode === Mode.DEFAULT && (
+        {!(mode === Mode.EDIT) && (
           <>
             <p>{`목표금액은 ${formattedGoalMoney} 입니다.`}</p>
             <p>{`목표 기한은 ${formattedGoalDate} 입니다.`}</p>
           </>
         )}
       </div>
-      {isAuthorized && mode === Mode.DEFAULT && (
-        <button
-          type="button"
-          className={styles.patch}
-          onClick={() => setMode(Mode.EDIT)}
-        >
+      {isAuthorized && !(mode === Mode.EDIT) && (
+        <button type="button" className={styles.patch} onClick={onClickEdit}>
           <span className="sr-only">수정하기</span>
-          <PencilIcon size={20} />
+          <PencilIcon size={20} className={styles.icon} />
         </button>
       )}
     </section>
