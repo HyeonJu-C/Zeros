@@ -1,5 +1,13 @@
 @import-normalize;
 
+:root {
+  --color-light: #e0e1dd;
+  --color-dark: #0d1b2a;
+  --color-light-blue: #778da9;
+  --color-blue: #415a77;
+  --color-dark-blue: #1b263b;
+}
+
 * {
   box-sizing: border-box;
 }
@@ -7,7 +15,8 @@
 body {
   margin: 0;
   font-family: sans-serif;
-  background: #fafafa;
+  background: var(--color-light);
+  color: var(--color-dark);
 }
 
 a {
