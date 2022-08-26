@@ -1,0 +1,85 @@
+.carousel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 80vh;
+}
+
+.slide {
+  opacity: 0;
+  transition: opacity 450ms ease-in-out;
+}
+
+.slide.active {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  height: 90%;
+  opacity: 1;
+  transition: opacity 450ms ease-in-out;
+}
+
+.titleContainer {
+  text-align: center;
+}
+
+.title,
+.subtitle {
+  margin: 0 0 8px;
+}
+
+.imageContainer {
+  width: 50%;
+  height: 60%;
+  text-align: center;
+}
+
+.image {
+  display: block;
+  object-fit: contain;
+  width: 100%;
+  height: 100%;
+}
+
+.navigation {
+  width: 100%;
+  height: 5%;
+  display: flex;
+  justify-content: center;
+}
+
+.box {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: blue;
+  transition: background 200ms ease-in;
+}
+
+.active.box {
+  background: red;
+}
+
+.box:not(:last-child) {
+  margin-right: 16px;
+}
+
+.button {
+  background: transparent;
+  position: absolute;
+  top: 30%;
+  width: 30px;
+  height: 30px;
+  padding: 4px;
+}
+
+.button.previous {
+  left: 32px;
+}
+
+.button.next {
+  right: 32px;
+}
