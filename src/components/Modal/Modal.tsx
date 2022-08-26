@@ -14,8 +14,8 @@ interface Props {
   setModal: Dispatch<SetStateAction<ModalState>>;
   title?: string | React.ReactNode;
   message?: string | React.ReactNode;
-  onConfirmClick?: () => void;
-  onCancelClick?: () => void;
+  onConfirmClick?: React.MouseEventHandler;
+  onCancelClick?: React.MouseEventHandler;
 }
 
 function Modal({
