@@ -20,3 +20,15 @@
 .button.submit {
   right: 38px;
 }
+
+.icon {
+  transition: color 250ms ease-in;
+}
+
+.icon.edit:hover {
+  color: #42dc99;
+}
+
+.icon.cancel:hover {
+  color: #f5554a;
+}
