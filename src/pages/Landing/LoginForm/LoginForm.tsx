@@ -10,7 +10,6 @@ function LoginForm() {
     <section className={styles.loginForm}>
       {!isLoggedin && (
         <>
-          <h1>Sign in</h1>
           <button
             type="button"
             className={`${styles.google} ${styles.login}`}
