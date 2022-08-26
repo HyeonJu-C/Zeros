@@ -1,10 +1,11 @@
 import React from "react";
+import Explanation from "./Explanation/Explanation";
 import LoginForm from "./LoginForm/LoginForm";
 
 function Landing() {
   return (
     <section>
-      application explanation
+      <Explanation />
       <LoginForm />
     </section>
   );
