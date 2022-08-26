@@ -93,6 +93,7 @@ function GoalForm({ onSubmitError, onSubmit }: Props) {
         type="number"
         isError={isGoalMoneyError as boolean}
         min={100000}
+        max={999999999999}
         placeholder="목표 금액을 입력해 주세요(10만원 이상)."
         onChange={onChangeGoalMoney as React.ChangeEventHandler}
         onBlur={onBlurGoalMoney as React.FocusEventHandler<HTMLInputElement>}
@@ -100,7 +101,7 @@ function GoalForm({ onSubmitError, onSubmit }: Props) {
       />
       {isGoalMoneyError && (
         <p className={styles.feedback}>
-          목표 금액은 10 만원 이상으로 입력해 주세요.
+          목표금액은 10 만원 이상, 99,999,999 만원 이하로 입력해 주세요.
         </p>
       )}
       <Input

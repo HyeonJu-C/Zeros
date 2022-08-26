@@ -10,6 +10,6 @@ export const validateGoalSaving = (value: string) => {
   let isValid = false;
   if (!value) return isValid;
 
-  isValid = +value >= 100000;
+  isValid = +value >= 100000 && +value <= 999999999999;
   return isValid;
 };

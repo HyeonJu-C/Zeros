@@ -10,19 +10,19 @@ export const formatGoalMoney = (goalMoney: string) => {
     case false:
       isGoalInteger = Number.isInteger(+goalMoney / 10000);
       formattedGoal = isGoalInteger
-        ? `${(+goalMoney / 10000).toLocaleString()} 만원`
-        : `${Math.round(+goalMoney / 10000).toLocaleString()} 만원`;
+        ? `${(+goalMoney / 10000).toLocaleString()}만 원`
+        : `${Math.round(+goalMoney / 10000).toLocaleString()}만 원`;
       break;
 
     case true:
       isGoalInteger = Number.isInteger(+goalMoney / 100000000);
       formattedGoal = isGoalInteger
-        ? `${(+goalMoney / 100000000).toLocaleString()} 억원`
+        ? `${(+goalMoney / 100000000).toLocaleString()}억 원`
         : `${Math.floor(
             +goalMoney / 100000000
-          ).toLocaleString()} 억 ${Math.round(
+          ).toLocaleString()}억 ${Math.round(
             +goalMoney.slice(-8, goalMoney.length) / 10000
-          )} 만원`;
+          ).toLocaleString()}만 원`;
       break;
 
     default:
