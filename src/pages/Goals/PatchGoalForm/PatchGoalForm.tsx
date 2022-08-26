@@ -98,12 +98,7 @@ function PatchGoalForm({
       });
   };
 
-  const onClickCheck: React.MouseEventHandler = (event) => {
-    event.stopPropagation();
-  };
-
-  const onClickCancel: React.MouseEventHandler = (event) => {
-    event.stopPropagation();
+  const onClickCancel: React.MouseEventHandler = () => {
     setMode(Mode.DEFAULT);
   };
 
@@ -116,14 +111,14 @@ function PatchGoalForm({
           value={+(goalMoney as string) || ""}
           isError={isGoalMoneyError as boolean}
           min={100000}
+          max={999999999999}
           placeholder={`목표금액은 ${originalInputs.goalMoney} 입니다.`}
-          onClick={(event) => event.stopPropagation()}
           onChange={onChangeGoalMoney as React.ChangeEventHandler}
           onBlur={onBlurGoalMoney as React.FocusEventHandler<HTMLInputElement>}
         />
         {isGoalMoneyError && (
           <p className={styles.feedback}>
-            목표 금액은 10 만원 이상으로 입력해 주세요.
+            목표금액은 10 만원 이상, 99,999,999 만원 이하로 입력해 주세요.
           </p>
         )}
         <SelectBox
@@ -134,26 +129,16 @@ function PatchGoalForm({
           placeholder={`목표기한은 ${originalInputs.goalDate} 입니다.`}
           isSelectBoxClicked={isSelectBoxClicked as boolean}
           selectedOption={selectedGoalDate as string}
-          onClick={(event) => {
-            event.stopPropagation();
-            (toggleSelectBox as React.MouseEventHandler)(event);
-          }}
-          onClickOption={(event) => {
-            event.stopPropagation();
-            (onSelectGoalDate as React.MouseEventHandler)(event);
-          }}
+          onClick={toggleSelectBox as React.MouseEventHandler}
+          onClickOption={onSelectGoalDate as React.MouseEventHandler}
           scrollWithHeight="70px"
         />
         {isGoalDateError && (
           <p className={styles.feedback}>목표 기한을 선택해 주세요.</p>
         )}
-        <button
-          type="submit"
-          className={`${styles.button} ${styles.submit}`}
-          onClick={onClickCheck}
-        >
+        <button type="submit" className={`${styles.button} ${styles.submit}`}>
           <span className="sr-only">수정</span>
-          <CheckIcon size={20} color="#42dc99" />
+          <CheckIcon size={20} className={`${styles.icon} ${styles.edit}`} />
         </button>
         <button
           type="button"
@@ -161,7 +146,7 @@ function PatchGoalForm({
           onClick={onClickCancel}
         >
           <span className="sr-only">취소</span>
-          <CancelIcon size={20} color="#f5554a" />
+          <CancelIcon size={20} className={`${styles.icon} ${styles.cancel}`} />
         </button>
       </form>
       {toastMessage.isVisible && (

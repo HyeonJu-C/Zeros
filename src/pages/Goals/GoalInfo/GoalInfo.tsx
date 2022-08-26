@@ -40,7 +40,6 @@ function GoalInfo({ data, mode, setMode, patchedData, setPatchedData }: Props) {
     : formatGoalMoney(goalMoney as string);
 
   const onClickEdit: React.MouseEventHandler = (event) => {
-    event.stopPropagation();
     setMode(Mode.EDIT);
   };
 
@@ -57,8 +56,8 @@ function GoalInfo({ data, mode, setMode, patchedData, setPatchedData }: Props) {
             setMode={setMode}
             setPatchedData={setPatchedData}
             originalInputs={{
-              goalMoney: formatGoalMoney(goalMoney as string) as string,
-              goalDate: formatGoalDate(parsedGoalDate as Date) as string,
+              goalMoney: formattedGoalMoney as string,
+              goalDate: formattedGoalDate as string,
               currentMoney: currentMoney as SavedMoney[],
             }}
           />

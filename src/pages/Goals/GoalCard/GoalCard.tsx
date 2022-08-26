@@ -1,18 +1,14 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { TbConfetti as ConfettiIcon } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
-import Modal, { ModalState } from "../../../components/Modal/Modal";
 import { auth } from "../../../services/firebase/config";
 import {
-  deleteGoal,
   GoalData,
   SavedMoney,
 } from "../../../services/firebase/goals-database";
 import styles from "./GoalCard.module.css";
-import ToastMessage, {
-  ToastMessageState,
-} from "../../../components/ToastMessage/ToastMessage";
+
 import {
   calculateAcheiveRate,
   formatAcheiveRate,
@@ -43,13 +39,8 @@ export enum Mode {
 function GoalCard({ data }: Props) {
   const [isDeleted, setIsDeleted] = useState(false);
   const [mode, setMode] = useState<Mode>(Mode.DEFAULT);
-  const [modal, setModal] = useState<ModalState>({
-    isVisible: false,
-  });
-  const [toastMessage, setToastMessage] = useState<ToastMessageState>({
-    isVisible: false,
-  });
   const [patchedData, setPatchedData] = useState<PatchedGoalData>({});
+  const authorElement = useRef<HTMLHeadingElement | null>(null);
 
   const navigate = useNavigate();
 
@@ -64,81 +55,49 @@ function GoalCard({ data }: Props) {
       );
   const isGoalAcheived = formattedAcheiveRate >= 100;
 
-  const onConfirmDelete = async () => {
-    setModal({ isVisible: false });
-    await deleteGoal(id as string);
-    setToastMessage({
-      isVisible: true,
-      title: "Delete",
-      message: "삭제되었습니다.",
-    });
-    setIsDeleted(true);
-  };
+  const onClickCard: React.MouseEventHandler = (event) => {
+    const isCardClicked = event.target === event.currentTarget;
+    const isAuthorClicked = event.target === authorElement.current;
 
-  const onCancelDelete = () => {
-    setModal({ isVisible: false });
-  };
+    if (!isCardClicked && !isAuthorClicked) return;
 
-  const onClickCard: React.MouseEventHandler = () => {
     navigate(`${id}`, {
       state: { ...data, formattedAcheiveRate, patchedData },
     });
   };
 
-  return (
-    <>
-      {!isDeleted && (
-        <article className={`${styles.card} `} onClick={onClickCard}>
-          <h1 className={styles.author}>
-            {`${userName} 님의 저축 목표 `}
-            {isGoalAcheived && <ConfettiIcon size={25} color="#e1b530" />}
-          </h1>
-          <GoalInfo
-            data={data}
-            patchedData={patchedData}
-            mode={mode}
-            setMode={setMode}
-            setPatchedData={setPatchedData}
-          />
-          <AchieveRate data={data} patchedData={patchedData} />
-          {mode === Mode.SAVE && (
-            <SaveMoneyForm
-              data={data}
-              patchedData={patchedData}
-              setMode={setMode}
-              setPatchedData={setPatchedData}
-            />
-          )}
-          {isAuthorized && (
-            <CardControllers
-              data={data}
-              patchedData={patchedData}
-              mode={mode}
-              setMode={setMode}
-              setModal={setModal}
-              setToastMessage={setToastMessage}
-            />
-          )}
-        </article>
-      )}
-      {modal.isVisible && (
-        <Modal
-          title={modal.title}
-          message={modal.message}
-          setModal={setModal}
-          onCancelClick={onCancelDelete}
-          onConfirmClick={onConfirmDelete}
+  return isDeleted ? null : (
+    <article className={`${styles.card} `} onClick={onClickCard}>
+      <h1 className={styles.author} ref={authorElement}>
+        {`${userName} 님의 저축 목표 `}
+        {isGoalAcheived && <ConfettiIcon size={25} color="#e1b530" />}
+      </h1>
+      <GoalInfo
+        data={data}
+        patchedData={patchedData}
+        mode={mode}
+        setMode={setMode}
+        setPatchedData={setPatchedData}
+      />
+      <AchieveRate data={data} patchedData={patchedData} />
+      {mode === Mode.SAVE && (
+        <SaveMoneyForm
+          data={data}
+          patchedData={patchedData}
+          setMode={setMode}
+          setPatchedData={setPatchedData}
         />
       )}
-      {toastMessage.isVisible && (
-        <ToastMessage
-          title={toastMessage.title as string}
-          message={toastMessage.message as string}
-          isMessageVisible={toastMessage.isVisible}
-          setToastMessage={setToastMessage}
+      {isAuthorized && (
+        <CardControllers
+          data={data}
+          patchedData={patchedData}
+          mode={mode}
+          setMode={setMode}
+          setIsDeleted={setIsDeleted}
         />
       )}
-    </>
+    </article>
   );
 }
 

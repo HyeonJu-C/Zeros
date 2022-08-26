@@ -61,10 +61,6 @@ function SaveMoneyForm({ data, patchedData, setPatchedData, setMode }: Props) {
       });
   };
 
-  const onClickSubmit: React.MouseEventHandler = (event) => {
-    event.stopPropagation();
-  };
-
   return (
     <section className={styles.formContainer}>
       <form className={styles.form} onSubmit={onSubmit}>
@@ -74,13 +70,12 @@ function SaveMoneyForm({ data, patchedData, setPatchedData, setMode }: Props) {
           isError={isMoneyError as boolean}
           onChange={onChangeMoney as React.ChangeEventHandler}
           onBlur={onBlur as React.FocusEventHandler<HTMLInputElement>}
-          onClick={(event) => event.stopPropagation()}
           value={(moneyValue as string) || ""}
           placeholder="저축할 금액을 입력해 주세요."
           min={1}
           style={{ width: "90%", margin: 0 }}
         />
-        <button type="submit" className={styles.button} onClick={onClickSubmit}>
+        <button type="submit" className={styles.button}>
           <span className="sr-only">제출</span>
           <CoinIcon size={20} className={styles.icon} />
         </button>
