@@ -10,9 +10,14 @@
 .newGoalLink {
   padding: 8px 32px;
   border-radius: 8px;
-  background: #1da1f2;
-  color: #fcfcfc;
+  background: var(--color-blue);
+  color: var(--color-white);
   margin-bottom: 32px;
+  transition: all 250ms ease-in;
+}
+
+.newGoalLink:hover {
+  background: var(--color-hover-blue);
 }
 
 .cardContainer {

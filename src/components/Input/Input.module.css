@@ -11,11 +11,11 @@
 }
 
 .input.invalid {
-  border: 1px solid #f5554a;
+  border: 1px solid var(--color-red);
   background: rgba(255, 0, 0, 0.2);
 }
 
 .input:focus {
-  border: 1px solid #1da1f2;
+  border: 1px solid var(--color-dark-blue);
   background: #f5f5f5;
 }

@@ -51,7 +51,7 @@
 }
 
 .icon:hover {
-  color: #42dc99;
+  color: var(--color-green);
 }
 
 @media screen and (min-width: 768px) {

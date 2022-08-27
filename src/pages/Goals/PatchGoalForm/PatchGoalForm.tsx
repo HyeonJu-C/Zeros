@@ -1,7 +1,9 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from "react";
-import { ImCancelCircle as CancelIcon } from "react-icons/im";
-import { BsCheckCircle as CheckIcon } from "react-icons/bs";
+import {
+  RiCloseCircleLine as CancelIcon,
+  RiCheckboxCircleLine as CheckIcon,
+} from "react-icons/ri";
 import { parse } from "date-fns";
 import Input from "../../../components/Input/Input";
 import SelectBox from "../../../components/SelectBox/SelectBox";
@@ -138,7 +140,7 @@ function PatchGoalForm({
         )}
         <button type="submit" className={`${styles.button} ${styles.submit}`}>
           <span className="sr-only">수정</span>
-          <CheckIcon size={20} className={`${styles.icon} ${styles.edit}`} />
+          <CheckIcon size={25} className={`${styles.icon} ${styles.edit}`} />
         </button>
         <button
           type="button"
@@ -146,7 +148,7 @@ function PatchGoalForm({
           onClick={onClickCancel}
         >
           <span className="sr-only">취소</span>
-          <CancelIcon size={20} className={`${styles.icon} ${styles.cancel}`} />
+          <CancelIcon size={25} className={`${styles.icon} ${styles.cancel}`} />
         </button>
       </form>
       {toastMessage.isVisible && (

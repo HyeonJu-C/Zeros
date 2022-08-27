@@ -15,7 +15,7 @@
   width: 90%;
   z-index: 20;
   padding: 1rem;
-  background: #fcfcfc;
+  background: var(--color-white);
   text-align: center;
   border-radius: 8px;
 }
@@ -28,15 +28,25 @@
 .button {
   padding: 6px 12px;
   border-radius: 4px;
-  color: #fcfcfc;
+  color: var(--color-white);
 }
 
 .button.confirm {
-  background: #42dc99;
+  background: var(--color-green);
+  transition: all 250ms ease-in;
+}
+
+.button.confirm:hover {
+  background: var(--color-hover-green);
 }
 
 .button.cancel {
-  background: #f5554a;
+  background: var(--color-red);
+  transition: all 250ms ease-in;
+}
+
+.button.cancel:hover {
+  background: var(--color-hover-red);
 }
 
 .button:not(:last-child) {

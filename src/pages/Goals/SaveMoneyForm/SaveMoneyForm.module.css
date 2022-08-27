@@ -24,7 +24,7 @@
 
 .feedback {
   font-size: 0.8rem;
-  color: #f5554a;
+  color: var(--color-red);
   text-align: right;
   margin: 0 0 8px;
 }

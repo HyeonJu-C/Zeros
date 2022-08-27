@@ -8,13 +8,18 @@
   width: 47.5%;
   padding: 8px;
   border-radius: 8px;
-  color: #fafafa;
+  color: var(--color-white);
   line-height: 100%;
 }
 
 .save {
-  background: #1da1f2;
+  background: var(--color-blue);
   text-align: center;
+  transition: all 250ms ease-in;
+}
+
+.save:hover {
+  background: var(--color-hover-blue);
 }
 
 .save.outdated {
@@ -22,5 +27,10 @@
 }
 
 .delete {
-  background: #f5554a;
+  background: var(--color-red);
+  transition: all 250ms ease-in;
+}
+
+.delete:hover {
+  background: var(--color-hover-red);
 }

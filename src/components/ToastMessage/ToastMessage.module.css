@@ -15,7 +15,7 @@
   width: 90%;
   z-index: 20;
   padding: 1rem;
-  background: #fcfcfc;
+  background: var(--color-white);
   text-align: center;
   border-radius: 8px;
 }

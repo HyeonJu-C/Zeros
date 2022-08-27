@@ -9,12 +9,12 @@
 }
 
 .selectBox.invalid {
-  border: 1px solid #f5554a;
+  border: 1px solid var(--color-red);
   background: rgba(255, 0, 0, 0.2);
 }
 
 .activeSelectBox {
-  border: 1px solid #1da1f2;
+  border: 1px solid var(--color-dark-blue);
   background: #f5f5f5;
 }
 
@@ -30,7 +30,7 @@
 }
 
 .optionList {
-  border: 1px solid black;
+  border: 1px solid var(--color-dark-blue);
   border-radius: 4px;
   margin: 0;
   margin-bottom: 8px;
@@ -46,7 +46,7 @@
 }
 
 .optionItem:hover {
-  background: #1da1f2;
-  color: #fcfcfc;
+  background: var(--color-blue);
+  color: var(--color-white);
   cursor: pointer;
 }

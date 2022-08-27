@@ -7,21 +7,21 @@
 
 .feedback {
   margin: 0 0 16px;
-  color: #f5554a;
+  color: var(--color-red);
   font-size: 0.8rem;
   text-align: right;
 }
 
 .invalid {
   margin: 0 0 16px;
-  color: #f5554a;
+  color: var(--color-red);
   font-size: 0.8rem;
   text-align: right;
 }
 
 .button {
-  background: #42dc99;
-  color: #fcfcfc;
+  background: var(--color-blue);
+  color: var(--color-white);
   padding: 8px 16px;
   border-radius: 8px;
 }

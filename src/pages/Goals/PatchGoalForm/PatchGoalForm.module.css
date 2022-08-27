@@ -1,12 +1,11 @@
 .form {
   display: flex;
   flex-direction: column;
-  font-size: 0.9rem;
 }
 
 .feedback {
   font-size: 0.8rem;
-  color: #f5554a;
+  color: var(--color-red);
   text-align: right;
 }
 
@@ -26,9 +25,9 @@
 }
 
 .icon.edit:hover {
-  color: #42dc99;
+  color: var(--color-green);
 }
 
 .icon.cancel:hover {
-  color: #f5554a;
+  color: var(--color-red);
 }

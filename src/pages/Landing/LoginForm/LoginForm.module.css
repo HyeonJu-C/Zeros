@@ -25,12 +25,12 @@
 
 .login.google {
   background: #f5554a;
-  color: #fcfcfc;
+  color: var(--color-white);
 }
 
 .login.github {
   background: #817f7f;
-  color: #fcfcfc;
+  color: var(--color-white);
 }
 
 .icon {
