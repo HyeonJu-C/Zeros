@@ -1,4 +1,6 @@
 @import-normalize;
+@import url("https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Hahmlet:wght@200;400;700&family=Noto+Sans+KR&family=Noto+Serif+KR:wght@400;500;700&family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Roboto:ital@0;1&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap");
 
 :root {
   --color-light: #e0e1dd;
@@ -20,7 +22,7 @@
 
 body {
   margin: 0;
-  font-family: sans-serif;
+  font-family: "Open Sans", "Noto Sans KR", sans-serif;
   background: var(--color-light);
   color: var(--color-dark);
 }
