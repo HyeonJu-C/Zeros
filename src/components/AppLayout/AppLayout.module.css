@@ -26,6 +26,7 @@
   padding-bottom: 8px;
 }
 
-.logout {
+.logout,
+.login {
   background: transparent;
 }

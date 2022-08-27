@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Outlet, Link, NavLink } from "react-router-dom";
 import AuthContext from "../../context/Auth";
+import LoginForm from "./LoginForm/LoginForm";
 import Modal, { ModalState } from "../Modal/Modal";
 import styles from "./AppLayout.module.css";
 
@@ -9,30 +10,54 @@ function AppLayout() {
   const [modal, setModal] = useState<ModalState>({
     isVisible: false,
   });
-  const { isVisible: isModalVisible } = modal;
+
+  const onClickLogin = () => {
+    setModal({
+      isVisible: true,
+      title: "Login",
+      message: <LoginForm setModal={setModal} />,
+    });
+  };
 
   const onClickLogout = () => {
-    setModal({ isVisible: true });
+    setModal({
+      isVisible: true,
+      title: "Logout",
+      message: "로그아웃 하시겠습니까?",
+    });
   };
 
-  const onConfirmLogout = () => {
+  const onConfirmClick = () => {
     setModal({ isVisible: false });
-    logout();
+
+    switch (modal.title) {
+      case "Login":
+        break;
+
+      case "Logout":
+        logout();
+        break;
+
+      default:
+        break;
+    }
   };
 
-  const onCancelLogout = () => {
+  const onCancelClick = () => {
     setModal({ isVisible: false });
   };
 
   return (
     <>
-      {isModalVisible && (
+      {modal.isVisible && (
         <Modal
-          title="Logout"
-          message="로그아웃 하시겠습니까?"
+          title={modal.title}
+          message={modal.message}
+          modal={modal}
+          hideButtons={modal.title === "Login"}
           setModal={setModal}
-          onConfirmClick={onConfirmLogout}
-          onCancelClick={onCancelLogout}
+          onConfirmClick={onConfirmClick}
+          onCancelClick={onCancelClick}
         />
       )}
       <nav className={styles.nav}>
@@ -41,6 +66,17 @@ function AppLayout() {
             Zeros
           </Link>
           <ul className={styles.ul}>
+            {!isLoggedin && (
+              <li className={styles.li}>
+                <button
+                  type="button"
+                  className={styles.login}
+                  onClick={onClickLogin}
+                >
+                  Login
+                </button>
+              </li>
+            )}
             {isLoggedin && (
               <>
                 <li className={styles.li}>
