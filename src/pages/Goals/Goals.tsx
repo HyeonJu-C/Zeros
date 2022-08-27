@@ -22,7 +22,7 @@ function Goals() {
   return (
     <section className={styles.goals}>
       <NavLink to="/goals/new" className={styles.newGoalLink}>
-        Create your goal, and share it!
+        당신의 저축 목표를 만들어 사람들과 공유하세요!
       </NavLink>
       {isLoading && <LoadingSpinner />}
       <section className={styles.cardContainer}>

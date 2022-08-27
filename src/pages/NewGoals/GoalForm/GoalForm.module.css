@@ -24,4 +24,9 @@
   color: var(--color-white);
   padding: 8px 16px;
   border-radius: 8px;
+  transition: background 250ms ease-in;
+}
+
+.button:hover {
+  background: var(--color-hover-blue);
 }
