@@ -17,6 +17,7 @@
   padding: 16px;
   margin-bottom: 8px;
   position: relative;
+  cursor: default;
 }
 
 .goal {
