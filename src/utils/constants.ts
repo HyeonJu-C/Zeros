@@ -6,4 +6,6 @@ export const GOAL_DATE_OPTIONS = [
   "5개월",
   "6개월",
   "1년",
+  "3년",
+  "5년",
 ];
