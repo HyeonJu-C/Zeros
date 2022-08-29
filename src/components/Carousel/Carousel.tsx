@@ -14,12 +14,11 @@ export interface CarouselContents {
 }
 interface Props {
   contents: CarouselContents[];
-  children?: React.ReactNode;
   autoplay?: boolean;
   duration?: number;
 }
 
-function Carousel({ contents, children, autoplay, duration }: Props) {
+function Carousel({ contents, autoplay, duration }: Props) {
   const maxIndex = contents.length - 1;
   const [currentIndex, setCurrentIndex, onClickPrev, onClickNext] =
     useCarousel(maxIndex);
@@ -57,11 +56,7 @@ function Carousel({ contents, children, autoplay, duration }: Props) {
           <section className={styles.imageContainer}>
             {image && <img className={styles.image} src={image} alt={alt} />}
           </section>
-          {typeof paragraph === "string" ? (
-            <p>{paragraph}</p>
-          ) : (
-            <div>{paragraph}</div>
-          )}
+          {typeof paragraph === "string" ? <p>{paragraph}</p> : <>paragraph</>}
         </div>
       ))}
       <button
@@ -80,13 +75,13 @@ function Carousel({ contents, children, autoplay, duration }: Props) {
         <span className="sr-only">next</span>
         <NextIcon />
       </button>
-      <div className={styles.navigation}>
+      <div className={styles.navigationContainer}>
         {contents.map(({ index }) => (
           <button
             key={`carousel_navigation_${index}`}
             type="button"
             onClick={() => onClickNavigation(index)}
-            className={`${styles.box} ${
+            className={`${styles.navigation} ${
               index === currentIndex ? styles.active : ""
             }`}
           >
@@ -96,7 +91,6 @@ function Carousel({ contents, children, autoplay, duration }: Props) {
           </button>
         ))}
       </div>
-      {children}
     </article>
   );
 }

@@ -3,22 +3,22 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 80vh;
+  height: 100%;
 }
 
 .slide {
-  opacity: 0;
-  transition: opacity 450ms ease-in-out;
-}
-
-.slide.active {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   text-align: center;
-  height: 90%;
+  opacity: 0;
+  transition: opacity 450ms ease-in-out;
+}
+
+.slide.active {
   opacity: 1;
+  height: 100%;
   transition: opacity 450ms ease-in-out;
 }
 
@@ -35,6 +35,7 @@
   width: 70%;
   height: 60%;
   text-align: center;
+  border-radius: 12px;
 }
 
 .image {
@@ -43,29 +44,6 @@
   width: 100%;
   height: 100%;
   border-radius: 12px;
-}
-
-.navigation {
-  width: 100%;
-  height: 5%;
-  display: flex;
-  justify-content: center;
-}
-
-.box {
-  width: 15px;
-  height: 15px;
-  border-radius: 50%;
-  background: var(--color-light-blue);
-  transition: background 200ms ease-in;
-}
-
-.active.box {
-  background: var(--color-dark-blue);
-}
-
-.box:not(:last-child) {
-  margin-right: 16px;
 }
 
 .button {
@@ -79,14 +57,37 @@
   border-radius: 50%;
 }
 
-.button:hover {
-  background: rgba(0, 0, 0, 0.2);
-}
-
 .button.previous {
   left: 12px;
 }
 
 .button.next {
   right: 12px;
+}
+
+.button:hover {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.navigationContainer {
+  width: 100%;
+  height: 5%;
+  display: flex;
+  justify-content: center;
+}
+
+.navigation {
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+  background: var(--color-light-blue);
+  transition: background 200ms ease-in;
+}
+
+.active.navigation {
+  background: var(--color-dark-blue);
+}
+
+.navigation:not(:last-child) {
+  margin-right: 16px;
 }
