@@ -3,7 +3,7 @@ import Carousel, {
   CarouselContents,
 } from "../../../components/Carousel/Carousel";
 import styles from "./Explanation.module.css";
-import goalImage from "../../../assets/images/money_goal_mobile.png";
+import goalImage from "../../../assets/images/goals_page_example.png";
 import zeroImage from "../../../assets/images/zero-landing.jpg";
 import loginImage from "../../../assets/images/login.jpg";
 import writeImage from "../../../assets/images/write.jpg";
@@ -46,7 +46,7 @@ const PAGE_EXPLANATION_CONTENTS: CarouselContents[] = [
 function Explanation() {
   return (
     <section className={styles.explanation}>
-      <Carousel contents={PAGE_EXPLANATION_CONTENTS} autoplay duration={5000} />
+      <Carousel autoplay contents={PAGE_EXPLANATION_CONTENTS} duration={5000} />
     </section>
   );
 }
