@@ -68,12 +68,12 @@ function CardControllers({
   const onConfirmDelete = async () => {
     setModal({ isVisible: false });
     await deleteGoal(id as string);
+
     setToastMessage({
       isVisible: true,
       title: "Delete",
       message: "삭제되었습니다.",
     });
-    setIsDeleted(true);
   };
 
   const onCancelDelete = () => {
@@ -109,6 +109,7 @@ function CardControllers({
           message={toastMessage.message as string}
           isMessageVisible={toastMessage.isVisible}
           setToastMessage={setToastMessage}
+          onDisappearMessage={() => setIsDeleted(true)}
         />
       )}
     </>
