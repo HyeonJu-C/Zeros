@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Outlet, Link, NavLink } from "react-router-dom";
 import AuthContext from "../../context/Auth";
-import LoginForm from "./LoginForm/LoginForm";
+import LoginForm from "../LoginForm/LoginForm";
 import Modal, { ModalState } from "../Modal/Modal";
 import styles from "./AppLayout.module.css";
 
@@ -66,6 +66,26 @@ function AppLayout() {
             Zeros
           </Link>
           <ul className={styles.ul}>
+            <li className={styles.li}>
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  isActive ? styles.activeLink : ""
+                }
+              >
+                Home
+              </NavLink>
+            </li>
+            <li className={styles.li}>
+              <NavLink
+                to="/goals"
+                className={({ isActive }) =>
+                  isActive ? styles.activeLink : ""
+                }
+              >
+                Goals
+              </NavLink>
+            </li>
             {!isLoggedin && (
               <li className={styles.li}>
                 <button
@@ -78,37 +98,15 @@ function AppLayout() {
               </li>
             )}
             {isLoggedin && (
-              <>
-                <li className={styles.li}>
-                  <NavLink
-                    to="/"
-                    className={({ isActive }) =>
-                      isActive ? styles.activeLink : ""
-                    }
-                  >
-                    Home
-                  </NavLink>
-                </li>
-                <li className={styles.li}>
-                  <NavLink
-                    to="/goals"
-                    className={({ isActive }) =>
-                      isActive ? styles.activeLink : ""
-                    }
-                  >
-                    Goals
-                  </NavLink>
-                </li>
-                <li className={styles.li}>
-                  <button
-                    type="button"
-                    className={styles.logout}
-                    onClick={onClickLogout}
-                  >
-                    Logout
-                  </button>
-                </li>
-              </>
+              <li className={styles.li}>
+                <button
+                  type="button"
+                  className={styles.logout}
+                  onClick={onClickLogout}
+                >
+                  Logout
+                </button>
+              </li>
             )}
           </ul>
         </div>
