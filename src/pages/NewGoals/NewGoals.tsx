@@ -6,7 +6,6 @@ import ToastMessage, {
 } from "../../components/ToastMessage/ToastMessage";
 import { GoalData, postGoal } from "../../services/firebase/goals-database";
 import GoalForm from "./GoalForm/GoalForm";
-import styles from "./NewGoals.module.css";
 
 function NewGoals() {
   const [modal, setModal] = useState<ModalState>({
@@ -76,7 +75,7 @@ function NewGoals() {
 
   return (
     <>
-      <section className={styles.newGoals}>
+      <section className="page-layout">
         <GoalForm onSubmit={onSubmit} onSubmitError={onSubmitError} />
       </section>
       {isModalVisible && (

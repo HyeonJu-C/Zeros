@@ -69,3 +69,19 @@ li {
   overflow: hidden;
   opacity: 0;
 }
+
+.page-layout {
+  padding: 16px;
+  height: 90vh;
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-3rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

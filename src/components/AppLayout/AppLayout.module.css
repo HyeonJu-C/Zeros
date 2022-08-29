@@ -1,3 +1,6 @@
+.nav {
+  height: 10vh;
+}
 .ulContainer {
   display: flex;
   justify-content: space-between;

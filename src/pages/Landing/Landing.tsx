@@ -3,7 +3,7 @@ import Explanation from "./Explanation/Explanation";
 
 function Landing() {
   return (
-    <section>
+    <section className="page-layout">
       <Explanation />
     </section>
   );
