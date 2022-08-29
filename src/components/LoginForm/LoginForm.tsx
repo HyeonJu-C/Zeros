@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
 import { FcGoogle as GoogleIcon } from "react-icons/fc";
 import { FaGithub as GithubIcon } from "react-icons/fa";
-import AuthContext from "../../../context/Auth";
+import AuthContext from "../../context/Auth";
 import styles from "./LoginForm.module.css";
-import { ModalState } from "../../Modal/Modal";
-import { ProviderName } from "../../../services/firebase/auth";
+import { ModalState } from "../Modal/Modal";
+import { ProviderName } from "../../services/firebase/auth";
 
 interface Props {
   setModal: React.Dispatch<React.SetStateAction<ModalState>>;
