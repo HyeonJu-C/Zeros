@@ -54,12 +54,11 @@ function Calendar({
   };
 
   const isSavedMoneyExist = (date: Date) => {
-    return (
-      currentMoney &&
-      currentMoney.find((moneyItem) =>
-        isSameDay(parseJSON(moneyItem.date), date)
-      )
-    );
+    return currentMoney //
+      .find(
+        (moneyItem) =>
+          isSameDay(parseJSON(moneyItem.date), date) && moneyItem.money > 0
+      );
   };
 
   return (
@@ -122,16 +121,16 @@ function Calendar({
             dateTime={JSON.stringify(date)}
             onClick={isDateValid(date) ? onClickDate : undefined}
             style={{
-              gridColumnStart: index === 0 ? getDay(date) + 1 : "initial",
+              gridColumnStart: index === 0 ? getDay(date) + 1 : "",
             }}
             className={`${styles.time}  ${
               isSameDay(startDate, date) ? styles.start : ""
             }  ${isSameDay(endDate, date) ? styles.end : ""} 
             ${isSameDay(currentDate, date) ? styles.active : ""}${
-              isDateValid(date) ? "" : styles.inactive
+              isDateValid(date) ? "" : styles.invalid
             } ${isSameDay(new Date(), date) ? styles.today : ""}`}
           >
-            <span className={styles.dateBox}>{getDate(date)}</span>
+            <span className={styles.dateContents}>{getDate(date)}</span>
             {isSavedMoneyExist(date) && (
               <strong className={styles.circle}>
                 <span className="sr-only">

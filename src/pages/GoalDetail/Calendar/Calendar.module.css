@@ -53,11 +53,12 @@
   color: var(--color-hover-red);
 }
 
+.start,
 .end {
   color: var(--color-hover-blue);
 }
 
-.inactive.time {
+.invalid {
   color: var(--color-gray);
 }
 
@@ -71,16 +72,16 @@
   cursor: pointer;
 }
 
-.date > .inactive.time:hover {
+.date > .invalid.time:hover {
   cursor: default;
 }
 
-.dateBox {
+.dateContents {
   padding: 2px;
   margin-bottom: 4px;
 }
 
-.active.time .dateBox {
+.active .dateContents {
   display: block;
   background: var(--color-blue);
   color: var(--color-light);
@@ -99,5 +100,6 @@
   .calendar {
     width: 45%;
     height: 50%;
+    margin-bottom: 0;
   }
 }

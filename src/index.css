@@ -4,6 +4,7 @@
 
 :root {
   --color-light: #e0e1dd;
+  --color-gray: #adb5bd;
   --color-dark: #0d1b2a;
   --color-light-blue: #778da9;
   --color-blue: #415a77;
@@ -37,6 +38,7 @@ button {
   font-family: inherit;
   font-size: inherit;
   padding: 0;
+  background: transparent;
 }
 
 button:hover {
@@ -73,6 +75,8 @@ li {
 .page-layout {
   padding: 16px;
   height: 90vh;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
 @keyframes slide-down {

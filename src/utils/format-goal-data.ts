@@ -46,7 +46,7 @@ export const calculateAcheiveRate = (
 ) => {
   const totalSavedMoney = currentMoney //
     ?.map(({ money }) => money)
-    .reduce((prev, current) => prev + current);
+    .reduce((prev, current) => prev + current, 0);
 
   const acheiveRate = (totalSavedMoney / +goalMoney) * 100;
 

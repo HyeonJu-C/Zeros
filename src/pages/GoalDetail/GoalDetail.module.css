@@ -1,0 +1,10 @@
+.contentsContainer {
+  margin-bottom: 16px;
+}
+
+@media screen and (min-width: 768px) {
+  .contentsContainer {
+    display: flex;
+    justify-content: space-between;
+  }
+}

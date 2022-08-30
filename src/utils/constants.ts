@@ -9,3 +9,5 @@ export const GOAL_DATE_OPTIONS = [
   "3년",
   "5년",
 ];
+
+export const WEEK = ["S", "M", "T", "W", "T", "F", "S"];
