@@ -1,0 +1,103 @@
+.calendar {
+  position: relative;
+  background: var(--color-white);
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.title {
+  font-size: 1.2rem;
+  margin-bottom: 8px;
+}
+
+.time {
+  display: block;
+  text-align: center;
+}
+
+.button {
+  position: absolute;
+  top: 16px;
+  padding: 2px;
+}
+
+.doubleLeft.button {
+  left: 20%;
+}
+
+.left.button {
+  left: 25%;
+}
+
+.doubleRight.button {
+  right: 20%;
+}
+
+.right.button {
+  right: 25%;
+}
+
+.week {
+  margin-bottom: 8px;
+}
+
+.week,
+.date {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  font-weight: 700;
+}
+
+.today {
+  color: var(--color-hover-red);
+}
+
+.end {
+  color: var(--color-hover-blue);
+}
+
+.inactive.time {
+  color: var(--color-gray);
+}
+
+.date > .time {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.date > .time:hover {
+  cursor: pointer;
+}
+
+.date > .inactive.time:hover {
+  cursor: default;
+}
+
+.dateBox {
+  padding: 2px;
+  margin-bottom: 4px;
+}
+
+.active.time .dateBox {
+  display: block;
+  background: var(--color-blue);
+  color: var(--color-light);
+  border-radius: 50%;
+}
+
+.circle {
+  display: block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-light-blue);
+}
+
+@media screen and (min-width: 768px) {
+  .calendar {
+    width: 45%;
+    height: 50%;
+  }
+}
