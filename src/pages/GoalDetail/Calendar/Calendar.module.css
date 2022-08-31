@@ -1,3 +1,6 @@
+@value breakpoints: "../../../styles/breakpoints.css";
+@value desktop from breakpoints;
+
 .calendar {
   position: relative;
   background: var(--color-white);
@@ -96,7 +99,7 @@
   background: var(--color-light-blue);
 }
 
-@media screen and (min-width: 768px) {
+@media desktop {
   .calendar {
     width: 45%;
     height: 50%;

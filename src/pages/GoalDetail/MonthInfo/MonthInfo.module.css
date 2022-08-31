@@ -1,3 +1,6 @@
+@value breakpoints: "../../../styles/breakpoints.css";
+@value desktop from breakpoints;
+
 .monthInfo {
   background: var(--color-white);
   padding: 16px;
@@ -11,7 +14,7 @@
 .p:not(:last-child) {
   margin-bottom: 8px;
 }
-@media screen and (min-width: 768px) {
+@media desktop {
   .monthInfo {
     width: 45%;
   }

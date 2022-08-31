@@ -1,3 +1,6 @@
+@value breakpoints: "../../styles/breakpoints.css";
+@value desktop from breakpoints;
+
 .background {
   position: fixed;
   top: 0;
@@ -21,9 +24,20 @@
   animation: slide-down 300ms ease-out forwards;
 }
 
-@media screen and (min-width: 768px) {
+@media desktop {
   .toastMessage {
     width: 600px;
     left: calc(50% - 300px);
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-3rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

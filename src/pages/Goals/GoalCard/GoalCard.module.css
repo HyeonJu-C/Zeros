@@ -1,3 +1,6 @@
+@value breakpoints: "../../../styles/breakpoints.css";
+@value desktop from breakpoints;
+
 .card {
   display: flex;
   flex-direction: column;
@@ -24,7 +27,7 @@
   font-weight: 700;
 }
 
-@media screen and (min-width: 768px) {
+@media desktop {
   .card {
     width: 45%;
     padding: 16px;
