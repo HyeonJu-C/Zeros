@@ -46,7 +46,7 @@ function Carousel({ contents, autoplay, duration }: Props) {
         <div
           key={`carousel_slide_${index}`}
           className={`${styles.slide} ${
-            index === currentIndex ? styles.active : "sr-only"
+            index === currentIndex ? styles.active : ""
           }`}
         >
           <section className={styles.titleContainer}>

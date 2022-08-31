@@ -7,18 +7,27 @@
 }
 
 .slide {
+  position: absolute;
+  z-index: -100;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  transition: opacity 450ms ease-in-out;
+}
+
+.slide.active {
+  position: static;
+  z-index: 0;
+  opacity: 1;
+  width: 100%;
+  height: 100%;
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
   text-align: center;
-  opacity: 0;
-  transition: opacity 450ms ease-in-out;
-}
-
-.slide.active {
-  opacity: 1;
-  height: 100%;
   transition: opacity 450ms ease-in-out;
 }
 
@@ -58,11 +67,11 @@
 }
 
 .button.previous {
-  left: 12px;
+  left: 5%;
 }
 
 .button.next {
-  right: 12px;
+  right: 5%;
 }
 
 .button:hover {
