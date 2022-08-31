@@ -1,0 +1,16 @@
+.dateInfo {
+  background: var(--color-dark-blue);
+  color: var(--color-white);
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.title,
+.subTitle {
+  margin: 0 0 8px;
+}
+
+.subTitle {
+  font-weight: 400;
+}

@@ -5,11 +5,11 @@
 }
 
 .newGoalLink {
-  padding: 8px 32px;
+  margin-bottom: 32px;
   border-radius: 8px;
+  padding: 8px 32px;
   background: var(--color-blue);
   color: var(--color-white);
-  margin-bottom: 32px;
   transition: all 250ms ease-in;
 }
 

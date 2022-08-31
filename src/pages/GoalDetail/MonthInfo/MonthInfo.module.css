@@ -1,0 +1,18 @@
+.monthInfo {
+  background: var(--color-white);
+  padding: 16px;
+  border-radius: 12px;
+}
+
+.title {
+  margin: 0 0 8px;
+}
+
+.p:not(:last-child) {
+  margin-bottom: 8px;
+}
+@media screen and (min-width: 768px) {
+  .monthInfo {
+    width: 45%;
+  }
+}

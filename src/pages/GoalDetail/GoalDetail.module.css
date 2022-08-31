@@ -1,5 +1,36 @@
+goalDetail {
+  position: relative;
+}
+
 .contentsContainer {
   margin-bottom: 16px;
+}
+
+.title {
+  margin: 0 0 16px;
+  text-align: center;
+}
+
+.date {
+  color: var(--color-blue);
+  text-align: center;
+}
+
+.share {
+  display: block;
+  position: absolute;
+  top: 15%;
+  margin: 0 0 32px;
+  border-radius: 8px;
+  padding: 8px 32px;
+  line-height: 100%;
+  color: var(--color-white);
+  background: var(--color-dark-blue);
+  transition: all 250ms ease-in;
+}
+
+.share:hover {
+  background: var(--color-hover-blue);
 }
 
 @media screen and (min-width: 768px) {
