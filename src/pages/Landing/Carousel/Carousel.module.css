@@ -1,3 +1,6 @@
+@value breakpoints: "../../../styles/breakpoints.css";
+@value desktop from breakpoints;
+
 .carousel {
   position: relative;
   display: flex;
@@ -49,7 +52,7 @@
 
 .image {
   display: block;
-  object-fit: cover;
+  object-fit: contain;
   width: 100%;
   height: 100%;
   border-radius: 12px;
@@ -67,11 +70,11 @@
 }
 
 .button.previous {
-  left: 5%;
+  left: 0;
 }
 
 .button.next {
-  right: 5%;
+  right: 0;
 }
 
 .button:hover {
@@ -99,4 +102,10 @@
 
 .navigation:not(:last-child) {
   margin-right: 16px;
+}
+
+@media desktop {
+  .image {
+    object-fit: cover;
+  }
 }
