@@ -19,16 +19,19 @@ interface Props {
 }
 
 function SaveMoneyForm({ data, patchedData, setPatchedData, setMode }: Props) {
-  const [moneyValue, onChangeMoney, onBlur, isMoneyError] = useInput(
-    (value: string) => +value > 0
-  );
+  const {
+    value: moneyValue,
+    onChangeValue: onChangeMoney,
+    onBlur,
+    isError: isMoneyError,
+  } = useInput((value: string) => +value > 0);
 
   const { id: goalId, goalMoney, currentMoney } = data;
 
   const isFormValid = moneyValue && !isMoneyError;
 
-  const onSubmit: React.FormEventHandler = (evnet) => {
-    evnet.preventDefault();
+  const onSubmit: React.FormEventHandler = (event) => {
+    event.preventDefault();
 
     if (!isFormValid) return;
 
@@ -53,7 +56,7 @@ function SaveMoneyForm({ data, patchedData, setPatchedData, setMode }: Props) {
             currentMoney: patchedCurrentMoney,
             achieveRate: calculateAcheiveRate(
               patchedCurrentMoney,
-              prev.goalMoney || (goalMoney as string)
+              prev.goalMoney || goalMoney || ""
             ),
           };
         });
@@ -67,10 +70,10 @@ function SaveMoneyForm({ data, patchedData, setPatchedData, setMode }: Props) {
         <Input
           id="save-money"
           type="number"
-          isError={isMoneyError as boolean}
-          onChange={onChangeMoney as React.ChangeEventHandler}
-          onBlur={onBlur as React.FocusEventHandler<HTMLInputElement>}
-          value={(moneyValue as string) || ""}
+          isError={isMoneyError}
+          onChange={onChangeMoney}
+          onBlur={onBlur}
+          value={moneyValue || ""}
           placeholder="저축할 금액을 입력해 주세요."
           min={1}
           style={{ width: "90%", margin: 0 }}

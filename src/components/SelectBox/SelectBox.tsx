@@ -45,7 +45,7 @@ function SelectBox({
           id={id}
           name={id}
           type={type}
-          value={(selectedOption as string) || ""}
+          value={selectedOption || ""}
           className={styles.input}
           placeholder={placeholder}
         />

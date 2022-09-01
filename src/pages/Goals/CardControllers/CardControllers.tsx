@@ -103,15 +103,13 @@ function CardControllers({
           onConfirmClick={onConfirmDelete}
         />
       )}
-      {toastMessage.isVisible && (
-        <ToastMessage
-          title={toastMessage.title as string}
-          message={toastMessage.message as string}
-          isMessageVisible={toastMessage.isVisible}
-          setToastMessage={setToastMessage}
-          onDisappearMessage={() => setIsDeleted(true)}
-        />
-      )}
+      <ToastMessage
+        title={toastMessage.title as string}
+        message={toastMessage.message as string}
+        isMessageVisible={toastMessage.isVisible}
+        setToastMessage={setToastMessage}
+        onDisappearMessage={() => setIsDeleted(true)}
+      />
     </>
   );
 }

@@ -43,19 +43,23 @@ function PatchGoalForm({
   setMode,
   setPatchedData,
 }: Props) {
-  const [goalMoney, onChangeGoalMoney, onBlurGoalMoney, isGoalMoneyError] =
-    useInput(validateGoalSaving);
+  const {
+    value: goalMoney,
+    onChangeValue: onChangeGoalMoney,
+    onBlur: onBlurGoalMoney,
+    isError: isGoalMoneyError,
+  } = useInput(validateGoalSaving);
 
   const processDate = (optionDate: string | number) =>
     formatGoalDate(calculateGoalDate(optionDate as string) as Date);
 
-  const [
+  const {
     isSelectBoxClicked,
-    selectedGoalDate,
-    onSelectGoalDate,
-    isGoalDateError,
+    selectedOption: selectedGoalDate,
+    onSelectOption: onSelectGoalDate,
+    isError: isGoalDateError,
     toggleSelectBox,
-  ] = useSelectBox(processDate);
+  } = useSelectBox(processDate);
 
   const [toastMessage, setToastMessage] = useState<ToastMessageState>({
     isVisible: false,
@@ -82,11 +86,11 @@ function PatchGoalForm({
     );
     const achieveRate = calculateAcheiveRate(
       originalInputs.currentMoney,
-      goalMoney as string
+      goalMoney
     );
 
     patchGoal(targetGoalId, {
-      goalMoney: goalMoney as string,
+      goalMoney: goalMoney || "",
       goalDate: JSON.stringify(parsedSelectedDate),
     }) //
       .then(() => {
@@ -94,7 +98,7 @@ function PatchGoalForm({
         setPatchedData((prev) => ({
           ...prev,
           achieveRate,
-          goalMoney: goalMoney as string,
+          goalMoney: goalMoney || "",
           goalDate: JSON.stringify(parsedSelectedDate),
         }));
       });
@@ -110,13 +114,13 @@ function PatchGoalForm({
         <Input
           id="patch-goal-money"
           type="number"
-          value={+(goalMoney as string) || ""}
-          isError={isGoalMoneyError as boolean}
+          value={+goalMoney || ""}
+          isError={isGoalMoneyError}
           min={100000}
           max={999999999999}
           placeholder={`목표금액은 ${originalInputs.goalMoney} 입니다.`}
-          onChange={onChangeGoalMoney as React.ChangeEventHandler}
-          onBlur={onBlurGoalMoney as React.FocusEventHandler<HTMLInputElement>}
+          onChange={onChangeGoalMoney}
+          onBlur={onBlurGoalMoney}
         />
         {isGoalMoneyError && (
           <p className={styles.feedback}>
@@ -127,12 +131,12 @@ function PatchGoalForm({
           id="patch-target-date"
           type="text"
           options={GOAL_DATE_OPTIONS}
-          isError={isGoalDateError as boolean}
+          isError={isGoalDateError}
           placeholder={`목표기한은 ${originalInputs.goalDate} 입니다.`}
-          isSelectBoxClicked={isSelectBoxClicked as boolean}
-          selectedOption={selectedGoalDate as string}
-          onClick={toggleSelectBox as React.MouseEventHandler}
-          onClickOption={onSelectGoalDate as React.MouseEventHandler}
+          isSelectBoxClicked={isSelectBoxClicked}
+          selectedOption={selectedGoalDate || ""}
+          onClick={toggleSelectBox}
+          onClickOption={onSelectGoalDate}
           scrollWithHeight="70px"
         />
         {isGoalDateError && (
@@ -151,15 +155,13 @@ function PatchGoalForm({
           <CancelIcon size={25} className={`${styles.icon} ${styles.cancel}`} />
         </button>
       </form>
-      {toastMessage.isVisible && (
-        <ToastMessage
-          title={toastMessage.title as string}
-          message={toastMessage.message as string}
-          isMessageVisible={toastMessage.isVisible}
-          setToastMessage={setToastMessage}
-          visibleDuration={1000}
-        />
-      )}
+      <ToastMessage
+        title={toastMessage.title || ""}
+        message={toastMessage.message || ""}
+        isMessageVisible={toastMessage.isVisible}
+        setToastMessage={setToastMessage}
+        visibleDuration={1000}
+      />
     </>
   );
 }

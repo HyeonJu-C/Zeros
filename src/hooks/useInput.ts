@@ -14,7 +14,7 @@ function useInput(
   };
   const isError = isFocused && !validate(value);
 
-  return [value, onChangeValue, onBlur, isError];
+  return { value, onChangeValue, onBlur, isError };
 }
 
 export default useInput;
