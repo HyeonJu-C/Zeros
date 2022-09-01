@@ -1,26 +1,29 @@
-import React, { useContext } from "react";
+import React, { Suspense, useContext } from "react";
 import { Outlet, Route, Routes } from "react-router-dom";
 import Landing from "../pages/Landing/Landing";
-import Goals from "../pages/Goals/Goals";
 import AuthContext from "../context/Auth";
 import AppLayout from "../components/AppLayout/AppLayout";
-import NewGoals from "../pages/NewGoals/NewGoals";
-import GoalDetail from "../pages/GoalDetail/GoalDetail";
+
+const Goals = React.lazy(() => import("../pages/Goals/Goals"));
+const GoalDetail = React.lazy(() => import("../pages/GoalDetail/GoalDetail"));
+const NewGoals = React.lazy(() => import("../pages/NewGoals/NewGoals"));
 
 function Routing() {
   const { isLoggedin } = useContext(AuthContext);
 
   return (
-    <Routes>
-      <Route element={<AppLayout />}>
-        <Route path="" element={<Landing />} />
-        <Route path="/goals" element={<Outlet />}>
-          <Route path="" element={<Goals />} />
-          <Route path=":goalId" element={<GoalDetail />} />
-          {isLoggedin && <Route path="new" element={<NewGoals />} />}
+    <Suspense fallback={<AppLayout />}>
+      <Routes>
+        <Route element={<AppLayout />}>
+          <Route path="" element={<Landing />} />
+          <Route path="/goals" element={<Outlet />}>
+            <Route path="" element={<Goals />} />
+            <Route path=":goalId" element={<GoalDetail />} />
+            {isLoggedin && <Route path="new" element={<NewGoals />} />}
+          </Route>
         </Route>
-      </Route>
-    </Routes>
+      </Routes>
+    </Suspense>
   );
 }
 
