@@ -21,8 +21,8 @@ goalDetail {
 
 .share {
   display: block;
-  position: absolute;
-  top: 15%;
+  position: static;
+  width: 100%;
   margin: 0 0 32px;
   border-radius: 8px;
   padding: 8px 32px;
@@ -40,5 +40,10 @@ goalDetail {
   .contentsContainer {
     display: flex;
     justify-content: space-between;
+  }
+  .share {
+    position: absolute;
+    top: 15%;
+    width: auto;
   }
 }

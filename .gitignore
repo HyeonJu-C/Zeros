@@ -14,6 +14,11 @@
 # API_KEYS
 .env
 
+# firebase config
+/.firebase
+.firebaserc
+firebase.json
+
 # editor
 /.vscode
 

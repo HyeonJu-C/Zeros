@@ -16,7 +16,7 @@ import ToastMessage, {
 function GoalDetail() {
   const location = useLocation();
   const data = location.state as GoalData;
-  const patchedData = data.patchedData as PatchedGoalData;
+  const patchedData = (data.patchedData as PatchedGoalData) || [];
   const [toastMessage, setToastMessage] = useState<ToastMessageState>({
     isVisible: false,
   });
