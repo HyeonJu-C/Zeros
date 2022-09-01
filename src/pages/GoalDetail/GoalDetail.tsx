@@ -15,11 +15,13 @@ import MonthInfo from "./MonthInfo/MonthInfo";
 import ToastMessage, {
   ToastMessageState,
 } from "../../components/ToastMessage/ToastMessage";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 function GoalDetail() {
   const params = useParams();
   const { goalId } = params;
   const [data, setData] = useState<GoalData[] | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const [toastMessage, setToastMessage] = useState<ToastMessageState>({
     isVisible: false,
   });
@@ -70,11 +72,17 @@ function GoalDetail() {
       const goalData = await getGoal(goalId as string);
       setData([goalData]);
     };
-    getData();
+    getData() //
+      .then(() => setIsLoading(false));
   }, [goalId]);
 
   return (
     <>
+      {isLoading && (
+        <div className={styles.spinnerContainer}>
+          <LoadingSpinner />
+        </div>
+      )}
       {data?.map(
         ({ userName, goalTitle, currentMoney, goalMoney }: GoalData) => (
           <section
