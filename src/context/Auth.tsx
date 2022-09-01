@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-import { addDays, isAfter, parseJSON } from "date-fns";
+import { addDays, isAfter } from "date-fns";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
@@ -8,6 +8,7 @@ import {
   ProviderName,
 } from "../services/firebase/auth";
 import { auth } from "../services/firebase/config";
+import { calculateRemainigTime, getExpiresinTime } from "./utils/logout-timer";
 
 interface AuthContextValue {
   isLoggedin: null | boolean;
@@ -24,36 +25,25 @@ const AuthContext = React.createContext<AuthContextValue>({
 });
 
 export default AuthContext;
-
-const getStorageItems = () => {
-  const uid = localStorage.getItem("uid");
-  const expiresIn = localStorage.getItem("expiresIn");
-  if (!uid || !expiresIn) return null;
-  return { uid, expiresIn };
-};
-
-const getRemainigTime = (expireTime: Date, now: Date) => {
-  return expireTime.getTime() - now.getTime(); // get millie seconds
-};
-
-let autoLogoutTimer: ReturnType<typeof setTimeout>;
 interface Props {
   children: React.ReactNode;
 }
 
+let autoLogoutTimer: ReturnType<typeof setTimeout>;
+
 export function AuthContextProvider({ children }: Props) {
   const [uid, setUid] = useState<null | string>(null);
+  const isLoggedin = !!auth.currentUser && auth.currentUser.uid === uid;
   const navigate = useNavigate();
-  const isLoggedin = !!uid;
 
   const logout = useCallback(async () => {
     await firebaseLogout();
 
-    localStorage.removeItem("uid");
     localStorage.removeItem("expiresIn");
+    clearTimeout(autoLogoutTimer);
+
     setUid(null);
     navigate("/");
-    clearTimeout(autoLogoutTimer);
   }, [navigate]);
 
   const login = useCallback(
@@ -62,33 +52,31 @@ export function AuthContextProvider({ children }: Props) {
       if (!auth.currentUser) return;
 
       const now = new Date();
-      const expiresIn = addDays(now, 1); // auto-logout in 24 Hours
-      const remainingTime = getRemainigTime(expiresIn, now);
-
-      localStorage.setItem("uid", JSON.stringify(auth.currentUser.uid));
+      const expiresIn = addDays(now, 1);
+      const remainingTime = calculateRemainigTime(expiresIn, now);
       localStorage.setItem("expiresIn", JSON.stringify(expiresIn));
+      autoLogoutTimer = setTimeout(logout, remainingTime);
+
       setUid(auth.currentUser.uid);
       navigate("/goals");
-
-      autoLogoutTimer = setTimeout(logout, remainingTime);
     },
     [logout, navigate]
   );
 
   useEffect(() => {
-    const storageItems = getStorageItems();
-    if (!storageItems) return;
-
-    setUid(storageItems.uid);
+    auth //
+      .onAuthStateChanged((user) => setUid(user?.uid || null));
 
     const now = new Date();
-    const expiresIn = parseJSON(storageItems.expiresIn);
-    const remainingTime = getRemainigTime(expiresIn, now);
+    const expiresIn = getExpiresinTime();
+    if (!expiresIn) return;
+    const remainingTime = calculateRemainigTime(expiresIn, now);
 
     if (isAfter(now, expiresIn)) {
       logout();
       return;
     }
+
     autoLogoutTimer = setTimeout(logout, remainingTime);
   }, [logout]);
 

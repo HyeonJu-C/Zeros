@@ -1,7 +1,9 @@
 import {
   AuthProvider,
+  browserLocalPersistence,
   GithubAuthProvider,
   GoogleAuthProvider,
+  setPersistence,
   signInWithPopup,
 } from "firebase/auth";
 import { auth } from "./config";
@@ -22,18 +24,10 @@ export const firebaseLogin = async (providerName: ProviderName) => {
       break;
   }
 
-  try {
-    await signInWithPopup(auth, authProvider as AuthProvider);
-  } catch (error) {
-    console.log(error);
-  }
+  await setPersistence(auth, browserLocalPersistence);
+  await signInWithPopup(auth, authProvider as AuthProvider);
 };
 
 export const firebaseLogout = async () => {
-  try {
-    if (!auth.currentUser) return;
-    await auth.signOut();
-  } catch (error) {
-    console.log(error);
-  }
+  await auth.signOut();
 };
