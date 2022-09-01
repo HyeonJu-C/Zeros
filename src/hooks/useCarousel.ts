@@ -19,7 +19,7 @@ function useCarousel(maxIndex: number) {
     setCurrentIndex((prevIndex) => prevIndex + 1);
   };
 
-  return [currentIndex, setCurrentIndex, onClickPrev, onClickNext];
+  return { currentIndex, setCurrentIndex, onClickPrev, onClickNext };
 }
 
 export default useCarousel;

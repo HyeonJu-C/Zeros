@@ -1,7 +1,7 @@
 /* eslint-disable consistent-return */
 import React, { useEffect } from "react";
 import { GrPrevious as PreviousIcon, GrNext as NextIcon } from "react-icons/gr";
-import useCarousel from "../../hooks/useCarousel";
+import useCarousel from "../../../hooks/useCarousel";
 import styles from "./Carousel.module.css";
 
 export interface CarouselContents {
@@ -20,19 +20,19 @@ interface Props {
 
 function Carousel({ contents, autoplay, duration }: Props) {
   const maxIndex = contents.length - 1;
-  const [currentIndex, setCurrentIndex, onClickPrev, onClickNext] =
+  const { currentIndex, setCurrentIndex, onClickPrev, onClickNext } =
     useCarousel(maxIndex);
 
   const onClickNavigation = (index: number) => {
     if (index === currentIndex) return;
-    (setCurrentIndex as React.Dispatch<React.SetStateAction<number>>)(index);
+    setCurrentIndex(index);
   };
 
   useEffect(() => {
     if (!autoplay) return;
 
     const autoplayTimer = setTimeout(() => {
-      (onClickNext as () => void)();
+      onClickNext();
     }, duration || 3000);
 
     return () => {
@@ -51,18 +51,25 @@ function Carousel({ contents, autoplay, duration }: Props) {
         >
           <section className={styles.titleContainer}>
             <h2 className={styles.title}>{title}</h2>
-            {subtitle && <h3 className={styles.title}>{subtitle}</h3>}
+            {subtitle &&
+              (typeof subtitle === "string" ? (
+                <h3 className={styles.title}>{subtitle}</h3>
+              ) : (
+                <>subtitle</>
+              ))}
           </section>
-          <section className={styles.imageContainer}>
-            {image && <img className={styles.image} src={image} alt={alt} />}
-          </section>
+          {image && (
+            <section className={styles.imageContainer}>
+              <img className={styles.image} src={image} alt={alt} />
+            </section>
+          )}
           {typeof paragraph === "string" ? <p>{paragraph}</p> : <>paragraph</>}
         </div>
       ))}
       <button
         type="button"
         className={`${styles.button} ${styles.previous}`}
-        onClick={onClickPrev as unknown as React.MouseEventHandler}
+        onClick={onClickPrev}
       >
         <span className="sr-only">previous</span>
         <PreviousIcon />
@@ -70,7 +77,7 @@ function Carousel({ contents, autoplay, duration }: Props) {
       <button
         type="button"
         className={`${styles.button} ${styles.next}`}
-        onClick={onClickNext as unknown as React.MouseEventHandler}
+        onClick={onClickNext}
       >
         <span className="sr-only">next</span>
         <NextIcon />
@@ -85,9 +92,7 @@ function Carousel({ contents, autoplay, duration }: Props) {
               index === currentIndex ? styles.active : ""
             }`}
           >
-            <span className="sr-only">{`navigate to no.${
-              index + 1
-            } card`}</span>
+            <span className="sr-only">{`${index + 1} 카드로 이동`}</span>
           </button>
         ))}
       </div>

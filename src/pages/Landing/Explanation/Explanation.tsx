@@ -1,7 +1,5 @@
 import React from "react";
-import Carousel, {
-  CarouselContents,
-} from "../../../components/Carousel/Carousel";
+import Carousel, { CarouselContents } from "../Carousel/Carousel";
 import styles from "./Explanation.module.css";
 import goalImage from "../../../assets/images/goals_page_example.png";
 import zeroImage from "../../../assets/images/zero-landing.jpg";
