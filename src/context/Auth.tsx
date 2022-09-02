@@ -2,6 +2,7 @@
 import { addDays, isAfter } from "date-fns";
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import useDeviceCheck from "../hooks/useDeviceCheck";
 import {
   firebaseLogin,
   firebaseLogout,
@@ -34,6 +35,7 @@ let autoLogoutTimer: ReturnType<typeof setTimeout>;
 export function AuthContextProvider({ children }: Props) {
   const [uid, setUid] = useState<null | string>(null);
   const isLoggedin = !!auth.currentUser && auth.currentUser.uid === uid;
+  const { isDesktop } = useDeviceCheck();
   const navigate = useNavigate();
 
   const logout = useCallback(async () => {
@@ -48,7 +50,8 @@ export function AuthContextProvider({ children }: Props) {
 
   const login = useCallback(
     async (providerName: ProviderName) => {
-      await firebaseLogin(providerName);
+      isDesktop && (await firebaseLogin(providerName));
+      !isDesktop && (await firebaseLogin(providerName, "Mobile"));
       if (!auth.currentUser) return;
 
       const now = new Date();
@@ -60,7 +63,7 @@ export function AuthContextProvider({ children }: Props) {
       setUid(auth.currentUser.uid);
       navigate("/goals");
     },
-    [logout, navigate]
+    [logout, navigate, isDesktop]
   );
 
   useEffect(() => {
@@ -78,7 +81,7 @@ export function AuthContextProvider({ children }: Props) {
     }
 
     autoLogoutTimer = setTimeout(logout, remainingTime);
-  }, [logout]);
+  }, [logout, isDesktop]);
 
   const value = useMemo(
     () => ({ isLoggedin, uid, login, logout }),
