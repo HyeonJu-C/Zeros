@@ -39,6 +39,7 @@ button {
   font-size: inherit;
   padding: 0;
   background: transparent;
+  color: inherit;
 }
 
 button:hover {

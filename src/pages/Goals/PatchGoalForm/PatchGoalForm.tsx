@@ -1,9 +1,9 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React, { useState } from "react";
 import {
-  RiCloseCircleLine as CancelIcon,
-  RiCheckboxCircleLine as CheckIcon,
-} from "react-icons/ri";
+  AiOutlineCloseCircle as CancelIcon,
+  AiOutlineCheckCircle as CheckIcon,
+} from "react-icons/ai";
 import { parse } from "date-fns";
 import Input from "../../../components/Input/Input";
 import SelectBox from "../../../components/SelectBox/SelectBox";

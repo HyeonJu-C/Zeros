@@ -44,7 +44,7 @@ function Goals() {
 
   return (
     <>
-      <section className={`${styles.goals} page-layout`}>
+      <main className={`${styles.goals} page-layout`}>
         <button
           type="button"
           className={styles.newGoalLink}
@@ -58,7 +58,7 @@ function Goals() {
             <GoalCard key={goalItem.id} data={goalItem} />
           ))}
         </section>
-      </section>
+      </main>
       {modal.isVisible && (
         <Modal
           setModal={setModal}
