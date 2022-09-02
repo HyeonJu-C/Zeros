@@ -28,3 +28,7 @@
   text-align: right;
   margin: 0 0 8px;
 }
+
+.money.feedback {
+  color: var(--color-dark);
+}

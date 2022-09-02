@@ -7,7 +7,10 @@ import {
   GoalData,
   SavedMoney,
 } from "../../../services/firebase/goals-database";
-import { calculateAcheiveRate } from "../../../utils/format-goal-data";
+import {
+  calculateAcheiveRate,
+  formatGoalMoney,
+} from "../../../utils/format-goal-data";
 import { Mode, PatchedGoalData } from "../GoalCard/GoalCard";
 import styles from "./SaveMoneyForm.module.css";
 
@@ -83,6 +86,11 @@ function SaveMoneyForm({ data, patchedData, setPatchedData, setMode }: Props) {
           <CoinIcon size={20} className={styles.icon} />
         </button>
       </form>
+      {moneyValue && (
+        <p className={`${styles.feedback} ${styles.money}`}>
+          {formatGoalMoney(moneyValue.toString())}
+        </p>
+      )}
       {isMoneyError && (
         <p className={styles.feedback}>저축 금액을 0원 이상 입력해 주세요.</p>
       )}
