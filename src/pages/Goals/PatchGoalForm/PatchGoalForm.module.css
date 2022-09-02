@@ -3,6 +3,10 @@
   flex-direction: column;
 }
 
+.money.feedback {
+  color: var(--color-dark);
+}
+
 .feedback {
   font-size: 0.8rem;
   color: var(--color-red);

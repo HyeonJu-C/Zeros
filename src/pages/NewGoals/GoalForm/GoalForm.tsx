@@ -7,7 +7,10 @@ import useInput from "../../../hooks/useInput";
 import useSelectBox from "../../../hooks/useSelectBox";
 import { auth } from "../../../services/firebase/config";
 import { GoalData } from "../../../services/firebase/goals-database";
-import { formatGoalDate } from "../../../utils/format-goal-data";
+import {
+  formatGoalDate,
+  formatGoalMoney,
+} from "../../../utils/format-goal-data";
 import calculateGoalDate from "../../../utils/calculate-goal-date";
 import { GOAL_DATE_OPTIONS } from "../../../utils/constants";
 import { validateGoalSaving, validateUserName } from "../utils/validate";
@@ -111,6 +114,11 @@ function GoalForm({ onSubmitError, onSubmit }: Props) {
         onBlur={onBlurGoalMoney}
         value={goalMoney || ""}
       />
+      {goalMoney && (
+        <p className={`${styles.feedback} ${styles.money}`}>
+          {formatGoalMoney(goalMoney.toString())}
+        </p>
+      )}
       {isGoalMoneyError && (
         <p className={styles.feedback}>
           목표금액은 10 만원 이상, 99,999,999 만원 이하로 입력해 주세요.

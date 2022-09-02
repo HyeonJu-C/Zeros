@@ -24,6 +24,7 @@ import { GOAL_DATE_OPTIONS } from "../../../utils/constants";
 import {
   calculateAcheiveRate,
   formatGoalDate,
+  formatGoalMoney,
 } from "../../../utils/format-goal-data";
 
 interface Props {
@@ -122,6 +123,11 @@ function PatchGoalForm({
           onChange={onChangeGoalMoney}
           onBlur={onBlurGoalMoney}
         />
+        {goalMoney && (
+          <p className={`${styles.feedback} ${styles.money}`}>
+            {formatGoalMoney(goalMoney.toString())}
+          </p>
+        )}
         {isGoalMoneyError && (
           <p className={styles.feedback}>
             목표금액은 10 만원 이상, 99,999,999 만원 이하로 입력해 주세요.
