@@ -17,7 +17,7 @@ import { getGoal } from "../../services/firebase/goals-database";
 function GoalDetail() {
   const params = useParams();
   const { goalId } = params;
-  const [data, setData] = useState<GoalData[] | null>(null);
+  const [data, setData] = useState<GoalData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [toastMessage, setToastMessage] = useState<ToastMessageState>({
     isVisible: false,
@@ -26,11 +26,9 @@ function GoalDetail() {
   const fallbackDate = new Date();
 
   const goalStartDate = data
-    ? parseJSON((data[0].currentMoney as SavedMoney[])?.[0].date)
+    ? parseJSON((data.currentMoney as SavedMoney[])?.[0].date)
     : fallbackDate;
-  const goalEndDate = data
-    ? parseJSON(data[0].goalDate as string)
-    : fallbackDate;
+  const goalEndDate = data ? parseJSON(data.goalDate as string) : fallbackDate;
 
   const formattedGoalStart = format(goalStartDate, "yyyy.M.d");
   const formattedGoalEnd = format(goalEndDate, "yyyy.M.d");
@@ -51,7 +49,7 @@ function GoalDetail() {
       await navigator.share({
         title: "Zeros",
         text: `${
-          data ? data[0].userName : ""
+          data ? data.userName : ""
         } 님이 공유한 저축 목표를 확인해 보세요!`,
         url: window.location.href,
       });
@@ -59,7 +57,7 @@ function GoalDetail() {
       setToastMessage({
         isVisible: true,
         title: "Fail",
-        message: "공유하기 실패",
+        message: "공유하기 취소",
       });
     }
   };
@@ -67,7 +65,7 @@ function GoalDetail() {
   useEffect(() => {
     const getData = async () => {
       const goalData = await getGoal(goalId as string);
-      setData([goalData]);
+      setData(goalData);
     };
     getData() //
       .then(() => setIsLoading(false));
@@ -80,53 +78,49 @@ function GoalDetail() {
           <LoadingSpinner />
         </div>
       )}
-      {data?.map(
-        ({ userName, goalTitle, currentMoney, goalMoney }: GoalData) => (
-          <section
-            key="goal-detail"
-            className={`${styles.goalDetail} page-layout`}
-          >
-            <h2 className={styles.title}>{`${userName} 님의 ${goalTitle}`}</h2>
-            <p
-              className={styles.date}
-            >{`${formattedGoalStart} ~ ${formattedGoalEnd}`}</p>
-            <section className={styles.contentsContainer}>
-              <Calendar
-                startDate={goalStartDate}
-                endDate={goalEndDate}
-                currentDate={currentDate}
-                currentMonth={currentMonth}
-                datesOfCurrentMonth={datesOfCurrentMonth}
-                onClickDate={onClickDate}
-                onClicKPrevMonth={onClicKPrevMonth}
-                onClickNextMonth={onClickNextMonth}
-                onClickStartMonth={onClickStartMonth}
-                onClickEndMonth={onClickEndMonth}
-                currentMoney={currentMoney as SavedMoney[]}
-              />
-              <MonthInfo
-                currentMoney={currentMoney as SavedMoney[]}
-                currentMonth={currentMonth}
-                goalMoney={+(goalMoney as number)}
-              />
-            </section>
-            <DateInfo
-              currentMoney={currentMoney as SavedMoney[]}
-              currentDate={currentDate}
+      {data ? (
+        <section
+          key="goal-detail"
+          className={`${styles.goalDetail} page-layout`}
+        >
+          <h2
+            className={styles.title}
+          >{`${data.userName} 님의 ${data.goalTitle}`}</h2>
+          <p
+            className={styles.date}
+          >{`${formattedGoalStart} ~ ${formattedGoalEnd}`}</p>
+          <section className={styles.contentsContainer}>
+            <Calendar
               startDate={goalStartDate}
               endDate={goalEndDate}
+              currentDate={currentDate}
+              currentMonth={currentMonth}
+              datesOfCurrentMonth={datesOfCurrentMonth}
+              onClickDate={onClickDate}
+              onClicKPrevMonth={onClicKPrevMonth}
+              onClickNextMonth={onClickNextMonth}
+              onClickStartMonth={onClickStartMonth}
+              onClickEndMonth={onClickEndMonth}
+              currentMoney={data.currentMoney as SavedMoney[]}
             />
-            <button
-              type="button"
-              className={styles.share}
-              onClick={onClickShare}
-            >
-              <span className="sr-only">페이지 링크 공유하기</span>
-              <ShareIcon />
-            </button>
+            <MonthInfo
+              currentMoney={data.currentMoney as SavedMoney[]}
+              currentMonth={currentMonth}
+              goalMoney={+(data.goalMoney as number)}
+            />
           </section>
-        )
-      )}
+          <DateInfo
+            currentMoney={data.currentMoney as SavedMoney[]}
+            currentDate={currentDate}
+            startDate={goalStartDate}
+            endDate={goalEndDate}
+          />
+          <button type="button" className={styles.share} onClick={onClickShare}>
+            <span className="sr-only">페이지 링크 공유하기</span>
+            <ShareIcon />
+          </button>
+        </section>
+      ) : null}
       <ToastMessage
         setToastMessage={setToastMessage}
         isMessageVisible={toastMessage.isVisible}
