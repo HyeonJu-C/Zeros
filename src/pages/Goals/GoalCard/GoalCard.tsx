@@ -2,7 +2,6 @@
 import React, { useRef, useState } from "react";
 import { TbConfetti as ConfettiIcon } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../../services/firebase/config";
 import styles from "./GoalCard.module.css";
 
 import {
@@ -11,8 +10,6 @@ import {
 } from "../../../utils/format-goal-data";
 import GoalInfo from "../GoalInfo/GoalInfo";
 import AchieveRate from "../AchieveRate/AchieveRate";
-import CardControllers from "../CardControllers/CardControllers";
-import SaveMoneyForm from "../SaveMoneyForm/SaveMoneyForm";
 import { GoalData, SavedMoney } from "../../../types/goals";
 
 interface Props {
@@ -33,13 +30,11 @@ export enum Mode {
 }
 
 function GoalCard({ data }: Props) {
-  const [isDeleted, setIsDeleted] = useState(false);
-  const [mode, setMode] = useState<Mode>(Mode.DEFAULT);
   const [patchedData, setPatchedData] = useState<PatchedGoalData>({});
   const authorElement = useRef<HTMLHeadingElement | null>(null);
   const navigate = useNavigate();
 
-  const { id, userName, userId, goalMoney, currentMoney } = data;
+  const { id, userName, goalMoney, currentMoney } = data;
 
   const formattedAcheiveRate = patchedData.achieveRate
     ? formatAcheiveRate(patchedData?.achieveRate as number)
@@ -47,20 +42,14 @@ function GoalCard({ data }: Props) {
         calculateAcheiveRate(currentMoney as SavedMoney[], goalMoney as number)
       );
   const isGoalAcheived = formattedAcheiveRate >= 100;
-  const isAuthorized = auth.currentUser?.uid === userId;
 
-  const onClickCard: React.MouseEventHandler = (event) => {
-    const isCardClicked = event.target === event.currentTarget;
-    const isAuthorClicked = event.target === authorElement.current;
-
-    if (!isCardClicked && !isAuthorClicked) return;
-
+  const onClickCard: React.MouseEventHandler = () => {
     navigate(`${id}`, {
       state: { ...data, formattedAcheiveRate, patchedData },
     });
   };
 
-  return isDeleted ? null : (
+  return (
     <article className={`${styles.card} `} onClick={onClickCard}>
       <h1 className={styles.author} ref={authorElement}>
         {`${userName} 님의 저축 목표 `}
@@ -69,28 +58,9 @@ function GoalCard({ data }: Props) {
       <GoalInfo
         data={data}
         patchedData={patchedData}
-        mode={mode}
-        setMode={setMode}
         setPatchedData={setPatchedData}
       />
       <AchieveRate data={data} patchedData={patchedData} />
-      {mode === Mode.SAVE && (
-        <SaveMoneyForm
-          data={data}
-          patchedData={patchedData}
-          setMode={setMode}
-          setPatchedData={setPatchedData}
-        />
-      )}
-      {isAuthorized && (
-        <CardControllers
-          data={data}
-          patchedData={patchedData}
-          mode={mode}
-          setMode={setMode}
-          setIsDeleted={setIsDeleted}
-        />
-      )}
     </article>
   );
 }
