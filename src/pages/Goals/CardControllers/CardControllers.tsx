@@ -4,10 +4,8 @@ import Modal, { ModalState } from "../../../components/Modal/Modal";
 import ToastMessage, {
   ToastMessageState,
 } from "../../../components/ToastMessage/ToastMessage";
-import {
-  deleteGoal,
-  GoalData,
-} from "../../../services/firebase/goals-database";
+import { deleteGoal } from "../../../services/firebase/goals-database";
+import { GoalData } from "../../../types/goals";
 import { parseGoalDate } from "../../../utils/format-goal-data";
 import { Mode, PatchedGoalData } from "../GoalCard/GoalCard";
 import styles from "./CardControllers.module.css";

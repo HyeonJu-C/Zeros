@@ -9,30 +9,10 @@ import {
   getDocs,
   updateDoc,
 } from "firebase/firestore";
+import { GoalData, SavedMoney } from "../../types/goals";
 import { firestore } from "./config";
 
 const goalsCollection = collection(firestore, "goals");
-
-interface regularObject {
-  [key: string]: any;
-}
-
-export interface SavedMoney {
-  date: string;
-  money: number;
-}
-
-export interface GoalData extends regularObject {
-  id?: string;
-  userId?: string;
-  userName?: string;
-  goalDate?: string | Date;
-  goalMoney?: string;
-  goalTitle?: string;
-  currentMoney?: SavedMoney[];
-  formattedGoalMoney?: string | number;
-  acheiveRate?: number;
-}
 
 export const postGoal = async (data: GoalData) => {
   await addDoc(goalsCollection, data);

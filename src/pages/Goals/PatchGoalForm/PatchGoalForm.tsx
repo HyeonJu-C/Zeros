@@ -12,10 +12,7 @@ import ToastMessage, {
 } from "../../../components/ToastMessage/ToastMessage";
 import useInput from "../../../hooks/useInput";
 import useSelectBox from "../../../hooks/useSelectBox";
-import {
-  patchGoal,
-  SavedMoney,
-} from "../../../services/firebase/goals-database";
+import { patchGoal } from "../../../services/firebase/goals-database";
 import calculateGoalDate from "../../../utils/calculate-goal-date";
 import { validateGoalSaving } from "../../NewGoals/utils/validate";
 import { Mode, PatchedGoalData } from "../GoalCard/GoalCard";
@@ -26,6 +23,7 @@ import {
   formatGoalDate,
   formatGoalMoney,
 } from "../../../utils/format-goal-data";
+import { SavedMoney } from "../../../types/goals";
 
 interface Props {
   targetGoalId: string;

@@ -4,7 +4,8 @@ import Modal, { ModalState } from "../../components/Modal/Modal";
 import ToastMessage, {
   ToastMessageState,
 } from "../../components/ToastMessage/ToastMessage";
-import { GoalData, postGoal } from "../../services/firebase/goals-database";
+import { postGoal } from "../../services/firebase/goals-database";
+import { GoalData } from "../../types/goals";
 import GoalForm from "./GoalForm/GoalForm";
 
 function NewGoals() {

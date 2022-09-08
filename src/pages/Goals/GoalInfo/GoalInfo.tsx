@@ -2,10 +2,7 @@ import React from "react";
 import { GiMoneyStack as MoneyIcon } from "react-icons/gi";
 import { HiPencilAlt as PencilIcon } from "react-icons/hi";
 import { auth } from "../../../services/firebase/config";
-import {
-  GoalData,
-  SavedMoney,
-} from "../../../services/firebase/goals-database";
+import { GoalData, SavedMoney } from "../../../types/goals";
 import {
   formatGoalMoney,
   formatGoalDate,

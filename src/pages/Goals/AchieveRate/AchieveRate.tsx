@@ -1,9 +1,6 @@
 import { differenceInDays } from "date-fns";
 import React from "react";
-import {
-  GoalData,
-  SavedMoney,
-} from "../../../services/firebase/goals-database";
+import { GoalData, SavedMoney } from "../../../types/goals";
 import {
   calculateAcheiveRate,
   formatAcheiveRate,

@@ -2,11 +2,8 @@ import React from "react";
 import { RiHandCoinLine as CoinIcon } from "react-icons/ri";
 import Input from "../../../components/Input/Input";
 import useInput from "../../../hooks/useInput";
-import {
-  addSavedMoney,
-  GoalData,
-  SavedMoney,
-} from "../../../services/firebase/goals-database";
+import { addSavedMoney } from "../../../services/firebase/goals-database";
+import { GoalData, SavedMoney } from "../../../types/goals";
 import {
   calculateAcheiveRate,
   formatGoalMoney,

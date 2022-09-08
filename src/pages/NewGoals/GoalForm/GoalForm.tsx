@@ -6,7 +6,6 @@ import SelectBox from "../../../components/SelectBox/SelectBox";
 import useInput from "../../../hooks/useInput";
 import useSelectBox from "../../../hooks/useSelectBox";
 import { auth } from "../../../services/firebase/config";
-import { GoalData } from "../../../services/firebase/goals-database";
 import {
   formatGoalDate,
   formatGoalMoney,
@@ -15,6 +14,7 @@ import calculateGoalDate from "../../../utils/calculate-goal-date";
 import { GOAL_DATE_OPTIONS } from "../../../utils/constants";
 import { validateGoalSaving, validateUserName } from "../utils/validate";
 import styles from "./GoalForm.module.css";
+import { GoalData } from "../../../types/goals";
 
 interface Props {
   onSubmit: (value: GoalData) => void;

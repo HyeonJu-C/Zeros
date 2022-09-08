@@ -3,10 +3,6 @@ import React, { useRef, useState } from "react";
 import { TbConfetti as ConfettiIcon } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../../services/firebase/config";
-import {
-  GoalData,
-  SavedMoney,
-} from "../../../services/firebase/goals-database";
 import styles from "./GoalCard.module.css";
 
 import {
@@ -17,6 +13,7 @@ import GoalInfo from "../GoalInfo/GoalInfo";
 import AchieveRate from "../AchieveRate/AchieveRate";
 import CardControllers from "../CardControllers/CardControllers";
 import SaveMoneyForm from "../SaveMoneyForm/SaveMoneyForm";
+import { GoalData, SavedMoney } from "../../../types/goals";
 
 interface Props {
   data: GoalData;

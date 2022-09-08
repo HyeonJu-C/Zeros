@@ -3,11 +3,6 @@ import { BsShareFill as ShareIcon } from "react-icons/bs";
 import React, { MouseEventHandler, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Calendar from "./Calendar/Calendar";
-import {
-  getGoal,
-  GoalData,
-  SavedMoney,
-} from "../../services/firebase/goals-database";
 import styles from "./GoalDetail.module.css";
 import useCalendar from "../../hooks/useCalendar";
 import DateInfo from "./DateInfo/DateInfo";
@@ -16,6 +11,8 @@ import ToastMessage, {
   ToastMessageState,
 } from "../../components/ToastMessage/ToastMessage";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
+import { GoalData, SavedMoney } from "../../types/goals";
+import { getGoal } from "../../services/firebase/goals-database";
 
 function GoalDetail() {
   const params = useParams();

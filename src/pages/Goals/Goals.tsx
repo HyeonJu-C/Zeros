@@ -4,9 +4,10 @@ import LoginForm from "../../components/LoginForm/LoginForm";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import Modal, { ModalState } from "../../components/Modal/Modal";
 import AuthContext from "../../context/Auth";
-import { getGoals, GoalData } from "../../services/firebase/goals-database";
+import { getGoals } from "../../services/firebase/goals-database";
 import GoalCard from "./GoalCard/GoalCard";
 import styles from "./Goals.module.css";
+import { GoalData } from "../../types/goals";
 
 function Goals() {
   const { isLoggedin } = useContext(AuthContext);

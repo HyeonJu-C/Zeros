@@ -1,5 +1,5 @@
 import { format, parseJSON } from "date-fns";
-import { SavedMoney } from "../services/firebase/goals-database";
+import { SavedMoney } from "../types/goals";
 
 export const formatGoalMoney = (goalMoney: string) => {
   let isGoalInteger;
