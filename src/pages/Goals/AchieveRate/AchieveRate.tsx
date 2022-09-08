@@ -6,26 +6,22 @@ import {
   formatAcheiveRate,
   parseGoalDate,
 } from "../../../utils/format-goal-data";
-import { PatchedGoalData } from "../GoalCard/GoalCard";
 import styles from "./AchieveRate.module.css";
 
 interface Props {
   data: GoalData;
-  patchedData: PatchedGoalData | null;
 }
 
-function AchieveRate({ data, patchedData }: Props) {
+function AchieveRate({ data }: Props) {
   const { goalDate, goalMoney, currentMoney } = data;
 
   const now = new Date();
   const parsedGoalDate = parseGoalDate(goalDate as string);
   const leftDays = differenceInDays(parsedGoalDate, now);
 
-  const formattedAcheiveRate = patchedData?.achieveRate
-    ? formatAcheiveRate(patchedData?.achieveRate as number)
-    : formatAcheiveRate(
-        calculateAcheiveRate(currentMoney as SavedMoney[], goalMoney as number)
-      );
+  const formattedAcheiveRate = formatAcheiveRate(
+    calculateAcheiveRate(currentMoney as SavedMoney[], goalMoney as number)
+  );
 
   return (
     <section className={styles.barContainer}>

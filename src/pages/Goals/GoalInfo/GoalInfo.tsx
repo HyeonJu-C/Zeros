@@ -7,28 +7,21 @@ import {
   formatGoalTitle,
   parseGoalDate,
 } from "../../../utils/format-goal-data";
-import { PatchedGoalData } from "../GoalCard/GoalCard";
 import styles from "./GoalInfo.module.css";
 
 interface Props {
   data: GoalData;
-  patchedData: PatchedGoalData;
-  setPatchedData: React.Dispatch<React.SetStateAction<PatchedGoalData>>;
 }
 
-function GoalInfo({ data, patchedData, setPatchedData }: Props) {
+function GoalInfo({ data }: Props) {
   const { goalDate, goalMoney, goalTitle } = data;
 
   const parsedGoalDate = parseGoalDate(goalDate as string);
   const formattedGoalTitle = formatGoalTitle(goalTitle as string);
 
-  const formattedGoalDate = patchedData?.goalDate
-    ? formatGoalDate(parseGoalDate(patchedData?.goalDate))
-    : formatGoalDate(parsedGoalDate);
+  const formattedGoalDate = formatGoalDate(parsedGoalDate);
 
-  const formattedGoalMoney = patchedData?.goalMoney
-    ? formatGoalMoney(patchedData.goalMoney)
-    : formatGoalMoney(goalMoney as number);
+  const formattedGoalMoney = formatGoalMoney(goalMoney as number);
 
   return (
     <section className={styles.goalContainer}>

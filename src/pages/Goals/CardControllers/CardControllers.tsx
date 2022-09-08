@@ -7,24 +7,17 @@ import ToastMessage, {
 import { deleteGoal } from "../../../services/firebase/goals-database";
 import { GoalData } from "../../../types/goals";
 import { parseGoalDate } from "../../../utils/format-goal-data";
-import { Mode, PatchedGoalData } from "../GoalCard/GoalCard";
+import { Mode } from "../GoalCard/GoalCard";
 import styles from "./CardControllers.module.css";
 
 interface Props {
   data: GoalData;
-  patchedData: PatchedGoalData | null;
   mode: Mode;
   setMode: React.Dispatch<React.SetStateAction<Mode>>;
   setIsDeleted: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function CardControllers({
-  data,
-  patchedData,
-  mode,
-  setMode,
-  setIsDeleted,
-}: Props) {
+function CardControllers({ data, mode, setMode, setIsDeleted }: Props) {
   const { goalDate, id } = data;
   const [modal, setModal] = useState<ModalState>({
     isVisible: false,
@@ -34,9 +27,7 @@ function CardControllers({
   });
 
   const now = new Date();
-  const parsedGoalDate =
-    parseGoalDate(patchedData?.goalDate as string) ||
-    parseGoalDate(goalDate as string);
+  const parsedGoalDate = parseGoalDate(goalDate as string);
 
   const isOutdated = isAfter(now, parsedGoalDate);
 

@@ -3,22 +3,17 @@ import { RiHandCoinLine as CoinIcon } from "react-icons/ri";
 import Input from "../../../components/Input/Input";
 import useInput from "../../../hooks/useInput";
 import { addSavedMoney } from "../../../services/firebase/goals-database";
-import { GoalData, SavedMoney } from "../../../types/goals";
-import {
-  calculateAcheiveRate,
-  formatGoalMoney,
-} from "../../../utils/format-goal-data";
-import { Mode, PatchedGoalData } from "../GoalCard/GoalCard";
+import { GoalData } from "../../../types/goals";
+import { formatGoalMoney } from "../../../utils/format-goal-data";
+import { Mode } from "../GoalCard/GoalCard";
 import styles from "./SaveMoneyForm.module.css";
 
 interface Props {
   data: GoalData;
-  patchedData: PatchedGoalData | null;
   setMode: React.Dispatch<React.SetStateAction<Mode>>;
-  setPatchedData: React.Dispatch<React.SetStateAction<PatchedGoalData>>;
 }
 
-function SaveMoneyForm({ data, patchedData, setPatchedData, setMode }: Props) {
+function SaveMoneyForm({ data, setMode }: Props) {
   const {
     value: moneyValue,
     onChangeValue: onChangeMoney,
@@ -26,7 +21,7 @@ function SaveMoneyForm({ data, patchedData, setPatchedData, setMode }: Props) {
     isError: isMoneyError,
   } = useInput((value: string) => +value > 0);
 
-  const { id: goalId, goalMoney, currentMoney } = data;
+  const { id: goalId } = data;
 
   const isFormValid = moneyValue && !isMoneyError;
 
@@ -40,26 +35,6 @@ function SaveMoneyForm({ data, patchedData, setPatchedData, setMode }: Props) {
       money: +moneyValue,
     }) //
       .then(() => {
-        setPatchedData((prev) => {
-          const patchedCurrentMoney = prev.currentMoney
-            ? [
-                ...prev.currentMoney,
-                { date: JSON.stringify(new Date()), money: +moneyValue },
-              ]
-            : [
-                ...(currentMoney as SavedMoney[]),
-                { date: JSON.stringify(new Date()), money: +moneyValue },
-              ];
-
-          return {
-            ...prev,
-            currentMoney: patchedCurrentMoney,
-            achieveRate: calculateAcheiveRate(
-              patchedCurrentMoney,
-              prev.goalMoney || goalMoney || ""
-            ),
-          };
-        });
         setMode(Mode.DEFAULT);
       });
   };
