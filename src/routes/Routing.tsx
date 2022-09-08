@@ -7,6 +7,7 @@ import AppLayout from "../components/AppLayout/AppLayout";
 const Goals = React.lazy(() => import("../pages/Goals/Goals"));
 const GoalDetail = React.lazy(() => import("../pages/GoalDetail/GoalDetail"));
 const NewGoals = React.lazy(() => import("../pages/NewGoals/NewGoals"));
+const My = React.lazy(() => import("../pages/My/My"));
 
 function Routing() {
   const { isLoggedin } = useContext(AuthContext);
@@ -16,6 +17,7 @@ function Routing() {
       <Routes>
         <Route element={<AppLayout />}>
           <Route path="" element={<Landing />} />
+          {isLoggedin && <Route path=":userId" element={<My />} />}
           <Route path="/goals" element={<Outlet />}>
             <Route path="" element={<Goals />} />
             <Route path=":goalId" element={<GoalDetail />} />

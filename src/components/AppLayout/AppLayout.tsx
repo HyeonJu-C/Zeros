@@ -6,7 +6,7 @@ import Modal, { ModalState } from "../Modal/Modal";
 import styles from "./AppLayout.module.css";
 
 function AppLayout() {
-  const { logout, isLoggedin } = useContext(AuthContext);
+  const { logout, isLoggedin, uid } = useContext(AuthContext);
   const [modal, setModal] = useState<ModalState>({
     isVisible: false,
   });
@@ -86,15 +86,16 @@ function AppLayout() {
                 Goals
               </NavLink>
             </li>
-            {!isLoggedin && (
+            {isLoggedin && (
               <li className={styles.li}>
-                <button
-                  type="button"
-                  className={styles.login}
-                  onClick={onClickLogin}
+                <NavLink
+                  to={`${uid}`}
+                  className={({ isActive }) =>
+                    isActive ? styles.activeLink : ""
+                  }
                 >
-                  Login
-                </button>
+                  My
+                </NavLink>
               </li>
             )}
             {isLoggedin && (
@@ -105,6 +106,17 @@ function AppLayout() {
                   onClick={onClickLogout}
                 >
                   Logout
+                </button>
+              </li>
+            )}
+            {!isLoggedin && (
+              <li className={styles.li}>
+                <button
+                  type="button"
+                  className={styles.login}
+                  onClick={onClickLogin}
+                >
+                  Login
                 </button>
               </li>
             )}
