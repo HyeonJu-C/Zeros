@@ -1,6 +1,6 @@
 import { isSameMonth, parseJSON, parse, format } from "date-fns";
 import React from "react";
-import { SavedMoney } from "../../../services/firebase/goals-database";
+import { SavedMoney } from "../../../types/goals";
 import {
   calculateAcheiveRate,
   formatGoalMoney,
@@ -25,9 +25,7 @@ function MonthInfo({ currentMoney, currentMonth, goalMoney }: Props) {
     .map((moneyItem) => moneyItem.money) //
     .reduce((prev, current) => prev + current, 0);
 
-  const formattedTotalMoney = formatGoalMoney(
-    totalMoneyOnCurrentMonth.toString()
-  );
+  const formattedTotalMoney = formatGoalMoney(totalMoneyOnCurrentMonth);
 
   const acheiveRateOnCurrentMonth = calculateAcheiveRate(
     moneyListOnCurrentMonth,

@@ -8,7 +8,7 @@ export interface SavedMoney {
 export interface GoalData extends regularObject {
   currentMoney?: SavedMoney[];
   goalDate?: string;
-  goalMoney?: string;
+  goalMoney?: number;
   goalTitle?: string;
   userId?: string;
   userName?: string;

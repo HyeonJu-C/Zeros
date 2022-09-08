@@ -73,7 +73,7 @@ function SaveMoneyForm({ data, patchedData, setPatchedData, setMode }: Props) {
           isError={isMoneyError}
           onChange={onChangeMoney}
           onBlur={onBlur}
-          value={moneyValue || ""}
+          value={+moneyValue || ""}
           placeholder="저축할 금액을 입력해 주세요."
           min={1}
           style={{ width: "90%", margin: 0 }}
@@ -85,7 +85,7 @@ function SaveMoneyForm({ data, patchedData, setPatchedData, setMode }: Props) {
       </form>
       {moneyValue && (
         <p className={`${styles.feedback} ${styles.money}`}>
-          {formatGoalMoney(moneyValue.toString())}
+          {formatGoalMoney(+moneyValue)}
         </p>
       )}
       {isMoneyError && (

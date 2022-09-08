@@ -74,9 +74,9 @@ function GoalForm({ onSubmitError, onSubmit }: Props) {
             money: 0,
           },
         ],
-        userName: userName || "",
-        goalMoney: goalMoney || "",
-        goalTitle: goalTitle || "",
+        userName,
+        goalMoney: +goalMoney,
+        goalTitle,
         goalDate: JSON.stringify(
           parse(selectedGoalDate as string, "yyyy년 MM월 dd일", new Date())
         ),
@@ -116,7 +116,7 @@ function GoalForm({ onSubmitError, onSubmit }: Props) {
       />
       {goalMoney && (
         <p className={`${styles.feedback} ${styles.money}`}>
-          {formatGoalMoney(goalMoney.toString())}
+          {formatGoalMoney(+goalMoney)}
         </p>
       )}
       {isGoalMoneyError && (

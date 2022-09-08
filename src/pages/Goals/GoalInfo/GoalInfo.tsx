@@ -33,8 +33,8 @@ function GoalInfo({ data, mode, setMode, patchedData, setPatchedData }: Props) {
     : formatGoalDate(parsedGoalDate);
 
   const formattedGoalMoney = patchedData?.goalMoney
-    ? formatGoalMoney(patchedData?.goalMoney)
-    : formatGoalMoney(goalMoney as string);
+    ? formatGoalMoney(patchedData.goalMoney)
+    : formatGoalMoney(goalMoney as number);
 
   const onClickEdit: React.MouseEventHandler = () => {
     setMode(Mode.EDIT);

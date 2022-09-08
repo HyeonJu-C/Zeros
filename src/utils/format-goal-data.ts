@@ -1,17 +1,18 @@
 import { format, parseJSON } from "date-fns";
 import { SavedMoney } from "../types/goals";
 
-export const formatGoalMoney = (goalMoney: string) => {
+export const formatGoalMoney = (goalMoney: number) => {
   let isGoalInteger;
   let formattedGoal;
+  const stringifiedMoney = goalMoney.toString();
 
   switch (true) {
-    case +goalMoney >= 10000 && +goalMoney < 100000000:
-      isGoalInteger = Number.isInteger(+goalMoney / 10000);
+    case goalMoney >= 10000 && goalMoney < 100000000:
+      isGoalInteger = Number.isInteger(goalMoney / 10000);
       formattedGoal = isGoalInteger
-        ? `${(+goalMoney / 10000).toLocaleString()}만 원`
+        ? `${(goalMoney / 10000).toLocaleString()}만 원`
         : `${Math.floor(+goalMoney / 10000).toLocaleString()}만 ${Math.round(
-            +goalMoney.slice(-4, goalMoney.length)
+            +stringifiedMoney.slice(-4, stringifiedMoney.length)
           ).toLocaleString()}원`;
       break;
 
@@ -22,7 +23,7 @@ export const formatGoalMoney = (goalMoney: string) => {
         : `${Math.floor(
             +goalMoney / 100000000
           ).toLocaleString()}억 ${Math.round(
-            +goalMoney.slice(-8, goalMoney.length) / 10000
+            +stringifiedMoney.slice(-8, stringifiedMoney.length) / 10000
           ).toLocaleString()}만 원`;
       break;
 

@@ -107,7 +107,7 @@ function GoalDetail() {
               <MonthInfo
                 currentMoney={currentMoney as SavedMoney[]}
                 currentMonth={currentMonth}
-                goalMoney={+(goalMoney as string)}
+                goalMoney={+(goalMoney as number)}
               />
             </section>
             <DateInfo

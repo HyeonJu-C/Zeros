@@ -1,6 +1,6 @@
 import { format, isSameDay, parseJSON } from "date-fns";
 import React from "react";
-import { SavedMoney } from "../../../services/firebase/goals-database";
+import { SavedMoney } from "../../../types/goals";
 import { formatGoalMoney } from "../../../utils/format-goal-data";
 import styles from "./DateInfo.module.css";
 
@@ -20,9 +20,7 @@ function DateInfo({ currentMoney, currentDate, startDate, endDate }: Props) {
     ?.map((moneyItem) => moneyItem.money)
     ?.reduce((prev, current) => prev + current, 0);
 
-  const formattedTotalMoney = formatGoalMoney(
-    totalMoneyOnCurrentDate.toString()
-  );
+  const formattedTotalMoney = formatGoalMoney(totalMoneyOnCurrentDate);
   const formattedCurrentDate = format(currentDate, "yyyy년 M월 d일");
 
   return (

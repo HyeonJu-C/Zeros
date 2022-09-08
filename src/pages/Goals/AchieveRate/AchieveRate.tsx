@@ -24,7 +24,7 @@ function AchieveRate({ data, patchedData }: Props) {
   const formattedAcheiveRate = patchedData?.achieveRate
     ? formatAcheiveRate(patchedData?.achieveRate as number)
     : formatAcheiveRate(
-        calculateAcheiveRate(currentMoney as SavedMoney[], goalMoney as string)
+        calculateAcheiveRate(currentMoney as SavedMoney[], goalMoney as number)
       );
 
   return (

@@ -21,8 +21,7 @@ interface Props {
 
 export interface PatchedGoalData {
   goalDate?: string;
-  goalMoney?: string;
-  parsedGoalMoney?: number;
+  goalMoney?: number;
   achieveRate?: number;
   currentMoney?: SavedMoney[];
 }
@@ -45,7 +44,7 @@ function GoalCard({ data }: Props) {
   const formattedAcheiveRate = patchedData.achieveRate
     ? formatAcheiveRate(patchedData?.achieveRate as number)
     : formatAcheiveRate(
-        calculateAcheiveRate(currentMoney as SavedMoney[], goalMoney as string)
+        calculateAcheiveRate(currentMoney as SavedMoney[], goalMoney as number)
       );
   const isGoalAcheived = formattedAcheiveRate >= 100;
   const isAuthorized = auth.currentUser?.uid === userId;

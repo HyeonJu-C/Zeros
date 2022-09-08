@@ -89,7 +89,7 @@ function PatchGoalForm({
     );
 
     patchGoal(targetGoalId, {
-      goalMoney: goalMoney || "",
+      goalMoney: +goalMoney,
       goalDate: JSON.stringify(parsedSelectedDate),
     }) //
       .then(() => {
@@ -97,7 +97,7 @@ function PatchGoalForm({
         setPatchedData((prev) => ({
           ...prev,
           achieveRate,
-          goalMoney: goalMoney || "",
+          goalMoney: +goalMoney || 100000,
           goalDate: JSON.stringify(parsedSelectedDate),
         }));
       });
@@ -113,7 +113,7 @@ function PatchGoalForm({
         <Input
           id="patch-goal-money"
           type="number"
-          value={+goalMoney || ""}
+          value={+goalMoney || 100000}
           isError={isGoalMoneyError}
           min={100000}
           max={999999999999}
@@ -123,7 +123,7 @@ function PatchGoalForm({
         />
         {goalMoney && (
           <p className={`${styles.feedback} ${styles.money}`}>
-            {formatGoalMoney(goalMoney.toString())}
+            {formatGoalMoney(+goalMoney)}
           </p>
         )}
         {isGoalMoneyError && (

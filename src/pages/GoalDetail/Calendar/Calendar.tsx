@@ -15,7 +15,7 @@ import {
 } from "react-icons/ai";
 import React from "react";
 import styles from "./Calendar.module.css";
-import { SavedMoney } from "../../../services/firebase/goals-database";
+import { SavedMoney } from "../../../types/goals";
 
 interface Props {
   startDate: Date;
