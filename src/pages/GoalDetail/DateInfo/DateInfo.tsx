@@ -1,7 +1,7 @@
 import { format, isSameDay, parseJSON } from "date-fns";
 import React from "react";
 import { SavedMoney } from "../../../types/goals";
-import GoalPresenter from "../../../utils/format-goal-data";
+import GoalPresenter from "../../../utils/goal-presenter";
 import styles from "./DateInfo.module.css";
 
 interface Props {

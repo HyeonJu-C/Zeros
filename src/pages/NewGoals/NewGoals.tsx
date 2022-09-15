@@ -6,7 +6,7 @@ import ToastMessage, {
 } from "../../components/ToastMessage/ToastMessage";
 import GoalsService from "../../services/firebase/goals-database";
 import { GoalData } from "../../types/goals";
-import GoalPresenter from "../../utils/format-goal-data";
+import GoalPresenter from "../../utils/goal-presenter";
 import GoalForm from "./GoalForm/GoalForm";
 
 interface Props {

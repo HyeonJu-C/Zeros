@@ -6,7 +6,7 @@ import SelectBox from "../../../components/SelectBox/SelectBox";
 import useInput from "../../../hooks/useInput";
 import useSelectBox from "../../../hooks/useSelectBox";
 import { auth } from "../../../services/firebase/config";
-import GoalPresenter from "../../../utils/format-goal-data";
+import GoalPresenter from "../../../utils/goal-presenter";
 import calculateGoalDate from "../../../utils/calculate-goal-date";
 import { GOAL_DATE_OPTIONS } from "../../../utils/constants";
 import { validateGoalSaving, validateUserName } from "../utils/validate";

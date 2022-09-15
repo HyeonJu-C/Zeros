@@ -13,7 +13,7 @@ import ToastMessage, {
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import { GoalData, SavedMoney } from "../../types/goals";
 import GoalsService from "../../services/firebase/goals-database";
-import GoalPresenter from "../../utils/format-goal-data";
+import GoalPresenter from "../../utils/goal-presenter";
 
 interface Props {
   goalsService: GoalsService;

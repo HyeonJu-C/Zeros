@@ -1,7 +1,7 @@
 import { differenceInDays } from "date-fns";
 import React from "react";
 import { GoalData, SavedMoney } from "../../../types/goals";
-import GoalPresenter from "../../../utils/format-goal-data";
+import GoalPresenter from "../../../utils/goal-presenter";
 import styles from "./AchieveRate.module.css";
 
 interface Props {

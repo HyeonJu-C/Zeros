@@ -4,7 +4,7 @@ import { TbConfetti as ConfettiIcon } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 import styles from "./GoalCard.module.css";
 
-import GoalPresenter from "../../../utils/format-goal-data";
+import GoalPresenter from "../../../utils/goal-presenter";
 import GoalInfo from "../GoalInfo/GoalInfo";
 import AchieveRate from "../AchieveRate/AchieveRate";
 import { GoalData, SavedMoney } from "../../../types/goals";

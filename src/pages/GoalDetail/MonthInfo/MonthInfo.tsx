@@ -1,7 +1,7 @@
 import { isSameMonth, parseJSON, parse, format } from "date-fns";
 import React from "react";
 import { SavedMoney } from "../../../types/goals";
-import GoalPresenter from "../../../utils/format-goal-data";
+import GoalPresenter from "../../../utils/goal-presenter";
 import styles from "./MonthInfo.module.css";
 
 interface Props {
