@@ -40,18 +40,25 @@ function GoalCard({ data, goalsPresenter }: Props) {
     ) || 0;
   const isGoalAcheived = +formattedAcheiveRate >= 100;
 
-  const onClickCard: React.MouseEventHandler = () => {
+  const onClickDetail: React.MouseEventHandler = () => {
     navigate(`${id}`);
   };
 
   return (
-    <article className={`${styles.card} `} onClick={onClickCard}>
+    <article className={`${styles.card} `}>
       <h1 className={styles.author} ref={authorElement}>
         {`${userName} 님의 저축 목표 `}
         {isGoalAcheived && <ConfettiIcon size={25} color="#e1b530" />}
       </h1>
       <GoalInfo data={data} goalsPresenter={goalsPresenter} />
       <AchieveRate data={data} goalsPresenter={goalsPresenter} />
+      <button
+        type="button"
+        onClick={onClickDetail}
+        className={`${styles.button}`}
+      >
+        detail
+      </button>
     </article>
   );
 }

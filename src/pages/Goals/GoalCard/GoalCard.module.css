@@ -8,7 +8,7 @@
   width: 100%;
   padding: 12px;
   border-radius: 8px;
-  background: white;
+  background: var(--color-white);
   box-shadow: 5px 5px 15px 4px rgba(0, 0, 0, 0.2);
   margin-bottom: 32px;
   font-size: 0.85rem;
@@ -19,12 +19,25 @@
 .card:hover {
   position: relative;
   top: -12px;
-  cursor: pointer;
 }
 
 .author {
   font-size: 1.25rem;
   font-weight: 700;
+}
+
+.button {
+  color: var(--color-white);
+  background: var(--color-blue);
+  width: 50%;
+  margin: 0 0 0 50%;
+  border-radius: 8px;
+  padding: 8px;
+  transition: all 250ms ease-in;
+}
+
+.button:hover {
+  background: var(--color-hover-blue);
 }
 
 @media desktop {
