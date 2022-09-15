@@ -4,6 +4,7 @@ import Landing from "../pages/Landing/Landing";
 import AuthContext from "../context/Auth";
 import AppLayout from "../components/AppLayout/AppLayout";
 import GoalsService from "../services/firebase/goals-database";
+import GoalPresenter from "../utils/format-goal-data";
 
 const Goals = React.lazy(() => import("../pages/Goals/Goals"));
 const GoalDetail = React.lazy(() => import("../pages/GoalDetail/GoalDetail"));
@@ -12,9 +13,10 @@ const My = React.lazy(() => import("../pages/My/My"));
 
 interface Props {
   goalsService: GoalsService;
+  goalsPresenter: GoalPresenter;
 }
 
-function Routing({ goalsService }: Props) {
+function Routing({ goalsService, goalsPresenter }: Props) {
   const { isLoggedin } = useContext(AuthContext);
 
   return (
@@ -29,15 +31,33 @@ function Routing({ goalsService }: Props) {
             />
           )}
           <Route path="/goals" element={<Outlet />}>
-            <Route path="" element={<Goals goalsService={goalsService} />} />
+            <Route
+              path=""
+              element={
+                <Goals
+                  goalsService={goalsService}
+                  goalsPresenter={goalsPresenter}
+                />
+              }
+            />
             <Route
               path=":goalId"
-              element={<GoalDetail goalsService={goalsService} />}
+              element={
+                <GoalDetail
+                  goalsService={goalsService}
+                  goalsPresenter={goalsPresenter}
+                />
+              }
             />
             {isLoggedin && (
               <Route
                 path="new"
-                element={<NewGoals goalsService={goalsService} />}
+                element={
+                  <NewGoals
+                    goalsService={goalsService}
+                    goalsPresenter={goalsPresenter}
+                  />
+                }
               />
             )}
           </Route>

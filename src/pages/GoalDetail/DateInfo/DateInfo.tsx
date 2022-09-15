@@ -1,7 +1,7 @@
 import { format, isSameDay, parseJSON } from "date-fns";
 import React from "react";
 import { SavedMoney } from "../../../types/goals";
-import { formatGoalMoney } from "../../../utils/format-goal-data";
+import GoalPresenter from "../../../utils/format-goal-data";
 import styles from "./DateInfo.module.css";
 
 interface Props {
@@ -9,9 +9,16 @@ interface Props {
   currentDate: Date;
   startDate: Date;
   endDate: Date;
+  goalsPresenter: GoalPresenter;
 }
 
-function DateInfo({ currentMoney, currentDate, startDate, endDate }: Props) {
+function DateInfo({
+  currentMoney,
+  currentDate,
+  startDate,
+  endDate,
+  goalsPresenter,
+}: Props) {
   const moneyListOnCurrentDate = currentMoney //
     .filter((moneyItem) => isSameDay(currentDate, parseJSON(moneyItem.date))) //
     .filter((moneyItem) => moneyItem.money !== 0);
@@ -20,7 +27,9 @@ function DateInfo({ currentMoney, currentDate, startDate, endDate }: Props) {
     ?.map((moneyItem) => moneyItem.money)
     ?.reduce((prev, current) => prev + current, 0);
 
-  const formattedTotalMoney = formatGoalMoney(totalMoneyOnCurrentDate);
+  const formattedTotalMoney = goalsPresenter.formatMoney(
+    totalMoneyOnCurrentDate
+  );
   const formattedCurrentDate = format(currentDate, "yyyy년 M월 d일");
 
   return (

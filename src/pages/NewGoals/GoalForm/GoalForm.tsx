@@ -6,10 +6,7 @@ import SelectBox from "../../../components/SelectBox/SelectBox";
 import useInput from "../../../hooks/useInput";
 import useSelectBox from "../../../hooks/useSelectBox";
 import { auth } from "../../../services/firebase/config";
-import {
-  formatGoalDate,
-  formatGoalMoney,
-} from "../../../utils/format-goal-data";
+import GoalPresenter from "../../../utils/format-goal-data";
 import calculateGoalDate from "../../../utils/calculate-goal-date";
 import { GOAL_DATE_OPTIONS } from "../../../utils/constants";
 import { validateGoalSaving, validateUserName } from "../utils/validate";
@@ -19,9 +16,10 @@ import { GoalData } from "../../../types/goals";
 interface Props {
   onSubmit: (value: GoalData) => void;
   onSubmitError: () => void;
+  goalsPresenter: GoalPresenter;
 }
 
-function GoalForm({ onSubmitError, onSubmit }: Props) {
+function GoalForm({ onSubmitError, onSubmit, goalsPresenter }: Props) {
   const {
     value: userName,
     onChangeValue: onChangeUserName,
@@ -50,7 +48,9 @@ function GoalForm({ onSubmitError, onSubmit }: Props) {
     isError: isGoalDateError,
     toggleSelectBox,
   } = useSelectBox((optionDate) =>
-    formatGoalDate(calculateGoalDate(optionDate as string) as Date)
+    goalsPresenter.formatGoalDate(
+      JSON.stringify(calculateGoalDate(optionDate as string))
+    )
   );
 
   const isFormValid =
@@ -116,7 +116,7 @@ function GoalForm({ onSubmitError, onSubmit }: Props) {
       />
       {goalMoney && (
         <p className={`${styles.feedback} ${styles.money}`}>
-          {formatGoalMoney(+goalMoney)}
+          {goalsPresenter.formatMoney(+goalMoney)}
         </p>
       )}
       {isGoalMoneyError && (

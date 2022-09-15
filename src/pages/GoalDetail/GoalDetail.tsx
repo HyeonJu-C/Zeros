@@ -13,12 +13,14 @@ import ToastMessage, {
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import { GoalData, SavedMoney } from "../../types/goals";
 import GoalsService from "../../services/firebase/goals-database";
+import GoalPresenter from "../../utils/format-goal-data";
 
 interface Props {
   goalsService: GoalsService;
+  goalsPresenter: GoalPresenter;
 }
 
-function GoalDetail({ goalsService }: Props) {
+function GoalDetail({ goalsService, goalsPresenter }: Props) {
   const [data, setData] = useState<GoalData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [toastMessage, setToastMessage] = useState<ToastMessageState>({
@@ -120,6 +122,7 @@ function GoalDetail({ goalsService }: Props) {
               currentMoney={data.currentMoney as SavedMoney[]}
               currentMonth={currentMonth}
               goalMoney={+(data.goalMoney as number)}
+              goalsPresenter={goalsPresenter}
             />
           </section>
           <DateInfo
@@ -127,6 +130,7 @@ function GoalDetail({ goalsService }: Props) {
             currentDate={currentDate}
             startDate={goalStartDate}
             endDate={goalEndDate}
+            goalsPresenter={goalsPresenter}
           />
           <button type="button" className={styles.share} onClick={onClickShare}>
             <span className="sr-only">페이지 링크 공유하기</span>

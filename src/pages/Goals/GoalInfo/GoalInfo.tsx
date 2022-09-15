@@ -1,27 +1,24 @@
 import React from "react";
 import { GiMoneyStack as MoneyIcon } from "react-icons/gi";
 import { GoalData } from "../../../types/goals";
-import {
-  formatGoalMoney,
-  formatGoalDate,
-  formatGoalTitle,
-  parseGoalDate,
-} from "../../../utils/format-goal-data";
+import GoalPresenter from "../../../utils/format-goal-data";
 import styles from "./GoalInfo.module.css";
 
 interface Props {
   data: GoalData;
+  goalsPresenter: GoalPresenter;
 }
 
-function GoalInfo({ data }: Props) {
+function GoalInfo({ data, goalsPresenter }: Props) {
   const { goalDate, goalMoney, goalTitle } = data;
 
-  const parsedGoalDate = parseGoalDate(goalDate as string);
-  const formattedGoalTitle = formatGoalTitle(goalTitle as string);
+  const formattedGoalTitle = goalsPresenter.formatGoalTitle(
+    goalTitle as string
+  );
 
-  const formattedGoalDate = formatGoalDate(parsedGoalDate);
+  const formattedGoalDate = goalsPresenter.formatGoalDate(goalDate as string);
 
-  const formattedGoalMoney = formatGoalMoney(goalMoney as number);
+  const formattedGoalMoney = goalsPresenter.formatMoney(goalMoney as number);
 
   return (
     <section className={styles.goalContainer}>

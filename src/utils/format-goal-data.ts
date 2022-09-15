@@ -1,77 +1,106 @@
 import { format, parseJSON } from "date-fns";
 import { SavedMoney } from "../types/goals";
 
-export const formatGoalMoney = (goalMoney: number) => {
-  let isGoalInteger;
-  let formattedGoal;
-  const stringifiedMoney = goalMoney.toString();
+export default class GoalPresenter {
+  currentMoney: SavedMoney[] | null;
 
-  switch (true) {
-    case goalMoney >= 10000 && goalMoney < 100000000:
-      isGoalInteger = Number.isInteger(goalMoney / 10000);
-      formattedGoal = isGoalInteger
-        ? `${(goalMoney / 10000).toLocaleString()}만 원`
-        : `${Math.floor(+goalMoney / 10000).toLocaleString()}만 ${Math.round(
-            +stringifiedMoney.slice(-4, stringifiedMoney.length)
-          ).toLocaleString()}원`;
-      break;
+  goalDate: string | null;
 
-    case +goalMoney >= 100000000:
-      isGoalInteger = Number.isInteger(+goalMoney / 100000000);
-      formattedGoal = isGoalInteger
-        ? `${(+goalMoney / 100000000).toLocaleString()}억 원`
-        : `${Math.floor(
-            +goalMoney / 100000000
-          ).toLocaleString()}억 ${Math.round(
-            +stringifiedMoney.slice(-8, stringifiedMoney.length) / 10000
-          ).toLocaleString()}만 원`;
-      break;
+  goalMoney: number | null;
 
-    default:
-      formattedGoal = `${(+goalMoney).toLocaleString()} 원`;
-      break;
+  goalTitle: string | null;
+
+  constructor() {
+    this.currentMoney = null;
+    this.goalDate = null;
+    this.goalMoney = null;
+    this.goalTitle = null;
   }
 
-  return formattedGoal;
-};
+  parseGoalDate(goalDate: string) {
+    this.goalDate = goalDate;
+    return parseJSON(this.goalDate);
+  }
 
-export const parseGoalDate = (goalDate: string) => {
-  return parseJSON(goalDate);
-};
+  formatGoalDate(goalDate: string) {
+    const parsedGoalDate = this.parseGoalDate(goalDate);
+    return format(parsedGoalDate, "yyyy년 MM월 dd일");
+  }
 
-export const formatGoalDate = (goalDate: Date) => {
-  return format(goalDate, "yyyy년 MM월 dd일");
-};
+  calculateAcheiveRate(currentMoney: SavedMoney[], goalMoney: number) {
+    this.currentMoney = currentMoney;
+    this.goalMoney = goalMoney;
+    const totalSavedMoney = this.currentMoney //
+      ?.map(({ money }) => money)
+      .reduce((prev, current) => prev + current, 0);
 
-export const calculateAcheiveRate = (
-  currentMoney: SavedMoney[],
-  goalMoney: string | number
-) => {
-  const totalSavedMoney = currentMoney //
-    ?.map(({ money }) => money)
-    .reduce((prev, current) => prev + current, 0);
+    const acheiveRate = (totalSavedMoney / +this.goalMoney) * 100;
 
-  const acheiveRate = (totalSavedMoney / +goalMoney) * 100;
+    return acheiveRate;
+  }
 
-  return acheiveRate;
-};
+  formatAcheiveRate(currentMoney: SavedMoney[], goalMoney: number) {
+    const acheiveRate = this.calculateAcheiveRate(currentMoney, goalMoney);
+    // 참고) 0도 falsy한 값으로 취급된다
+    if (!acheiveRate) return 0;
 
-export const formatAcheiveRate = (acheiveRate: number) => {
-  const isRateInteger = Number.isInteger(acheiveRate);
+    const isRateInteger = Number.isInteger(acheiveRate);
+    const formattedAcheiveRate = isRateInteger
+      ? acheiveRate
+      : acheiveRate.toFixed(1);
 
-  const formattedAcheiveRate = isRateInteger
-    ? acheiveRate
-    : acheiveRate.toFixed(1);
+    return formattedAcheiveRate;
+  }
 
-  return formattedAcheiveRate;
-};
+  formatGoalTitle(goalTitle: string) {
+    this.goalTitle = goalTitle;
+    const isLong = this.goalTitle.length >= 15;
 
-export const formatGoalTitle = (goalTitle: string) => {
-  const isLong = goalTitle.length >= 15;
+    const formattedGoalTitle = !isLong
+      ? this.goalTitle
+      : this.goalTitle.slice(0, 14).concat("...");
 
-  const formattedGoalTitle = !isLong
-    ? goalTitle
-    : goalTitle.slice(0, 14).concat("...");
+    return formattedGoalTitle;
+  }
 
-  return formattedGoalTitle;
-};
+  formatMoney(goalMoney: number) {
+    this.goalMoney = goalMoney;
+
+    let isGoalInteger;
+    let formattedGoal;
+    const stringifiedMoney = this.goalMoney.toString();
+
+    switch (true) {
+      // 1만 원 이상 ~ 1억 원 미만
+      case this.goalMoney >= 10000 && this.goalMoney < 100000000:
+        isGoalInteger = Number.isInteger(this.goalMoney / 10000);
+        formattedGoal = isGoalInteger
+          ? `${(this.goalMoney / 10000).toLocaleString()}만 원`
+          : `${Math.floor(
+              +this.goalMoney / 10000
+            ).toLocaleString()}만 ${Math.round(
+              +stringifiedMoney.slice(-4, stringifiedMoney.length)
+            ).toLocaleString()}원`;
+        break;
+
+      // 목표 금액: 1억원 이상
+      case +this.goalMoney >= 100000000:
+        isGoalInteger = Number.isInteger(+this.goalMoney / 100000000);
+        formattedGoal = isGoalInteger
+          ? `${(+this.goalMoney / 100000000).toLocaleString()}억 원`
+          : `${Math.floor(
+              +this.goalMoney / 100000000
+            ).toLocaleString()}억 ${Math.round(
+              +stringifiedMoney.slice(-8, stringifiedMoney.length) / 10000
+            ).toLocaleString()}만 원`;
+        break;
+
+      // 1만 원 미만
+      default:
+        formattedGoal = `${(+this.goalMoney).toLocaleString()} 원`;
+        break;
+    }
+
+    return formattedGoal;
+  }
+}

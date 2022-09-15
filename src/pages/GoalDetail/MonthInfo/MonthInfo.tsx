@@ -1,19 +1,22 @@
 import { isSameMonth, parseJSON, parse, format } from "date-fns";
 import React from "react";
 import { SavedMoney } from "../../../types/goals";
-import {
-  calculateAcheiveRate,
-  formatGoalMoney,
-} from "../../../utils/format-goal-data";
+import GoalPresenter from "../../../utils/format-goal-data";
 import styles from "./MonthInfo.module.css";
 
 interface Props {
   currentMoney: SavedMoney[];
   currentMonth: string;
   goalMoney: number;
+  goalsPresenter: GoalPresenter;
 }
 
-function MonthInfo({ currentMoney, currentMonth, goalMoney }: Props) {
+function MonthInfo({
+  currentMoney,
+  currentMonth,
+  goalMoney,
+  goalsPresenter,
+}: Props) {
   const parsedCurrentMonth = parse(currentMonth, "yyyy MMM", new Date());
 
   const moneyListOnCurrentMonth = currentMoney //
@@ -25,9 +28,11 @@ function MonthInfo({ currentMoney, currentMonth, goalMoney }: Props) {
     .map((moneyItem) => moneyItem.money) //
     .reduce((prev, current) => prev + current, 0);
 
-  const formattedTotalMoney = formatGoalMoney(totalMoneyOnCurrentMonth);
+  const formattedTotalMoney = goalsPresenter.formatMoney(
+    totalMoneyOnCurrentMonth
+  );
 
-  const acheiveRateOnCurrentMonth = calculateAcheiveRate(
+  const acheiveRateOnCurrentMonth = goalsPresenter.calculateAcheiveRate(
     moneyListOnCurrentMonth,
     goalMoney
   );

@@ -1,26 +1,24 @@
 import { differenceInDays } from "date-fns";
 import React from "react";
 import { GoalData, SavedMoney } from "../../../types/goals";
-import {
-  calculateAcheiveRate,
-  formatAcheiveRate,
-  parseGoalDate,
-} from "../../../utils/format-goal-data";
+import GoalPresenter from "../../../utils/format-goal-data";
 import styles from "./AchieveRate.module.css";
 
 interface Props {
   data: GoalData;
+  goalsPresenter: GoalPresenter;
 }
 
-function AchieveRate({ data }: Props) {
+function AchieveRate({ data, goalsPresenter }: Props) {
   const { goalDate, goalMoney, currentMoney } = data;
 
   const now = new Date();
-  const parsedGoalDate = parseGoalDate(goalDate as string);
+  const parsedGoalDate = goalsPresenter.parseGoalDate(goalDate as string);
   const leftDays = differenceInDays(parsedGoalDate, now);
 
-  const formattedAcheiveRate = formatAcheiveRate(
-    calculateAcheiveRate(currentMoney as SavedMoney[], goalMoney as number)
+  const formattedAcheiveRate = goalsPresenter.formatAcheiveRate(
+    currentMoney as SavedMoney[],
+    goalMoney as number
   );
 
   return (

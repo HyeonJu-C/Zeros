@@ -8,11 +8,13 @@ import GoalsService from "../../services/firebase/goals-database";
 import GoalCard from "./GoalCard/GoalCard";
 import styles from "./Goals.module.css";
 import { GoalData } from "../../types/goals";
+import GoalPresenter from "../../utils/format-goal-data";
 
 interface Props {
   goalsService: GoalsService;
+  goalsPresenter: GoalPresenter;
 }
-function Goals({ goalsService }: Props) {
+function Goals({ goalsService, goalsPresenter }: Props) {
   const { isLoggedin } = useContext(AuthContext);
   const [goalsList, setGoalsList] = useState<GoalData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -62,7 +64,11 @@ function Goals({ goalsService }: Props) {
         {isLoading && <LoadingSpinner />}
         <section className={styles.cardContainer}>
           {goalsList?.map((goalItem) => (
-            <GoalCard key={goalItem.id} data={goalItem} />
+            <GoalCard
+              key={goalItem.id}
+              data={goalItem}
+              goalsPresenter={goalsPresenter}
+            />
           ))}
         </section>
       </main>

@@ -6,13 +6,15 @@ import ToastMessage, {
 } from "../../components/ToastMessage/ToastMessage";
 import GoalsService from "../../services/firebase/goals-database";
 import { GoalData } from "../../types/goals";
+import GoalPresenter from "../../utils/format-goal-data";
 import GoalForm from "./GoalForm/GoalForm";
 
 interface Props {
   goalsService: GoalsService;
+  goalsPresenter: GoalPresenter;
 }
 
-function NewGoals({ goalsService }: Props) {
+function NewGoals({ goalsService, goalsPresenter }: Props) {
   const [modal, setModal] = useState<ModalState>({
     isVisible: false,
   });
@@ -81,7 +83,11 @@ function NewGoals({ goalsService }: Props) {
   return (
     <>
       <section className="page-layout">
-        <GoalForm onSubmit={onSubmit} onSubmitError={onSubmitError} />
+        <GoalForm
+          onSubmit={onSubmit}
+          onSubmitError={onSubmitError}
+          goalsPresenter={goalsPresenter}
+        />
       </section>
       {isModalVisible && (
         <Modal
