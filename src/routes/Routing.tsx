@@ -27,7 +27,12 @@ function Routing({ goalsService, goalsPresenter }: Props) {
           {isLoggedin && (
             <Route
               path=":userId"
-              element={<My goalsService={goalsService} />}
+              element={
+                <My
+                  goalsService={goalsService}
+                  goalsPresenter={goalsPresenter}
+                />
+              }
             />
           )}
           <Route path="/goals" element={<Outlet />}>

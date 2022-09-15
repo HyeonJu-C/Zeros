@@ -14,19 +14,6 @@ interface Props {
   goalsPresenter: GoalPresenter;
 }
 
-export interface PatchedGoalData {
-  goalDate?: string;
-  goalMoney?: number;
-  achieveRate?: number;
-  currentMoney?: SavedMoney[];
-}
-
-export enum Mode {
-  DEFAULT = "DEFAULT",
-  EDIT = "EDIT",
-  SAVE = "SAVE",
-}
-
 function GoalCard({ data, goalsPresenter }: Props) {
   const authorElement = useRef<HTMLHeadingElement | null>(null);
   const navigate = useNavigate();
