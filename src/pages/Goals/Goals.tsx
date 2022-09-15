@@ -4,12 +4,15 @@ import LoginForm from "../../components/LoginForm/LoginForm";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import Modal, { ModalState } from "../../components/Modal/Modal";
 import AuthContext from "../../context/Auth";
-import { getGoals } from "../../services/firebase/goals-database";
+import GoalsService from "../../services/firebase/goals-database";
 import GoalCard from "./GoalCard/GoalCard";
 import styles from "./Goals.module.css";
 import { GoalData } from "../../types/goals";
 
-function Goals() {
+interface Props {
+  goalsService: GoalsService;
+}
+function Goals({ goalsService }: Props) {
   const { isLoggedin } = useContext(AuthContext);
   const [goalsList, setGoalsList] = useState<GoalData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -35,13 +38,16 @@ function Goals() {
 
   useEffect(() => {
     const getData = async () => {
-      const data: GoalData[] = await getGoals();
-      setGoalsList(data);
+      const data = await goalsService.getGoals();
+      if (!data) throw new Error("데이터 가져오기 실패");
+      setGoalsList(data as GoalData[]);
       setIsLoading(false);
     };
 
-    getData();
-  }, []);
+    getData()
+      .catch(console.log)
+      .finally(() => setIsLoading(false));
+  }, [goalsService]);
 
   return (
     <>

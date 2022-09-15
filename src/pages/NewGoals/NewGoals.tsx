@@ -4,11 +4,15 @@ import Modal, { ModalState } from "../../components/Modal/Modal";
 import ToastMessage, {
   ToastMessageState,
 } from "../../components/ToastMessage/ToastMessage";
-import { postGoal } from "../../services/firebase/goals-database";
+import GoalsService from "../../services/firebase/goals-database";
 import { GoalData } from "../../types/goals";
 import GoalForm from "./GoalForm/GoalForm";
 
-function NewGoals() {
+interface Props {
+  goalsService: GoalsService;
+}
+
+function NewGoals({ goalsService }: Props) {
   const [modal, setModal] = useState<ModalState>({
     isVisible: false,
   });
@@ -61,7 +65,7 @@ function NewGoals() {
         break;
 
       case "Post":
-        await postGoal(inputValues.current as GoalData);
+        await goalsService.postGoal(inputValues.current as GoalData);
         setToastMessage({
           isVisible: true,
           title: "Success",

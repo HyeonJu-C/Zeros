@@ -12,16 +12,20 @@ import ToastMessage, {
 } from "../../components/ToastMessage/ToastMessage";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import { GoalData, SavedMoney } from "../../types/goals";
-import { getGoal } from "../../services/firebase/goals-database";
+import GoalsService from "../../services/firebase/goals-database";
 
-function GoalDetail() {
-  const params = useParams();
-  const { goalId } = params;
+interface Props {
+  goalsService: GoalsService;
+}
+
+function GoalDetail({ goalsService }: Props) {
   const [data, setData] = useState<GoalData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [toastMessage, setToastMessage] = useState<ToastMessageState>({
     isVisible: false,
   });
+  const params = useParams();
+  const { goalId } = params;
 
   const fallbackDate = new Date();
 
@@ -64,12 +68,21 @@ function GoalDetail() {
 
   useEffect(() => {
     const getData = async () => {
-      const goalData = await getGoal(goalId as string);
-      setData(goalData);
+      const goalData = await goalsService.getGoalById(goalId as string);
+      if (!goalData) throw new Error();
+      setData(goalData as GoalData);
     };
+
     getData() //
-      .then(() => setIsLoading(false));
-  }, [goalId]);
+      .catch(() =>
+        setToastMessage({
+          isVisible: true,
+          title: "Fail",
+          message: "데이터를 가져오는 데 실패하였습니다",
+        })
+      )
+      .finally(() => setIsLoading(false));
+  }, [goalId, goalsService]);
 
   return (
     <>
