@@ -11,12 +11,10 @@ const GoalDetail = React.lazy(() => import("../pages/GoalDetail/GoalDetail"));
 const NewGoals = React.lazy(() => import("../pages/NewGoals/NewGoals"));
 const My = React.lazy(() => import("../pages/My/My"));
 
-interface Props {
-  goalsService: GoalsService;
-  goalsPresenter: GoalPresenter;
-}
+const goalsService = new GoalsService();
+const goalsPresenter = new GoalPresenter();
 
-function Routing({ goalsService, goalsPresenter }: Props) {
+function Routing() {
   const { isLoggedin } = useContext(AuthContext);
 
   return (
