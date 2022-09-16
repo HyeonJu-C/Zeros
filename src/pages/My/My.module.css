@@ -9,7 +9,7 @@
   max-width: 500px;
   margin: 0 auto 32px;
   border-radius: 8px;
-  padding: 8px 32px;
+  padding: 12px 32px;
   transition: background 250ms ease-in;
 }
 
@@ -68,9 +68,6 @@
   display: flex;
 }
 
-.title {
-}
-
 .buttonContainter {
   display: flex;
   align-items: center;
@@ -80,7 +77,7 @@
   display: inline-block;
   background: var(--color-blue);
   color: var(--color-white);
-  margin: 0 8px 0 0;
+  margin: 0 8px 12px 0;
   border-radius: 12px;
   padding: 4px 8px;
 }
