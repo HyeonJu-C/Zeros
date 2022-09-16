@@ -1,3 +1,4 @@
+import { differenceInDays } from "date-fns";
 import GoalPresenter from "../goal-presenter";
 
 describe("goal presenter", () => {
@@ -87,6 +88,33 @@ describe("goal presenter", () => {
       const formattedMoney = goalPresenter.formatMoney(1234);
 
       expect(formattedMoney).toBe("1,234 원");
+    });
+  });
+
+  describe("calculateLeftDays", () => {
+    it("should return difference in days between today and goalDate", () => {
+      const goalDate = new Date(2022, 11, 31);
+      const leftDays = goalPresenter.calculateLeftDays(
+        JSON.stringify(goalDate)
+      );
+
+      expect(leftDays).toBe(differenceInDays(goalDate, new Date()));
+    });
+
+    it("should return '마감' when today >= goalDate", () => {
+      const goalDate = new Date();
+      const leftDays = goalPresenter.calculateLeftDays(
+        JSON.stringify(goalDate)
+      );
+
+      expect(leftDays).toBe("마감");
+    });
+
+    it("should return NaN when given goal date isn't JSON.stringified.", () => {
+      const goalDate = new Date(2022, 11, 31);
+      const leftDays = goalPresenter.calculateLeftDays(goalDate.toString());
+
+      expect(leftDays).toBeNaN();
     });
   });
 });

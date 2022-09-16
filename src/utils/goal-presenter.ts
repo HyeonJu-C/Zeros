@@ -1,4 +1,4 @@
-import { format, parseJSON } from "date-fns";
+import { format, parseJSON, differenceInDays } from "date-fns";
 import { SavedMoney } from "../types/goals";
 
 export default class GoalPresenter {
@@ -25,6 +25,15 @@ export default class GoalPresenter {
   formatGoalDate(goalDate: string) {
     const parsedGoalDate = this.parseGoalDate(goalDate);
     return format(parsedGoalDate, "yyyy년 MM월 dd일");
+  }
+
+  calculateLeftDays(goalDate: string) {
+    const parsedGoalDate = this.parseGoalDate(goalDate);
+    const now = new Date();
+    const leftDays = differenceInDays(parsedGoalDate, now);
+
+    if (leftDays <= 0) return "마감";
+    return leftDays;
   }
 
   calculateAcheiveRate(currentMoney: SavedMoney[], goalMoney: number) {
