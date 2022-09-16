@@ -1,0 +1,24 @@
+.form {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.confirm {
+  width: 15%;
+  background: rgba(0, 0, 0, 0.2);
+  margin-bottom: 8px;
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.money.feedback {
+  color: var(--color-dark);
+}
+
+.feedback {
+  margin: 0 0 16px;
+  color: var(--color-red);
+  font-size: 0.8rem;
+  text-align: right;
+}

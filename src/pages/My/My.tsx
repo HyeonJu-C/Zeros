@@ -5,7 +5,6 @@ import {
   RiDeleteBinLine as DeleteIcon,
   RiHandCoinLine as CoinIcon,
 } from "react-icons/ri";
-import { TbEdit as EditIcon } from "react-icons/tb";
 import GoalsService from "../../services/firebase/goals-database";
 import { GoalData } from "../../types/goals";
 import styles from "./My.module.css";
@@ -14,7 +13,12 @@ import useModal from "../../hooks/useModal";
 import Modal from "../../components/Modal/Modal";
 import useToastMessage from "../../hooks/useToastMessage";
 import ToastMessage from "../../components/ToastMessage/ToastMessage";
+import SaveMoneyForm from "./SaveMoneyForm/SaveMoneyForm";
 
+export enum Mode {
+  DEFAULT = "DEFAULT",
+  SAVE_MONEY = "SAVE_MONEY",
+}
 interface Props {
   goalsService: GoalsService;
   goalsPresenter: GoalPresenter;
@@ -24,18 +28,17 @@ function My({ goalsService, goalsPresenter }: Props) {
   const params = useParams();
   const { userId } = params;
   const [data, setData] = useState<GoalData[] | null>(null);
+  const [mode, setMode] = useState<Mode>(Mode.DEFAULT);
   const clickedGoalId = useRef<null | string>(null);
   const { modal, setModal, onClickBackground, onClickCancel } = useModal();
   const { toastMessage, setToastMessage } = useToastMessage();
 
-  useEffect(() => {
-    const getData = async () => {
-      const response = await goalsService.getGoalsByUserId(userId as string);
-      setData(response as GoalData[]);
-    };
+  const onClickSaveMoney = (id: string) => {
+    clickedGoalId.current = id;
 
-    getData();
-  }, [goalsService, userId, toastMessage]);
+    mode === Mode.DEFAULT && setMode(Mode.SAVE_MONEY);
+    mode === Mode.SAVE_MONEY && setMode(Mode.DEFAULT);
+  };
 
   const onClickDelete = (id: string) => {
     clickedGoalId.current = id;
@@ -47,26 +50,28 @@ function My({ goalsService, goalsPresenter }: Props) {
     });
   };
 
-  const onClickConfirm = () => {
+  const onConfirmDelete = () => {
     setModal((prev) => ({ ...prev, isVisible: false }));
 
-    switch (modal.title) {
-      case "Delete":
-        goalsService
-          .deleteGoalById(clickedGoalId.current!) //
-          .then(() => {
-            setToastMessage({
-              isVisible: true,
-              title: "Success",
-              message: "삭제되었습니다",
-            });
-          });
-        break;
-
-      default:
-        break;
-    }
+    goalsService
+      .deleteGoalById(clickedGoalId.current!) //
+      .then(() => {
+        setToastMessage({
+          isVisible: true,
+          title: "Success",
+          message: "삭제되었습니다",
+        });
+      });
   };
+
+  useEffect(() => {
+    const getData = async () => {
+      const response = await goalsService.getGoalsByUserId(userId!);
+      setData(response as GoalData[]);
+    };
+
+    getData();
+  }, [goalsService, userId, toastMessage]);
 
   return (
     <>
@@ -74,7 +79,7 @@ function My({ goalsService, goalsPresenter }: Props) {
         modal={modal}
         onClickBackground={onClickBackground}
         onCancelClick={onClickCancel}
-        onConfirmClick={onClickConfirm}
+        onConfirmClick={onConfirmDelete}
       />
       <ToastMessage
         toastMessage={toastMessage}
@@ -103,15 +108,9 @@ function My({ goalsService, goalsPresenter }: Props) {
                     </div>
                     <div className={styles.buttonContainter}>
                       <button
-                        className={`${styles.button} ${styles.edit}`}
-                        type="button"
-                      >
-                        <EditIcon />
-                        <span className="sr-only">목표 수정하기</span>
-                      </button>
-                      <button
                         className={`${styles.button} ${styles.save}`}
                         type="button"
+                        onClick={() => onClickSaveMoney(id!)}
                       >
                         <CoinIcon />
                         <span className="sr-only">저축하기</span>
@@ -126,6 +125,15 @@ function My({ goalsService, goalsPresenter }: Props) {
                       </button>
                     </div>
                   </section>
+                  {mode === Mode.SAVE_MONEY && id === clickedGoalId.current && (
+                    <SaveMoneyForm
+                      goalsPresenter={goalsPresenter}
+                      goalsService={goalsService}
+                      clickedGoalId={clickedGoalId.current}
+                      setToastMessage={setToastMessage}
+                      setMode={setMode}
+                    />
+                  )}
                   <section className={styles.goalFooter}>
                     <p className={styles.tag}>
                       {`D-${goalsPresenter.calculateLeftDays(goalDate!)}일`}
