@@ -1,15 +1,14 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Outlet, Link, NavLink } from "react-router-dom";
 import AuthContext from "../../context/Auth";
+import useModal from "../../hooks/useModal";
 import LoginForm from "../LoginForm/LoginForm";
-import Modal, { ModalState } from "../Modal/Modal";
+import Modal from "../Modal/Modal";
 import styles from "./AppLayout.module.css";
 
 function AppLayout() {
   const { logout, isLoggedin, uid } = useContext(AuthContext);
-  const [modal, setModal] = useState<ModalState>({
-    isVisible: false,
-  });
+  const { modal, setModal, onClickCancel, onClickBackground } = useModal();
 
   const onClickLogin = () => {
     setModal({
@@ -43,23 +42,15 @@ function AppLayout() {
     }
   };
 
-  const onCancelClick = () => {
-    setModal({ isVisible: false });
-  };
-
   return (
     <>
-      {modal.isVisible && (
-        <Modal
-          title={modal.title}
-          message={modal.message}
-          modal={modal}
-          hideButtons={modal.title === "Login"}
-          setModal={setModal}
-          onConfirmClick={onConfirmClick}
-          onCancelClick={onCancelClick}
-        />
-      )}
+      <Modal
+        modal={modal}
+        hideButtons={modal.title === "Login"}
+        onConfirmClick={onConfirmClick}
+        onCancelClick={onClickCancel}
+        onClickBackground={onClickBackground}
+      />
       <nav className={styles.nav}>
         <div className={styles.ulContainer}>
           <Link to="/" className={styles.logo}>

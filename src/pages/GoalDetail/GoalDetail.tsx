@@ -7,13 +7,12 @@ import styles from "./GoalDetail.module.css";
 import useCalendar from "../../hooks/useCalendar";
 import DateInfo from "./DateInfo/DateInfo";
 import MonthInfo from "./MonthInfo/MonthInfo";
-import ToastMessage, {
-  ToastMessageState,
-} from "../../components/ToastMessage/ToastMessage";
+import ToastMessage from "../../components/ToastMessage/ToastMessage";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 import { GoalData, SavedMoney } from "../../types/goals";
 import GoalsService from "../../services/firebase/goals-database";
 import GoalPresenter from "../../utils/goal-presenter";
+import useToastMessage from "../../hooks/useToastMessage";
 
 interface Props {
   goalsService: GoalsService;
@@ -23,9 +22,7 @@ interface Props {
 function GoalDetail({ goalsService, goalsPresenter }: Props) {
   const [data, setData] = useState<GoalData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-  const [toastMessage, setToastMessage] = useState<ToastMessageState>({
-    isVisible: false,
-  });
+  const { toastMessage, setToastMessage } = useToastMessage();
   const params = useParams();
   const { goalId } = params;
 
@@ -84,7 +81,7 @@ function GoalDetail({ goalsService, goalsPresenter }: Props) {
         })
       )
       .finally(() => setIsLoading(false));
-  }, [goalId, goalsService]);
+  }, [goalId, goalsService, setToastMessage]);
 
   return (
     <>
@@ -139,10 +136,8 @@ function GoalDetail({ goalsService, goalsPresenter }: Props) {
         </section>
       ) : null}
       <ToastMessage
+        toastMessage={toastMessage}
         setToastMessage={setToastMessage}
-        isMessageVisible={toastMessage.isVisible}
-        title={toastMessage.title as string}
-        message={toastMessage.message as string}
       />
     </>
   );

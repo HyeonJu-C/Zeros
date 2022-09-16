@@ -1,30 +1,22 @@
 import React, { Dispatch, SetStateAction } from "react";
+import { ToastMessageState } from "../../hooks/useToastMessage";
 import styles from "./ToastMessage.module.css";
 
-export interface ToastMessageState {
-  isVisible: boolean;
-  title?: string;
-  message?: string;
-}
-
 interface Props {
-  title: string;
-  message: string;
-  isMessageVisible: boolean;
+  toastMessage: ToastMessageState;
   setToastMessage: Dispatch<SetStateAction<ToastMessageState>>;
   visibleDuration?: number;
   onDisappearMessage?: () => void; // do something after the message disappear
 }
 
 function ToastMessage({
-  title,
-  message,
-  isMessageVisible,
+  toastMessage,
   setToastMessage,
   visibleDuration,
   onDisappearMessage,
 }: Props) {
-  isMessageVisible &&
+  const { isVisible, title, message } = toastMessage;
+  isVisible &&
     setTimeout(() => {
       setToastMessage((prev) => ({
         ...prev,
@@ -33,7 +25,7 @@ function ToastMessage({
       onDisappearMessage && onDisappearMessage();
     }, visibleDuration || 2000);
 
-  return isMessageVisible ? (
+  return isVisible ? (
     <>
       <div className={styles.background} />
       <aside className={styles.toastMessage}>

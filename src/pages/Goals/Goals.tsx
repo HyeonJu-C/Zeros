@@ -2,13 +2,14 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
-import Modal, { ModalState } from "../../components/Modal/Modal";
+import Modal from "../../components/Modal/Modal";
 import AuthContext from "../../context/Auth";
 import GoalsService from "../../services/firebase/goals-database";
 import GoalCard from "./GoalCard/GoalCard";
 import styles from "./Goals.module.css";
 import { GoalData } from "../../types/goals";
 import GoalPresenter from "../../utils/goal-presenter";
+import useModal from "../../hooks/useModal";
 
 interface Props {
   goalsService: GoalsService;
@@ -18,7 +19,7 @@ function Goals({ goalsService, goalsPresenter }: Props) {
   const { isLoggedin } = useContext(AuthContext);
   const [goalsList, setGoalsList] = useState<GoalData[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [modal, setModal] = useState<ModalState>({ isVisible: false });
+  const { modal, setModal, onClickBackground } = useModal();
   const navigate = useNavigate();
 
   const showLoginModal = () => {
@@ -53,6 +54,7 @@ function Goals({ goalsService, goalsPresenter }: Props) {
 
   return (
     <>
+      <Modal modal={modal} onClickBackground={onClickBackground} hideButtons />
       <main className={`${styles.goals} page-layout`}>
         <button
           type="button"
@@ -72,14 +74,6 @@ function Goals({ goalsService, goalsPresenter }: Props) {
           ))}
         </section>
       </main>
-      {modal.isVisible && (
-        <Modal
-          setModal={setModal}
-          title={modal.title}
-          message={modal.message}
-          hideButtons
-        />
-      )}
     </>
   );
 }

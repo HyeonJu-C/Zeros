@@ -1,9 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { useNavigate } from "react-router-dom";
-import Modal, { ModalState } from "../../components/Modal/Modal";
-import ToastMessage, {
-  ToastMessageState,
-} from "../../components/ToastMessage/ToastMessage";
+import Modal from "../../components/Modal/Modal";
+import ToastMessage from "../../components/ToastMessage/ToastMessage";
+import useModal from "../../hooks/useModal";
+import useToastMessage from "../../hooks/useToastMessage";
 import GoalsService from "../../services/firebase/goals-database";
 import { GoalData } from "../../types/goals";
 import GoalPresenter from "../../utils/goal-presenter";
@@ -15,23 +15,8 @@ interface Props {
 }
 
 function NewGoals({ goalsService, goalsPresenter }: Props) {
-  const [modal, setModal] = useState<ModalState>({
-    isVisible: false,
-  });
-  const {
-    isVisible: isModalVisible,
-    title: modalTitle,
-    message: modalMessage,
-  } = modal;
-
-  const [toastMessage, setToastMessage] = useState<ToastMessageState>({
-    isVisible: false,
-  });
-  const {
-    isVisible: isToastMessageVisible,
-    title: toastMessageTitle,
-    message: toastMessageContents,
-  } = toastMessage;
+  const { modal, setModal, onClickBackground, onClickCancel } = useModal();
+  const { toastMessage, setToastMessage } = useToastMessage();
 
   const inputValues = useRef<GoalData | null>(null);
 
@@ -55,14 +40,10 @@ function NewGoals({ goalsService, goalsPresenter }: Props) {
     });
   };
 
-  const onCancelSubmit = () => {
-    setModal({ isVisible: false });
-  };
-
   const onConfirmSubmit = async () => {
     setModal({ isVisible: false });
 
-    switch (modalTitle) {
+    switch (modal.title) {
       case "Fail":
         break;
 
@@ -89,25 +70,18 @@ function NewGoals({ goalsService, goalsPresenter }: Props) {
           goalsPresenter={goalsPresenter}
         />
       </section>
-      {isModalVisible && (
-        <Modal
-          title={modalTitle}
-          message={modalMessage}
-          setModal={setModal}
-          onCancelClick={onCancelSubmit}
-          onConfirmClick={onConfirmSubmit}
-        />
-      )}
-      {isToastMessageVisible && (
-        <ToastMessage
-          title={toastMessageTitle as string}
-          message={toastMessageContents as string}
-          isMessageVisible={isToastMessageVisible}
-          setToastMessage={setToastMessage}
-          visibleDuration={1000}
-          onDisappearMessage={() => navigate("/goals")}
-        />
-      )}
+      <Modal
+        modal={modal}
+        onClickBackground={onClickBackground}
+        onCancelClick={onClickCancel}
+        onConfirmClick={onConfirmSubmit}
+      />
+      <ToastMessage
+        toastMessage={toastMessage}
+        setToastMessage={setToastMessage}
+        visibleDuration={1000}
+        onDisappearMessage={() => navigate("/goals")}
+      />
     </>
   );
 }
