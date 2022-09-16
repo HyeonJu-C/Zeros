@@ -26,7 +26,7 @@ function SaveMoneyForm({
   const { value, isError, onBlur, onChangeValue } = useInput();
   const formattedMoney = goalsPresenter.formatMoney(+value);
 
-  const onSubmit: React.FormEventHandler = (event) => {
+  const onSubmit: React.FormEventHandler = async (event) => {
     event.preventDefault();
 
     if (!value || isError) {
@@ -39,22 +39,20 @@ function SaveMoneyForm({
     }
 
     const now = JSON.stringify(new Date());
-    goalsService //
+    await goalsService //
       .saveMoneyById(
         {
           date: now,
           money: +value,
         },
         clickedGoalId!
-      ) //
-      .then(() => {
-        setToastMessage({
-          isVisible: true,
-          title: "Success",
-          message: "저축하였습니다",
-        });
-        setMode(Mode.DEFAULT);
-      });
+      );
+    setToastMessage({
+      isVisible: true,
+      title: "Success",
+      message: "저축하였습니다",
+    });
+    setMode(Mode.DEFAULT);
   };
 
   return (
