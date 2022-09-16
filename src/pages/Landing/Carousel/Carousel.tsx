@@ -6,9 +6,9 @@ import styles from "./Carousel.module.css";
 
 export interface CarouselContents {
   index: number;
-  title: string | React.ReactNode;
-  paragraph: string | React.ReactNode;
-  subtitle?: string | React.ReactNode;
+  title: string;
+  paragraph: string;
+  subtitle?: string;
   image?: string;
   alt?: string;
 }
@@ -51,19 +51,14 @@ function Carousel({ contents, autoplay, duration }: Props) {
         >
           <section className={styles.titleContainer}>
             <h2 className={styles.title}>{title}</h2>
-            {subtitle &&
-              (typeof subtitle === "string" ? (
-                <h3 className={styles.title}>{subtitle}</h3>
-              ) : (
-                <>subtitle</>
-              ))}
+            {subtitle && <h3 className={styles.title}>{subtitle}</h3>}
           </section>
           {image && (
             <section className={styles.imageContainer}>
               <img className={styles.image} src={image} alt={alt} />
             </section>
           )}
-          {typeof paragraph === "string" ? <p>{paragraph}</p> : <>paragraph</>}
+          <p>{paragraph}</p>
         </div>
       ))}
       <button
@@ -92,7 +87,7 @@ function Carousel({ contents, autoplay, duration }: Props) {
               index === currentIndex ? styles.active : ""
             }`}
           >
-            <span className="sr-only">{`${index + 1} 카드로 이동`}</span>
+            <span className="sr-only">{`${index + 1}번 카드로 이동`}</span>
           </button>
         ))}
       </div>

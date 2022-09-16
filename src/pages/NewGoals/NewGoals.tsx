@@ -15,50 +15,47 @@ interface Props {
 }
 
 function NewGoals({ goalsService, goalsPresenter }: Props) {
-  const { modal, setModal, onClickBackground, onClickCancel } = useModal();
-  const { toastMessage, setToastMessage } = useToastMessage();
-
   const inputValues = useRef<GoalData | null>(null);
-
+  const {
+    modal: postModal,
+    setModal: setPostModal,
+    onClickBackground,
+    onClickCancel,
+  } = useModal();
+  const { toastMessage, setToastMessage } = useToastMessage();
   const navigate = useNavigate();
+
+  const navigateToGoals = () => {
+    navigate("/goals");
+  };
 
   const onSubmit = (userInputs: GoalData) => {
     inputValues.current = userInputs;
 
-    setModal({
+    setPostModal({
       isVisible: true,
       title: "Post",
       message: "제출하시겠습니까?",
     });
   };
 
+  const onConfirmSubmit = async () => {
+    setPostModal((prev) => ({ ...prev, isVisible: false }));
+
+    await goalsService.postGoal(inputValues.current as GoalData);
+    setToastMessage({
+      isVisible: true,
+      title: "Success",
+      message: "제출되었습니다.",
+    });
+  };
+
   const onSubmitError = () => {
-    setModal({
+    setToastMessage({
       isVisible: true,
       title: "Fail",
       message: "양식이 유효하지 않습니다.",
     });
-  };
-
-  const onConfirmSubmit = async () => {
-    setModal({ isVisible: false });
-
-    switch (modal.title) {
-      case "Fail":
-        break;
-
-      case "Post":
-        await goalsService.postGoal(inputValues.current as GoalData);
-        setToastMessage({
-          isVisible: true,
-          title: "Success",
-          message: "제출되었습니다.",
-        });
-        break;
-
-      default:
-        break;
-    }
   };
 
   return (
@@ -71,7 +68,7 @@ function NewGoals({ goalsService, goalsPresenter }: Props) {
         />
       </section>
       <Modal
-        modal={modal}
+        modal={postModal}
         onClickBackground={onClickBackground}
         onCancelClick={onClickCancel}
         onConfirmClick={onConfirmSubmit}
@@ -80,7 +77,9 @@ function NewGoals({ goalsService, goalsPresenter }: Props) {
         toastMessage={toastMessage}
         setToastMessage={setToastMessage}
         visibleDuration={1000}
-        onDisappearMessage={() => navigate("/goals")}
+        onDisappearMessage={
+          toastMessage.title === "Success" ? navigateToGoals : null
+        }
       />
     </>
   );

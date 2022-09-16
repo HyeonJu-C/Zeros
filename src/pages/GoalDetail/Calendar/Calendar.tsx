@@ -16,6 +16,7 @@ import {
 import React from "react";
 import styles from "./Calendar.module.css";
 import { SavedMoney } from "../../../types/goals";
+import { WEEK } from "../../../utils/constants";
 
 interface Props {
   startDate: Date;
@@ -30,8 +31,6 @@ interface Props {
   onClickEndMonth: React.MouseEventHandler;
   currentMoney: SavedMoney[];
 }
-
-const WEEK = ["S", "M", "T", "W", "T", "F", "S"];
 
 function Calendar({
   startDate,

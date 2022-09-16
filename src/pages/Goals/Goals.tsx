@@ -22,6 +22,10 @@ function Goals({ goalsService, goalsPresenter }: Props) {
   const { modal, setModal, onClickBackground } = useModal();
   const navigate = useNavigate();
 
+  const navigateToNewGoal = () => {
+    navigate("new");
+  };
+
   const showLoginModal = () => {
     setModal({
       isVisible: true,
@@ -35,45 +39,39 @@ function Goals({ goalsService, goalsPresenter }: Props) {
     });
   };
 
-  const navigateToGoalsForm = () => {
-    navigate("new");
-  };
-
   useEffect(() => {
     const getData = async () => {
       const data = await goalsService.getGoals();
-      if (!data) throw new Error("데이터 가져오기 실패");
       setGoalsList(data as GoalData[]);
-      setIsLoading(false);
     };
 
-    getData()
-      .catch(console.log)
+    getData() //
       .finally(() => setIsLoading(false));
   }, [goalsService]);
 
   return (
     <>
       <Modal modal={modal} onClickBackground={onClickBackground} hideButtons />
-      <main className={`${styles.goals} page-layout`}>
+      <section className={`${styles.goals} page-layout`}>
         <button
           type="button"
           className={styles.newGoalLink}
-          onClick={isLoggedin ? navigateToGoalsForm : showLoginModal}
+          onClick={isLoggedin ? navigateToNewGoal : showLoginModal}
         >
           당신의 저축 목표를 만들어 사람들과 공유하세요!
         </button>
         {isLoading && <LoadingSpinner />}
         <section className={styles.cardContainer}>
-          {goalsList?.map((goalItem) => (
-            <GoalCard
-              key={goalItem.id}
-              data={goalItem}
-              goalsPresenter={goalsPresenter}
-            />
-          ))}
+          {goalsList &&
+            goalsList.map((goalItem) => (
+              <GoalCard
+                key={`goal-list-${goalItem.id}`}
+                data={goalItem}
+                goalsPresenter={goalsPresenter}
+              />
+            ))}
         </section>
-      </main>
+      </section>
     </>
   );
 }

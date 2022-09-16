@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from "react";
 import { GiMoneyStack as MoneyIcon } from "react-icons/gi";
 import { GoalData } from "../../../types/goals";
@@ -12,13 +13,9 @@ interface Props {
 function GoalInfo({ data, goalsPresenter }: Props) {
   const { goalDate, goalMoney, goalTitle } = data;
 
-  const formattedGoalTitle = goalsPresenter.formatGoalTitle(
-    goalTitle as string
-  );
-
-  const formattedGoalDate = goalsPresenter.formatGoalDate(goalDate as string);
-
-  const formattedGoalMoney = goalsPresenter.formatMoney(goalMoney as number);
+  const formattedGoalTitle = goalsPresenter.formatGoalTitle(goalTitle!);
+  const formattedGoalDate = goalsPresenter.formatGoalDate(goalDate!);
+  const formattedGoalMoney = goalsPresenter.formatMoney(goalMoney!);
 
   return (
     <section className={styles.goalContainer}>

@@ -6,7 +6,7 @@ interface Props {
   toastMessage: ToastMessageState;
   setToastMessage: Dispatch<SetStateAction<ToastMessageState>>;
   visibleDuration?: number;
-  onDisappearMessage?: () => void; // do something after the message disappear
+  onDisappearMessage?: (() => void) | null; // do something after the message disappear
 }
 
 function ToastMessage({

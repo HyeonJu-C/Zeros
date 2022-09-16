@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from "react";
-import { GoalData, SavedMoney } from "../../../types/goals";
+import { GoalData } from "../../../types/goals";
 import GoalPresenter from "../../../utils/goal-presenter";
 import styles from "./AchieveRate.module.css";
 
@@ -11,11 +12,10 @@ interface Props {
 function AchieveRate({ data, goalsPresenter }: Props) {
   const { goalDate, goalMoney, currentMoney } = data;
 
-  const leftDays = goalsPresenter.calculateLeftDays(goalDate as string);
-
+  const leftDays = goalsPresenter.calculateLeftDays(goalDate!);
   const formattedAcheiveRate = goalsPresenter.formatAcheiveRate(
-    currentMoney as SavedMoney[],
-    goalMoney as number
+    currentMoney!,
+    goalMoney!
   );
 
   return (

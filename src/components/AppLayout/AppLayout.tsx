@@ -8,48 +8,54 @@ import styles from "./AppLayout.module.css";
 
 function AppLayout() {
   const { logout, isLoggedin, uid } = useContext(AuthContext);
-  const { modal, setModal, onClickCancel, onClickBackground } = useModal();
+  const {
+    modal: loginModal,
+    setModal: setLoginModal,
+    onClickCancel: onClickLoginCancel,
+    onClickBackground: onClickLoginBackground,
+  } = useModal();
+
+  const {
+    modal: logoutModal,
+    setModal: setLogoutModal,
+    onClickCancel: onClickLogoutCancel,
+    onClickBackground: onClickLogoutBackground,
+  } = useModal();
 
   const onClickLogin = () => {
-    setModal({
+    setLoginModal({
       isVisible: true,
       title: "Login",
-      message: <LoginForm setModal={setModal} />,
+      message: <LoginForm setModal={setLoginModal} />,
     });
   };
 
   const onClickLogout = () => {
-    setModal({
+    setLogoutModal({
       isVisible: true,
       title: "Logout",
       message: "로그아웃 하시겠습니까?",
     });
   };
 
-  const onConfirmClick = () => {
-    setModal({ isVisible: false });
-
-    switch (modal.title) {
-      case "Login":
-        break;
-
-      case "Logout":
-        logout();
-        break;
-
-      default:
-        break;
-    }
+  const onConfirmLogout = () => {
+    setLogoutModal({ isVisible: false });
+    logout();
   };
 
   return (
     <>
       <Modal
-        modal={modal}
-        hideButtons={modal.title === "Login"}
-        onConfirmClick={onConfirmClick}
-        onCancelClick={onClickCancel}
-        onClickBackground={onClickBackground}
+        hideButtons
+        modal={loginModal}
+        onCancelClick={onClickLoginCancel}
+        onClickBackground={onClickLoginBackground}
+      />
+      <Modal
+        modal={logoutModal}
+        onConfirmClick={onConfirmLogout}
+        onCancelClick={onClickLogoutCancel}
+        onClickBackground={onClickLogoutBackground}
       />
       <nav className={styles.nav}>
         <div className={styles.ulContainer}>

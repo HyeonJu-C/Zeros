@@ -7,7 +7,7 @@ import { ProviderName } from "../../services/firebase/auth";
 import { ModalState } from "../../hooks/useModal";
 
 interface Props {
-  setModal: React.Dispatch<React.SetStateAction<ModalState>>;
+  setModal?: React.Dispatch<React.SetStateAction<ModalState>>;
 }
 
 function LoginForm({ setModal }: Props) {
@@ -15,7 +15,7 @@ function LoginForm({ setModal }: Props) {
 
   const onClickLogin = (providerName: ProviderName) => {
     login(providerName);
-    setModal({ isVisible: false });
+    setModal && setModal((prev) => ({ ...prev, isVisible: false }));
   };
 
   return (

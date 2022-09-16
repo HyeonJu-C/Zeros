@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { useRef } from "react";
 import { TbConfetti as ConfettiIcon } from "react-icons/tb";
@@ -7,7 +8,7 @@ import styles from "./GoalCard.module.css";
 import GoalPresenter from "../../../utils/goal-presenter";
 import GoalInfo from "../GoalInfo/GoalInfo";
 import AchieveRate from "../AchieveRate/AchieveRate";
-import { GoalData, SavedMoney } from "../../../types/goals";
+import { GoalData } from "../../../types/goals";
 
 interface Props {
   data: GoalData;
@@ -20,16 +21,15 @@ function GoalCard({ data, goalsPresenter }: Props) {
 
   const { id, userName, goalMoney, currentMoney } = data;
 
-  const formattedAcheiveRate =
-    goalsPresenter.formatAcheiveRate(
-      currentMoney as SavedMoney[],
-      goalMoney as number
-    ) || 0;
-  const isGoalAcheived = +formattedAcheiveRate >= 100;
-
-  const onClickDetail: React.MouseEventHandler = () => {
+  const navigateToDetailPage: React.MouseEventHandler = () => {
     navigate(`${id}`);
   };
+
+  const formattedAcheiveRate = goalsPresenter.formatAcheiveRate(
+    currentMoney!,
+    goalMoney!
+  );
+  const isGoalAcheived = +formattedAcheiveRate >= 100;
 
   return (
     <article className={`${styles.card} `}>
@@ -41,7 +41,7 @@ function GoalCard({ data, goalsPresenter }: Props) {
       <AchieveRate data={data} goalsPresenter={goalsPresenter} />
       <button
         type="button"
-        onClick={onClickDetail}
+        onClick={navigateToDetailPage}
         className={`${styles.button}`}
       >
         detail
