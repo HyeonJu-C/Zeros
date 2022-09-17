@@ -85,11 +85,7 @@ function GoalDetail({ goalsService, goalsPresenter }: Props) {
 
   return (
     <>
-      {isLoading && (
-        <div className={styles.spinnerContainer}>
-          <LoadingSpinner />
-        </div>
-      )}
+      {isLoading && <LoadingSpinner />}
       {data ? (
         <section
           key="goal-detail"

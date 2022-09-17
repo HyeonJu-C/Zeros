@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import GoalsService from "../../services/firebase/goals-database";
 import { GoalData } from "../../types/goals";
 import styles from "./My.module.css";
@@ -7,6 +7,8 @@ import GoalPresenter from "../../utils/goal-presenter";
 import GoalListItem from "./GoalListItem/GoalListItem";
 import ToastMessage from "../../components/ToastMessage/ToastMessage";
 import useToastMessage from "../../hooks/useToastMessage";
+import AuthContext from "../../context/Auth";
+import LoadingSpinner from "../../components/LoadingSpinner/LoadingSpinner";
 
 export enum Mode {
   DEFAULT = "DEFAULT",
@@ -31,7 +33,11 @@ function My({ goalsService, goalsPresenter }: Props) {
       setMyGoalList(response as GoalData[]);
     };
 
-    getData();
+    getData() //
+      .finally(() => setIsLoading(false));
+    // 삭제/저축 완료 toastMessage가 렌더링 되면,
+    // 즉 toastMessage의 state가 변경되면,
+    // useEffect 실행
   }, [goalsService, userId, toastMessage]);
 
   return (
@@ -40,6 +46,7 @@ function My({ goalsService, goalsPresenter }: Props) {
         <Link to="/goals/new" className={styles.link}>
           새로운 목표 만들기
         </Link>
+        {isLoading && <LoadingSpinner />}
         {myGoalList?.length === 0 && (
           <p className={styles.noGoal}>아직 만든 목표가 없어요!</p>
         )}
