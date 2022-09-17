@@ -18,8 +18,8 @@ interface Props {
 }
 
 function My({ goalsService, goalsPresenter }: Props) {
-  const params = useParams();
-  const { userId } = params;
+  const { uid: userId } = useContext(AuthContext);
+  const [isLoading, setIsLoading] = useState(true);
   const [myGoalList, setMyGoalList] = useState<GoalData[] | null>(null);
   const { toastMessage, setToastMessage } = useToastMessage();
 

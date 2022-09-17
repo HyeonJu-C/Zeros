@@ -15,7 +15,7 @@ const goalsService = new GoalsService();
 const goalsPresenter = new GoalPresenter();
 
 function Routing() {
-  const { isLoggedin } = useContext(AuthContext);
+  const { isLoggedin, uid } = useContext(AuthContext);
 
   return (
     <Suspense fallback={<AppLayout />}>
@@ -24,7 +24,7 @@ function Routing() {
           <Route path="" element={<Landing />} />
           {isLoggedin && (
             <Route
-              path=":userId"
+              path={uid as string}
               element={
                 <My
                   goalsService={goalsService}
