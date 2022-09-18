@@ -27,6 +27,8 @@ function My({ goalsService, goalsPresenter }: Props) {
 
   useEffect(() => {
     if (!userId) return;
+    // 저축/삭제 성공 메세지 => data refetching
+    if (toastMessage.title !== "Success") return;
 
     const getData = async () => {
       const response = await goalsService.getGoalsByUserId(userId);
@@ -35,9 +37,6 @@ function My({ goalsService, goalsPresenter }: Props) {
 
     getData() //
       .finally(() => setIsLoading(false));
-    // 삭제/저축 완료 toastMessage가 렌더링 되면,
-    // 즉 toastMessage의 state가 변경되면,
-    // useEffect 실행
   }, [goalsService, userId, toastMessage]);
 
   return (
