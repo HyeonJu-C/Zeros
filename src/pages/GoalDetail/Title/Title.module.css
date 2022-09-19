@@ -1,0 +1,9 @@
+.title {
+  margin: 0 0 16px;
+  text-align: center;
+}
+
+.date {
+  color: var(--color-blue);
+  text-align: center;
+}
