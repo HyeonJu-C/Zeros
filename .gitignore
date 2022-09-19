@@ -17,7 +17,6 @@
 # firebase config
 /.firebase
 .firebaserc
-firebase.json
 
 # editor
 /.vscode
