@@ -9,15 +9,13 @@ import {
   parse,
 } from "date-fns";
 
-function useCalendar(startDate: Date, endDate: Date) {
-  const startMonth = format(startDate, "yyyy MMM");
-  const endMonth = format(endDate, "yyyy MMM");
+function useCalendar(startDate: Date, endDate: Date, pattern = "yyyy MMM") {
+  const startMonth = format(startDate, pattern);
+  const endMonth = format(endDate, pattern);
 
   const [currentDate, setCurrentDate] = useState(startDate);
-  const [currentMonth, setCurrentMonth] = useState(
-    format(startDate, "yyyy MMM")
-  );
-  const firstDateOfCurrentMonth = parse(currentMonth, "yyyy MMM", new Date());
+  const [currentMonth, setCurrentMonth] = useState(format(startDate, pattern));
+  const firstDateOfCurrentMonth = parse(currentMonth, pattern, new Date());
 
   const datesOfCurrentMonth = eachDayOfInterval({
     start: firstDateOfCurrentMonth,
@@ -31,24 +29,24 @@ function useCalendar(startDate: Date, endDate: Date) {
 
   const onClickStartMonth: React.MouseEventHandler = () => {
     if (currentMonth === startMonth) return;
-    setCurrentMonth(format(startDate, "yyyy MMM"));
+    setCurrentMonth(format(startDate, pattern));
   };
 
   const onClickEndMonth: React.MouseEventHandler = () => {
     if (currentMonth === endMonth) return;
-    setCurrentMonth(format(endDate, "yyyy MMM"));
+    setCurrentMonth(format(endDate, pattern));
   };
 
   const onClicKPrevMonth: React.MouseEventHandler = () => {
     if (currentMonth === startMonth) return;
     const newMonth = subMonths(firstDateOfCurrentMonth, 1);
-    setCurrentMonth(format(newMonth, "yyyy MMM"));
+    setCurrentMonth(format(newMonth, pattern));
   };
 
   const onClickNextMonth: React.MouseEventHandler = () => {
     if (currentMonth === endMonth) return;
     const newMonth = addMonths(firstDateOfCurrentMonth, 1);
-    setCurrentMonth(format(newMonth, "yyyy MMM"));
+    setCurrentMonth(format(newMonth, pattern));
   };
 
   return {

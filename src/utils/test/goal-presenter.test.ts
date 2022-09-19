@@ -18,10 +18,19 @@ describe("goal presenter", () => {
       expect(spy).toBeCalledTimes(1);
     });
 
-    it("should format input date to 'yyyy년 MM월 dd일'", () => {
+    it("should format input date to 'yyyy년 MM월 dd일' when given format is null", () => {
       const formattedDate = goalPresenter.formatGoalDate(stringifiedDate);
 
       expect(formattedDate).toBe("2022년 09월 15일");
+    });
+
+    it("should format input date to given format", () => {
+      const formattedDate = goalPresenter.formatGoalDate(
+        stringifiedDate,
+        "yyyy.M.d"
+      );
+
+      expect(formattedDate).toBe("2022.9.15");
     });
   });
 

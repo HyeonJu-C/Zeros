@@ -22,9 +22,9 @@ export default class GoalPresenter {
     return parseJSON(this.goalDate);
   }
 
-  formatGoalDate(goalDate: string) {
+  formatGoalDate(goalDate: string, pattern = "yyyy년 MM월 dd일") {
     const parsedGoalDate = this.parseGoalDate(goalDate);
-    return format(parsedGoalDate, "yyyy년 MM월 dd일");
+    return format(parsedGoalDate, pattern);
   }
 
   calculateLeftDays(goalDate: string) {
