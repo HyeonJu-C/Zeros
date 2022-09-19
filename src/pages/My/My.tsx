@@ -27,8 +27,7 @@ function My({ goalsService, goalsPresenter }: Props) {
 
   useEffect(() => {
     if (!userId) return;
-    // 저축/삭제 성공 메세지 => data refetching
-    if (toastMessage.title !== "Success") return;
+    if (toastMessage.title && toastMessage.title !== "Success") return;
 
     const getData = async () => {
       const response = await goalsService.getGoalsByUserId(userId);
