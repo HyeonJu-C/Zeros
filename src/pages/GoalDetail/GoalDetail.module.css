@@ -1,28 +1,6 @@
 @value breakpoints: "../../styles/breakpoints.css";
 @value desktop from breakpoints;
 
-.spinnerContainer {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 50vh;
-}
-
-.contentsContainer {
-  margin-bottom: 16px;
-}
-
-.title {
-  margin: 0 0 16px;
-  text-align: center;
-}
-
-.date {
-  color: var(--color-blue);
-  text-align: center;
-}
-
 .share {
   display: block;
   position: static;
@@ -41,10 +19,6 @@
 }
 
 @media desktop {
-  .contentsContainer {
-    display: flex;
-    justify-content: space-between;
-  }
   .share {
     position: absolute;
     top: 15%;

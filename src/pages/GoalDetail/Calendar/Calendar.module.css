@@ -1,6 +1,10 @@
 @value breakpoints: "../../../styles/breakpoints.css";
 @value desktop from breakpoints;
 
+.contentsContainer {
+  margin-bottom: 16px;
+}
+
 .calendar {
   position: relative;
   background: var(--color-white);
@@ -100,6 +104,11 @@
 }
 
 @media desktop {
+  .contentsContainer {
+    display: flex;
+    justify-content: space-between;
+  }
+
   .calendar {
     width: 45%;
     height: 50%;

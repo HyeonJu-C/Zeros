@@ -1,25 +1,21 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { isSameMonth, parseJSON, parse, format } from "date-fns";
 import React from "react";
-import { SavedMoney } from "../../../types/goals";
-import GoalPresenter from "../../../utils/goal-presenter";
+import { GoalData } from "../../../types/goals";
+import GoalPresenter from "../../../presenter/goal-presenter";
 import styles from "./MonthInfo.module.css";
 
 interface Props {
-  currentMoney: SavedMoney[];
   currentMonth: string;
-  goalMoney: number;
   goalsPresenter: GoalPresenter;
+  data: GoalData;
 }
 
-function MonthInfo({
-  currentMoney,
-  currentMonth,
-  goalMoney,
-  goalsPresenter,
-}: Props) {
+function MonthInfo({ currentMonth, goalsPresenter, data }: Props) {
+  const { currentMoney, goalMoney } = data;
   const parsedCurrentMonth = parse(currentMonth, "yyyy MMM", new Date());
 
-  const moneyListOnCurrentMonth = currentMoney //
+  const moneyListOnCurrentMonth = currentMoney! //
     .filter((money) =>
       isSameMonth(parsedCurrentMonth, parseJSON(money.date as string))
     );
@@ -34,7 +30,7 @@ function MonthInfo({
 
   const acheiveRateOnCurrentMonth = goalsPresenter.calculateAcheiveRate(
     moneyListOnCurrentMonth,
-    goalMoney
+    goalMoney!
   );
 
   return (
