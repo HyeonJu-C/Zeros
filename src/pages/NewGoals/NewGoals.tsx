@@ -25,7 +25,7 @@ function NewGoals({ goalsService, goalsPresenter }: Props) {
   const { toastMessage, setToastMessage } = useToastMessage();
   const navigate = useNavigate();
 
-  const navigateToGoals = () => {
+  const navigateToGoalsPage = () => {
     navigate("/goals");
   };
 
@@ -78,7 +78,7 @@ function NewGoals({ goalsService, goalsPresenter }: Props) {
         setToastMessage={setToastMessage}
         visibleDuration={1000}
         onDisappearMessage={
-          toastMessage.title === "Success" ? navigateToGoals : null
+          toastMessage.title === "Success" ? navigateToGoalsPage : null
         }
       />
     </>

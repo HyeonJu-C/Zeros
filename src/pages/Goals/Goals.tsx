@@ -22,7 +22,7 @@ function Goals({ goalsService, goalsPresenter }: Props) {
   const { modal, setModal, onClickBackground } = useModal();
   const navigate = useNavigate();
 
-  const navigateToNewGoal = () => {
+  const navigateToNewGoalPage = () => {
     navigate("new");
   };
 
@@ -56,7 +56,7 @@ function Goals({ goalsService, goalsPresenter }: Props) {
         <button
           type="button"
           className={styles.newGoalLink}
-          onClick={isLoggedin ? navigateToNewGoal : showLoginModal}
+          onClick={isLoggedin ? navigateToNewGoalPage : showLoginModal}
         >
           당신의 저축 목표를 만들어 사람들과 공유하세요!
         </button>

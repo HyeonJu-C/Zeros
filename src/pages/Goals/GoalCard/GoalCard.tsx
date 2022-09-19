@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable jsx-a11y/click-events-have-key-events */
-import React, { useRef } from "react";
+import React from "react";
 import { TbConfetti as ConfettiIcon } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 import styles from "./GoalCard.module.css";
@@ -16,9 +16,7 @@ interface Props {
 }
 
 function GoalCard({ data, goalsPresenter }: Props) {
-  const authorElement = useRef<HTMLHeadingElement | null>(null);
   const navigate = useNavigate();
-
   const { id, userName, goalMoney, currentMoney } = data;
 
   const navigateToDetailPage: React.MouseEventHandler = () => {
@@ -33,7 +31,7 @@ function GoalCard({ data, goalsPresenter }: Props) {
 
   return (
     <article className={`${styles.card} `}>
-      <h1 className={styles.author} ref={authorElement}>
+      <h1 className={styles.author}>
         {`${userName} 님의 저축 목표 `}
         {isGoalAcheived && <ConfettiIcon size={25} color="#e1b530" />}
       </h1>
