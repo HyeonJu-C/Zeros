@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from "react";
 import { GoalData } from "../../../types/goals";
-import GoalPresenter from "../../../utils/goal-presenter";
+import GoalPresenter from "../../../presenter/goal-presenter";
 import styles from "./AchieveRate.module.css";
 
 interface Props {

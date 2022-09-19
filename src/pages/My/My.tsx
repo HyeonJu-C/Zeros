@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import GoalsService from "../../services/firebase/goals-database";
 import { GoalData } from "../../types/goals";
 import styles from "./My.module.css";
-import GoalPresenter from "../../utils/goal-presenter";
+import GoalPresenter from "../../presenter/goal-presenter";
 import GoalListItem from "./GoalListItem/GoalListItem";
 import ToastMessage from "../../components/ToastMessage/ToastMessage";
 import useToastMessage from "../../hooks/useToastMessage";

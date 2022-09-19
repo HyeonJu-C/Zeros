@@ -8,7 +8,7 @@ import GoalsService from "../../services/firebase/goals-database";
 import GoalCard from "./GoalCard/GoalCard";
 import styles from "./Goals.module.css";
 import { GoalData } from "../../types/goals";
-import GoalPresenter from "../../utils/goal-presenter";
+import GoalPresenter from "../../presenter/goal-presenter";
 import useModal from "../../hooks/useModal";
 
 interface Props {

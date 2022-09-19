@@ -6,7 +6,7 @@ import useModal from "../../hooks/useModal";
 import useToastMessage from "../../hooks/useToastMessage";
 import GoalsService from "../../services/firebase/goals-database";
 import { GoalData } from "../../types/goals";
-import GoalPresenter from "../../utils/goal-presenter";
+import GoalPresenter from "../../presenter/goal-presenter";
 import GoalForm from "./GoalForm/GoalForm";
 
 interface Props {

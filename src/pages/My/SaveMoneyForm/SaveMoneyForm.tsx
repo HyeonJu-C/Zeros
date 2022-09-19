@@ -4,7 +4,7 @@ import Input from "../../../components/Input/Input";
 import useInput from "../../../hooks/useInput";
 import { ToastMessageState } from "../../../hooks/useToastMessage";
 import GoalsService from "../../../services/firebase/goals-database";
-import GoalPresenter from "../../../utils/goal-presenter";
+import GoalPresenter from "../../../presenter/goal-presenter";
 import { Mode } from "../My";
 import styles from "./SaveMoneyForm.module.css";
 

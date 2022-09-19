@@ -2,7 +2,7 @@
 import React from "react";
 import { GiMoneyStack as MoneyIcon } from "react-icons/gi";
 import { GoalData } from "../../../types/goals";
-import GoalPresenter from "../../../utils/goal-presenter";
+import GoalPresenter from "../../../presenter/goal-presenter";
 import styles from "./GoalInfo.module.css";
 
 interface Props {

@@ -4,7 +4,7 @@ import Landing from "../pages/Landing/Landing";
 import AuthContext from "../context/Auth";
 import AppLayout from "../components/AppLayout/AppLayout";
 import GoalsService from "../services/firebase/goals-database";
-import GoalPresenter from "../utils/goal-presenter";
+import GoalPresenter from "../presenter/goal-presenter";
 
 const Goals = React.lazy(() => import("../pages/Goals/Goals"));
 const GoalDetail = React.lazy(() => import("../pages/GoalDetail/GoalDetail"));

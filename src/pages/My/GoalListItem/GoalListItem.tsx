@@ -9,7 +9,7 @@ import Modal from "../../../components/Modal/Modal";
 import useModal from "../../../hooks/useModal";
 import GoalsService from "../../../services/firebase/goals-database";
 import { GoalData } from "../../../types/goals";
-import GoalPresenter from "../../../utils/goal-presenter";
+import GoalPresenter from "../../../presenter/goal-presenter";
 import { Mode } from "../My";
 import SaveMoneyForm from "../SaveMoneyForm/SaveMoneyForm";
 import styles from "./GoalListItem.module.css";
