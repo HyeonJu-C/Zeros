@@ -23,7 +23,11 @@ function SaveMoneyForm({
   setMode,
   setToastMessage,
 }: Props) {
-  const { value, isError, onBlur, onChangeValue } = useInput();
+  const { value, isError, onBlur, onChangeValue } = useInput({
+    type: "size",
+    min: 1,
+    max: Infinity,
+  });
   const formattedMoney = goalsPresenter.formatMoney(+value);
 
   const onSubmit: React.FormEventHandler = async (event) => {

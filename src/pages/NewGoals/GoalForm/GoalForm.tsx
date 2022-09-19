@@ -9,7 +9,6 @@ import { auth } from "../../../services/firebase/config";
 import GoalPresenter from "../../../utils/goal-presenter";
 import calculateGoalDate from "../../../utils/calculate-goal-date";
 import { GOAL_DATE_OPTIONS } from "../../../utils/constants";
-import { validateGoalSaving, validateUserName } from "../utils/validate";
 import styles from "./GoalForm.module.css";
 import { GoalData } from "../../../types/goals";
 
@@ -25,21 +24,21 @@ function GoalForm({ onSubmitError, onSubmit, goalsPresenter }: Props) {
     onChangeValue: onChangeUserName,
     onBlur: onBlurUserName,
     isError: isUserNameError,
-  } = useInput(validateUserName);
+  } = useInput({ type: "length", minLength: 2, maxLength: 10 });
 
   const {
     value: goalMoney,
     onChangeValue: onChangeGoalMoney,
     onBlur: onBlurGoalMoney,
     isError: isGoalMoneyError,
-  } = useInput(validateGoalSaving);
+  } = useInput({ type: "size", min: 100000, max: 999999999999 });
 
   const {
     value: goalTitle,
     onChangeValue: onChangeGoalTitle,
     onBlur: onBlurGoalTitle,
     isError: isGoalTitleError,
-  } = useInput();
+  } = useInput({ type: "length", minLength: 1, maxLength: 20 });
 
   const {
     isSelectBoxClicked,
@@ -128,14 +127,17 @@ function GoalForm({ onSubmitError, onSubmit, goalsPresenter }: Props) {
         id="goal-title"
         type="text"
         isError={isGoalTitleError}
-        placeholder="저축 용도를 입력해 주세요."
+        placeholder="저축 용도를 입력해 주세요(1글자 이상 20글자 이하)."
         minLength={1}
+        maxLength={20}
         onChange={onChangeGoalTitle}
         onBlur={onBlurGoalTitle}
         value={goalTitle || ""}
       />
       {isGoalTitleError && (
-        <p className={styles.feedback}>저축 용도를 입력해 주세요.</p>
+        <p className={styles.feedback}>
+          저축 용도를 1글자 이상 20글자 이하로 입력해 주세요.
+        </p>
       )}
       <SelectBox
         id="goal-date"
